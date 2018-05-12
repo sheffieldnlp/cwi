@@ -63,7 +63,7 @@ class Baseline(object):
         vowel_sums = self.vowel_sum(word)
         #Counter(re.sub("[^\w']"," ",sent).split())
         #x = str(len_chars)+ ',' + str(len_tokens) + ',' + str(senses) + ',' + str(sylable)
-        return [str(len_chars),str(len_tokens),str(senses),str(sylable),str(consonant_sums),str(vowel_sums)]
+        return [str(len_chars),str(len_tokens),str(senses),str(sylable)]#,str(consonant_sums),str(vowel_sums)]
     
 
 
