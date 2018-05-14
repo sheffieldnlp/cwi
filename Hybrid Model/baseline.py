@@ -121,7 +121,7 @@ class Baseline(object):
         syn_count,syn_count2 = self.synonyms_hypernyms(word)
         #Counter(re.sub("[^\w']"," ",sent).split())
         #x = str(len_chars)+ ',' + str(len_tokens) + ',' + str(senses) + ',' + str(sylable)
-        return [str(len_chars),str(len_tokens),str(senses),str(sylable) , str(unigram_prob), str(vowel_sums) ,str(consonant_sums), str(stop_word),str(noun)] #str(syn_count),str(syn_count2)]
+        return [str(len_chars),str(len_tokens),str(senses),str(sylable), str(vowel_sums) ,str(consonant_sums) ,str(unigram_prob),str(stop_word),str(noun),str(syn_count),str(syn_count2)]
     
 
     def synonyms_hypernyms(self,word):
