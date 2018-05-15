@@ -201,7 +201,7 @@ class Baseline(object):
         prediction = self.model.predict(np.array(X,object).reshape(1,-1))
         answer = int(prediction.round()[0])
         if int(prediction.round()[0]) == int(true_label):
-           answer = int(prediction.round()[0])
+            answer = int(prediction.round()[0])
         elif int(prediction[0]) == 0.5:
             answer = 1
         else:
@@ -240,14 +240,19 @@ class Baseline(object):
         X = []
         predictions = []
         i=0
-        R = defaultdict(int)
+        R =[]
         for sent in testset:
             predictions.append(self.ensemble_model_test(self.extract_features(sent['target_word'],sent),true_label[i]))
-            if predictions[i] != true_label[i]:
-                R[sent['target_word']]+=1
-
+            #print("Prediction")
+            #print(predictions[i])
+            #print("Label")
+            #print(true_label[i])
+            if int(predictions[i]) != int(true_label[i]):
+                R.append(sent['target_word'])
+                #R[sent['target_word']]+=1
             i+=1
+        #print(R)
+        #print(R.keys())
         print(R)
-        print(R.keys())
     
         return predictions #self.clf.predict(X).round() #self.rnd_search.predict(X).round() #self.model.predict(np.array(X,object)) 
