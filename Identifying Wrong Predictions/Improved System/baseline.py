@@ -243,7 +243,7 @@ class Baseline(object):
         R = defaultdict(int)
         for sent in testset:
             predictions.append(self.ensemble_model_test(self.extract_features(sent['target_word'],sent),true_label[i]))
-            if predictions[i] != true_label:
+            if predictions[i] != true_label[i]:
                 R[sent['target_word']]+=1
 
             i+=1
