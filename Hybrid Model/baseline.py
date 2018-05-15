@@ -93,7 +93,7 @@ class Baseline(object):
 
     def is_stopword(self,word):
         check  = 0
-        if self.language == 'Emglish':
+        if self.language == 'english':
             if word in self.english_stop_words:
                 check=1
         else:
