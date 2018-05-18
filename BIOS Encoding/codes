@@ -1,1 +1,245 @@
 
+rom sklearn.linear_model import LogisticRegression
+
+import nltk
+nltk.download("wordnet")
+import re
+from collections import Counter
+from nltk.corpus import wordnet as wn
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import RandomForestRegressor
+import pandas as pd
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint
+import numpy as np
+import spacy
+import en_core_web_sm
+from collections import defaultdict
+import es_core_news_sm
+from sklearn import preprocessing
+import pandas as pd
+
+class Baseline(object):
+
+    def __init__(self, language):
+        self.language = language
+        self.POS = ["PROPN","VERB","ADJ","NOUN","SYM","NUM","ADP","ADV","X","DET","PUNCT","PART","PRON","CCONJ","SPACE","INTJ"] 
+        self.Label_Encoder_POS = preprocessing.LabelEncoder().fit(pd.DataFrame(self.POS,columns=['POS']).values.ravel())
+        self.temp_POS = pd.DataFrame(self.Label_Encoder_POS.transform(self.POS),columns=['POS'])
+        self.OneHot_POS = preprocessing.OneHotEncoder().fit(np.array(self.temp_POS['POS']).reshape(-1,1))
+
+        self.BIOS = ["B","I","O"]
+        self.Label_Encoder_BIOS = preprocessing.LabelEncoder().fit(pd.DataFrame(self.BIOS,columns=['BIOS']).values.ravel())
+        self.temp_BIOS = pd.DataFrame(self.Label_Encoder_BIOS.transform(self.BIOS),columns=['BIOS'])
+        self.OneHot_BIOS = preprocessing.OneHotEncoder().fit(np.array(self.temp_BIOS['BIOS']).reshape(-1,1))
+        
+        self.Tag = ["NNP","VBZ","VBG","IN","VBG","NNP","NN","IN","$","CD"]
+        self.Label_Encoder_Tags = preprocessing.LabelEncoder().fit(pd.DataFrame(self.Tag,columns=['Tags']).values.ravel())
+        # from 'Multilingual and Cross-Lingual Complex Word Identification' (Yimam et. al, 2017)
+        if language == 'english':
+            self.avg_word_length = 5.3
+        else:  # spanish
+            self.avg_word_length = 6.2
+
+        #self.model = LogisticRegression()
+        #self.model = DecisionTreeRegressor()
+        # Decision Tree Hyperperemeters Range for optimization
+        self.param_distribs = {
+            'min_samples_split': randint(low=2, high=10),
+            'min_samples_leaf': randint(low=50, high=200),
+            }
+        #self.model= RandomForestRegressor()
+        self.model = DecisionTreeRegressor(random_state=42)
+        self.rnd_search = RandomizedSearchCV(self.model, param_distributions=self.param_distribs,
+                                n_iter=15, cv=5, scoring='neg_mean_squared_error', random_state=42)
+        #print(self.rnd_search)
+
+   
+
+    def extract_features(self, word,sent):
+        len_chars = len(word) / self.avg_word_length
+        len_tokens = len(word.split(' '))
+        senses = len(wn.synsets(word))
+        sylable = self.syllables(word)
+        POS_dict = self.POS_tag(word,sent)
+        #print(([str(len_chars),str(len_tokens),str(senses),str(sylable)] + list(POS_dict[word])))
+        #if len(sent) == 50:
+            #print(POS_dict)
+           # print(word)
+            #print(sent)
+            #print(list(POS_dict[word]))
+           # print([str(len_chars),str(len_tokens),str(senses),str(sylable)] + list(POS_dict[word]))       
+            
+        #Counter(re.sub("[^\w']"," ",sent).split())
+        #x = str(len_chars)+ ',' + str(len_tokens) + ',' + str(senses) + ',' + str(sylable)
+        return ([str(len_chars),str(len_tokens),str(senses),str(sylable)] + list(POS_dict[word]))
+    
+
+    def POS_tag(self,word,sent):
+        X = defaultdict(int)  
+        if self.language == 'english':
+            nlp = spacy.load('en_core_web_sm')
+            doc = nlp(sent)
+            temp=[]
+            for token in doc:
+                #print(str(token.pos_))
+                #print(list(''.join(list(token.pos_))))
+                #temp.append(token.pos_)
+                #print(temp)
+                #print(pd.DataFrame(temp.append(token.pos_),columns=['POS_tags']))
+                #temp.append(token.pos_)
+                #int_encoded = self.Label_Encoder_POS.transform(pd.DataFrame(temp,columns=['POS_tags']).values.ravel())
+                #one_hot_encoded = self.OneHot_POS.transform(np.array(pd.DataFrame(int_encoded,columns=['POS'])).reshape(-1,1)).toarray()
+                #one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                #temp=[]
+
+                temp.append(token.ent_iob_)
+                int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(temp,columns=['BIOS_tags']).values.ravel())
+                one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
+                one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                temp=[]
+                X[token.text] = [one_hot_encoded_str,str(int(token.is_alpha==True)), str(int(token.is_stop==True)),str(int(token.is_ascii==True)),str(token.sentiment),str(0)] # Reduced Feature Vector
+                #X[token.text] = [one_hot_encoded_str, token.tag_, str(int(token.is_alpha==True)), str(int(token.is_stop==True)),str(int(token.is_ascii==True)),str(int(token.is_oov==True)),str(token.sentiment),token.ent_iob_,str(0)] #is not a noun phrase
+            if word not in X:
+                for token in doc.noun_chunks:
+                    #temp.append(token.root.pos_)
+                    #int_encoded = self.Label_Encoder_POS.transform(pd.DataFrame(temp,columns=['POS_tags']).values.ravel())
+                    #one_hot_encoded = self.OneHot_POS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
+                    #one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                   # temp=[]
+                    temp.append(token.root.ent_iob_)
+                    int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(temp,columns=['BIOS_tags']).values.ravel())
+                    one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
+                    one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                    temp=[]
+                    X[word] = [one_hot_encoded_str,str(int(token.root.is_alpha==True)), str(int(token.root.is_stop==True)),str(int(token.root.is_ascii==True)),str(token.root.sentiment),str(1)]#is a noun phrase
+                    #X[word] = [one_hot_encoded_str, token.root.tag_,str(int(token.root.is_alpha==True)), str(int(token.root.is_stop==True)),str(int(token.root.is_ascii==True)),str(int(token.root.is_oov==True)),str(token.root.sentiment),token.root.ent_iob_,str(1)]#is a noun phrase
+            if word not in X:
+                doc = nlp(word)
+                for token in doc:
+                    #temp.append(token.pos_)
+                    #int_encoded = self.Label_Encoder_POS.transform(pd.DataFrame(temp,columns=['POS_tags']).values.ravel())
+                    #one_hot_encoded = self.OneHot_POS.transform(np.array(pd.DataFrame(int_encoded,columns=['POS'])).reshape(-1,1)).toarray()
+                    #one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                    #temp=[]
+
+                    temp.append(token.ent_iob_)
+                    int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(temp,columns=['BIOS_tags']).values.ravel())
+                    one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
+                    one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                    temp=[]
+                    
+                    X[token.text] = [one_hot_encoded_str, str(int(token.is_alpha==True)), str(int(token.is_stop==True)),str(int(token.is_ascii==True)),str(token.sentiment),str(0)] #is not a noun phrase
+                    #X[token.text] = [one_hot_encoded_str, token.tag_, str(int(token.is_alpha==True)), str(int(token.is_stop==True)),str(int(token.is_ascii==True)),str(int(token.is_oov==True)),str(token.sentiment),token.ent_iob_,str(0)] #is not a noun phrase
+        
+        else:
+            nlp = spacy.load('es_core_news_sm')
+            doc = nlp(sent)
+            for token in doc:
+                #temp.append(token.pos_)
+                #int_encoded = self.Label_Encoder_POS.transform(pd.DataFrame(temp,columns=['POS_tags']).values.ravel())
+                #one_hot_encoded = self.OneHot_POS.transform(np.array(pd.DataFrame(int_encoded,columns=['POS'])).reshape(-1,1)).toarray()
+                #one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                #temp=[]
+
+                temp.append(token.ent_iob_)
+                int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(temp,columns=['BIOS_tags']).values.ravel())
+                one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
+                one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                temp=[]
+
+                
+                X[token.text] = [one_hot_encoded_str,str(int(token.is_alpha==True)), str(int(token.is_stop==True)),str(int(token.is_ascii==True)),str(token.sentiment),str(0)] # Reduced Feature Vector
+                #X[token.text] = [one_hot_encoded_str, token.tag_, str(int(token.is_alpha==True)), str(int(token.is_stop==True)),str(int(token.is_ascii==True)),str(int(token.is_oov==True)),str(token.sentiment),token.ent_iob_,str(0)] #is not a noun phrase
+            if word not in X:
+                for token in doc.noun_chunks:
+                    #temp.append(token.root.pos_)
+                    #int_encoded = self.Label_Encoder_POS.transform(pd.DataFrame(temp,columns=['POS_tags']).values.ravel())
+                    #one_hot_encoded = self.OneHot_POS.transform(np.array(pd.DataFrame(int_encoded,columns=['POS'])).reshape(-1,1)).toarray()
+                    #one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                    #temp=[]
+
+
+                    temp.append(token.ent_iob_)
+                    int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(temp,columns=['BIOS_tags']).values.ravel())
+                    one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
+                    one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                    temp=[]
+                    
+                    X[word] = [one_hot_encoded_str,str(int(token.root.is_alpha==True)), str(int(token.root.is_stop==True)),str(int(token.root.is_ascii==True)),str(token.root.sentiment),str(1)]#is a noun phrase
+                    #X[word] = [one_hot_encoded_str, token.root.tag_,str(int(token.root.is_alpha==True)), str(int(token.root.is_stop==True)),str(int(token.root.is_ascii==True)),str(int(token.root.is_oov==True)),str(token.root.sentiment),token.root.ent_iob_,str(1)]#is a noun phrase
+            if word not in X:
+                doc = nlp(word)
+                for token in doc:
+                   #temp.append(token.pos_)
+                   #int_encoded = self.Label_Encoder_POS.transform(pd.DataFrame(temp,columns=['POS_tags']).values.ravel())
+                   #one_hot_encoded = self.OneHot_POS.transform(np.array(pd.DataFrame(int_encoded,columns=['POS'])).reshape(-1,1)).toarray()
+                   #one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                   #temp=[]
+
+                   temp.append(token.ent_iob_)
+                   int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(temp,columns=['BIOS_tags']).values.ravel())
+                   one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
+                   one_hot_encoded_str = [str(i) for i in list(one_hot_encoded[0])]
+                   temp=[]
+                   
+                   X[token.text] = [one_hot_encoded_str, str(int(token.is_alpha==True)), str(int(token.is_stop==True)),str(int(token.is_ascii==True)),str(token.sentiment),str(0)] #is not a noun phrase
+                   #X[token.text] = [one_hot_encoded_str, token.tag_, str(int(token.is_alpha==True)), str(int(token.is_stop==True)),str(int(token.is_ascii==True)),str(int(token.is_oov==True)),str(token.sentiment),token.ent_iob_,str(0)] #is not a noun phrase
+        return X
+            
+        
+
+    def syllables(self,word):
+        #referred from stackoverflow.com/questions/14541303/count-the-number-of-syllables-in-a-word
+        count = 0
+        vowels = 'aeiouy'
+        word = word.lower()
+        if word[0] in vowels:
+            count +=1
+        for index in range(1,len(word)):
+            if word[index] in vowels and word[index-1] not in vowels:
+                count +=1
+        if word.endswith('e'):
+            count -= 1
+        if word.endswith('le'):
+            count+=1
+        if count == 0:
+            count +=1
+        return count
+    
+        
+    def train(self, trainset):
+        X = []
+        y = []
+        sentences = []
+        bigrams = []
+        #f = open('helloworld.txt','w',encoding="utf8")
+        for sent in trainset:
+            X.append(self.extract_features(sent['target_word'].lower(),sent['sentence'].lower()))
+            y.append([float(sent['gold_label'])])
+     
+        #self.model.fit(X, y)
+        #np.asarray(y
+        #print(X)
+        #print(y)
+        #print(np.array(X))
+        #print(y)
+        print(len(X))
+        print(len(y))
+        
+        self.rnd_search.fit(X,y)
+        print(self.rnd_search.cv_results_)
+        print(self.rnd_search.best_estimator_)
+        print(self.rnd_search.best_params_)
+        #print(self.model.fit(df1, df2))
+        
+
+    def test(self, testset):
+        X = []
+        for sent in testset:
+            X.append(self.extract_features(sent['target_word'],sent['sentence']))
+        #df1=pd.DataFrame(X,columns=['len_chars','len_tokens','senses','syllabules'])
+    
+        return self.rnd_search.predict(X).round() #self.model.predict(df1)
