@@ -23,9 +23,9 @@ class Dataset(object):
         self._dataset_name = dataset_name
 
         # TODO: Maybe the paths should be passed as parameters or read from a configuration file.
-        self._trainset_path = "data/raw/{}/{}_Train.tsv".format(language.lower(), dataset_name)
-        self._devset_path = "data/raw/{}/{}_Dev.tsv".format(language.lower(), dataset_name)
-        self._testset_path = "data/raw/{}/{}_Test.tsv".format(language.lower(), dataset_name)
+        self._trainset_path = "../../data/raw/{}/{}_Train.tsv".format(language.lower(), dataset_name)
+        self._devset_path = "../../data/raw/{}/{}_Dev.tsv".format(language.lower(), dataset_name)
+        self._testset_path = "../../data/raw/{}/{}_Test.tsv".format(language.lower(), dataset_name)
 
         self._trainset = None
         self._devset = None
@@ -60,7 +60,7 @@ class Dataset(object):
             list. A list of dictionaries that contain the information of each sentence in the dataset.
 
         """
-        with open(file_path) as file:
+        with open(file_path, encoding='utf-8') as file:
             fieldnames = ['hit_id', 'sentence', 'start_offset', 'end_offset', 'target_word', 'native_annots',
                           'nonnative_annots', 'native_complex', 'nonnative_complex', 'gold_label', 'gold_prob']
             reader = csv.DictReader(file, fieldnames=fieldnames, delimiter='\t')
