@@ -5,12 +5,13 @@ This models runs the baseline model on the datasets of all languages.
 """
 
 import sys
-path_to_parent = "../.."
-sys.path.append(path_to_parent)
+
+sys.path.append("../..")
 
 from src.data.dataset import Dataset
 from src.models.baseline import Baseline
 from src.models.evaluation import report_binary_score
+
 
 
 def execute_baseline(language, dataset_name):
