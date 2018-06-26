@@ -6,7 +6,7 @@ This module contains the class(es) and functions that implement the CWI baseline
 
 from sklearn.linear_model import LogisticRegression
 from src.features import length_features as lenfeats
-from src.features import lexical_features as lexfeats
+from src.features import phonetic_features as phonfeats
 
 
 class Baseline(object):
@@ -37,8 +37,8 @@ class Baseline(object):
         """
         len_chars_norm = lenfeats.character_length(target_word, language=self.language)
         len_tokens = lenfeats.token_length(target_word)
-        consonant_freq = lexfeats.consonant_frequency(target_word)
-        len_syllables = lexfeats.num_syllables(target_word, language=self.language)
+        consonant_freq = phonfeats.consonant_frequency(target_word)
+        len_syllables = phonfeats.num_syllables(target_word, language=self.language)
 
         return [len_chars_norm, len_tokens, len_syllables, consonant_freq]
 
