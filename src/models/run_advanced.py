@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Jun 24 01:36:51 2018
+
+@author: pmfin
+"""
+
 """For running the baseline model
 
 This models runs the baseline model on the datasets of all languages.
@@ -5,12 +12,11 @@ This models runs the baseline model on the datasets of all languages.
 """
 
 from src.data.dataset import Dataset
-from src.models.baseline import Baseline
+from src.models.advanced import Advanced
 from src.models.evaluation import report_binary_score
 
 
-
-def execute_baseline(language, dataset_name):
+def execute_advanced(language, dataset_name):
     """Trains and tests the baseline system for a particular dataset of a particular language. Reports results.
 
     Args:
@@ -18,21 +24,21 @@ def execute_baseline(language, dataset_name):
         dataset_name: The name of the dataset (all files should have it).
 
     """
-    print("\nBaseline Model for {} - {}.".format(language, dataset_name))
+    print("\nAdvanced Model for {} - {}.".format(language, dataset_name))
 
     data = Dataset(language, dataset_name)
 
-    baseline = Baseline(language)
+    advanced = Advanced(language)
 
-    baseline.train(data.train_set())
+    advanced.train(data.train_set())
 
     print("\nResults on Development Data")
-    predictions_dev = baseline.predict(data.dev_set())
+    predictions_dev = advanced.predict(data.dev_set())
     gold_labels_dev = [sent['gold_label'] for sent in data.dev_set()]
     print(report_binary_score(gold_labels_dev, predictions_dev))
 
     print("\nResults on Test Data")
-    predictions_test = baseline.predict(data.test_set())
+    predictions_test = advanced.predict(data.test_set())
     gold_labels_test = [sent['gold_label'] for sent in data.test_set()]
     print(report_binary_score(gold_labels_test, predictions_test))
 
@@ -40,10 +46,12 @@ def execute_baseline(language, dataset_name):
 
 
 if __name__ == '__main__':
-    execute_baseline("english", "News")
-    execute_baseline("english", "WikiNews")
-    execute_baseline("english", "Wikipedia")
-    execute_baseline("spanish", "Spanish")
-    execute_baseline("german", "German")
+
+
+    execute_advanced("english", "News")
+    execute_advanced("english", "WikiNews")
+    execute_advanced("english", "Wikipedia")
+    execute_advanced("spanish", "Spanish")
+    execute_advanced("german", "German")
 
 

@@ -52,6 +52,7 @@ class Baseline(object):
         for sent in train_set:
             X.append(self.extract_features(sent['target_word']))
             y.append(sent['gold_label'])
+            
 
         self.model.fit(X, y)
 
