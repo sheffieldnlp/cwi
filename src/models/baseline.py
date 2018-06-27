@@ -52,7 +52,7 @@ class Baseline(object):
         """
         X = []  # to store the extracted features
         y = []  # to store the gold labels
-        for sent in train_set:
+        for i, sent in train_set.iterrows():
             X.append(self.extract_features(sent['target_word']))
             y.append(sent['gold_label'])
 
@@ -70,7 +70,7 @@ class Baseline(object):
 
         """
         X = []  # to store the extracted features
-        for sent in test_set:
+        for i, sent in test_set.iterrows():
             X.append(self.extract_features(sent['target_word']))
 
         return self.model.predict(X)
