@@ -59,25 +59,6 @@ class Baseline(object):
 
         return feature_union
 
-
-
-    def extract_features(self, target_word):
-        """Extracts features from a given target word or phrase.
-
-        Args:
-            target_word (str): word or phrase candidate.
-
-        Returns:
-            list. The values of the extracted features.
-
-        """
-        len_chars_norm = lenfeats.character_length(target_word, language=self.language)
-        len_tokens = lenfeats.token_length(target_word)
-        consonant_freq = phonfeats.consonant_frequency(target_word)
-        len_syllables = phonfeats.num_syllables(target_word, language=self.language)
-
-        return [len_chars_norm, len_tokens, len_syllables, consonant_freq]
-
     def train(self, train_set):
         """Trains the model with the given instances.
 
