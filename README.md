@@ -8,7 +8,7 @@ Instructions
 
 We will follow the Fork and Pull Workflow. Instructions on how this development model works are given [here](https://reflectoring.io/github-fork-and-pull/).  
 
-Once you have cloned your fork, run `git setup.py develop` from the root folder, so that the `src` module is "installed" and can be imported from anywhere in the code.
+Once you have cloned your fork, run `setup.py develop` from the root folder, so that the `src` module is "installed" and can be imported from anywhere in the code.
 
 Project Organization
 --------------------
