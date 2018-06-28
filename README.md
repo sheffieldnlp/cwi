@@ -10,6 +10,16 @@ We will follow the Fork and Pull Workflow. Instructions on how this development 
 
 Once you have cloned your fork, run `setup.py develop` from the root folder, so that the `src` module is "installed" and can be imported from anywhere in the code.
 
+In terms of requirements (i.e. versions of python modules), we will use the same as those from the com4513-6513 module:
+- python == 3.6.3
+- spacy == 2.0.4
+- gensim== 3.1.0
+- sklearn == 0.19.1
+- nltk == 3.2.4
+- numpy== 1.12.1
+- torch==0.3.0.post4
+You are advised to use python environments.
+
 Project Organization
 --------------------
 
