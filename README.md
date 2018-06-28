@@ -18,6 +18,10 @@ In terms of requirements (i.e. versions of python modules), we will use the same
 - nltk == 3.2.4
 - numpy== 1.12.1
 - torch==0.3.0.post4
+
+and we also nee:
+- pyphen
+
 You are advised to use python environments.
 
 Project Organization
