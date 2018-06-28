@@ -19,7 +19,7 @@ In terms of requirements (i.e. versions of python modules), we will use the same
 - numpy== 1.12.1
 - torch==0.3.0.post4
 
-and we also nee:
+and we also need:
 - pyphen
 
 You are advised to use python environments.
