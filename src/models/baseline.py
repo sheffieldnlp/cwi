@@ -6,6 +6,8 @@ This module contains the class(es) and functions that implement the CWI baseline
 
 from sklearn.linear_model import LogisticRegression
 from src.features import length_features as lenfeats
+from src.features import syn_and_sense_features as synsenfeats
+from src.features import affix_features as affixfeats
 
 
 class Baseline(object):
@@ -23,6 +25,10 @@ class Baseline(object):
         """
         self.language = language
         self.model = LogisticRegression()
+        self.affixes=[]
+        with open('data/external/greek_and_latin_affixes.txt') as f:
+            for line in f:
+                self.affixes.append(line.replace("\n", ""))
 
     def extract_features(self, target_word):
         """Extracts features from a given target word or phrase.
@@ -36,8 +42,11 @@ class Baseline(object):
         """
         len_chars_norm = lenfeats.character_length(target_word, language=self.language)
         len_tokens = lenfeats.token_length(target_word)
+        ##no_syns = synsenfeats.no_synonyms(target_word, self.language)
+        #no_sens = synsenfeats.no_senses(target_word, self.language)
+        gr_lat = affixfeats.greek_or_latin(target_word, self.affixes)
 
-        return [len_chars_norm, len_tokens]
+        return [len_chars_norm, len_tokens, gr_lat]
 
     def train(self, train_set):
         """Trains the model with the given instances.
