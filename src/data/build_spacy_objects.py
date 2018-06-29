@@ -14,7 +14,7 @@ def build(infile_path, nlp):
         nlp (spacy language model): model for the language
 
     Returns:
-
+        Nothing. Saves output as pickle files.
     """
 
     fieldnames = ['hit_id', 'sentence', 'start_offset', 'end_offset',
@@ -27,7 +27,7 @@ def build(infile_path, nlp):
     with open(infile_path) as file:
 
         reader = csv.DictReader(file, fieldnames=fieldnames, delimiter='\t')
-        dataset = [sent for sent in reader][:100]
+        dataset = [sent for sent in reader]
 
         X = []
 
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     print('Building spaCy objects for {} language'.format(language))
 
     for file_path in file_paths:
-        print("HEY", file_path)
+        print("Building spaCy objects for ", file_path)
 
         X = build(data_path + '/' + file_path, nlp)
 
