@@ -21,6 +21,15 @@ In terms of requirements (i.e. versions of python modules), we will use the same
 
 and we also need:
 - pyphen
+- csv
+- pickle
+
+Spacy models:
+- en_core_web_lg
+- es_core_news_md
+- de_core_news_sm
+- fr_core_news_md
+These can be installed using "$ python -m spacy download <MODEL>"
 
 You are advised to use python environments.
 
@@ -38,7 +47,7 @@ Project Organization
     │
     ├── docs               <- A default Sphinx project; see sphinx-doc.org for details (don't worry about this for now)
     │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries 
+    ├── models             <- Trained and serialized models, model predictions, or model summaries
     │                          (if the trained models are going to be stored, this is the place to save them)
     │
     ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
