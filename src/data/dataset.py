@@ -55,35 +55,29 @@ class Dataset(object):
     def train_set(self):
         """list. Getter method for the training set. """
         if self._trainset is None:  # loads the data to memory once and when requested.
-            self._trainset = self.read_dataset(self._trainset_path)
-            self._trainset_spacy = self.read_spacy_pickle(self._trainset_spacy_path)
+            trainset_raw = self.read_dataset(self._trainset_path)
+            trainset_spacy = self.read_spacy_pickle(self._trainset_spacy_path)
+            self._trainset = pd.concat([trainset_raw, trainset_spacy], axis=1)
 
-        if self._trainset_spacy is not None:
-            return pd.concat([self._trainset, self._trainset_spacy], axis=1)
-        else:
-            return self._trainset
+        return self._trainset
 
     def dev_set(self):
         """list. Getter method for the development set. """
         if self._devset is None:  # loads the data to memory once and when requested.
-            self._devset = self.read_dataset(self._devset_path)
-            self._devset_spacy = self.read_spacy_pickle(self._devset_spacy_path)
+            devset_raw = self.read_dataset(self._devset_path)
+            devset_spacy = self.read_spacy_pickle(self._devset_spacy_path)
+            self._devset = pd.concat([devset_raw, devset_spacy], axis=1)
 
-        if self._devset_spacy is not None:
-            return pd.concat([self._devset, self._devset_spacy], axis=1)
-        else:
-            return self._devset
+        return self._devset
 
     def test_set(self):
         """list. Getter method for the test set. """
         if self._testset is None:  # loads the data to memory once and when requested.
-            self._testset = self.read_dataset(self._testset_path)
-            self._testset_spacy = self.read_spacy_pickle(self._testset_spacy_path)
+            testset_raw = self.read_dataset(self._testset_path)
+            testset_spacy = self.read_spacy_pickle(self._testset_spacy_path)
+            self._testset = pd.concat([testset_raw, testset_spacy], axis=1)
 
-        if self._testset_spacy is not None:
-            return pd.concat([self._testset, self._testset_spacy], axis=1)
-        else:
-            return self._testset
+        return self._testset
 
     def read_dataset(self, file_path):
         """Read the dataset file.
