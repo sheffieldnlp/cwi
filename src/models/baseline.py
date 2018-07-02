@@ -8,9 +8,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
-from src.features import length_features as lenfeats
-from src.features import phonetic_features as phonfeats
 from src.features.feature_transfomers import Selector, Word_Feature_Extractor
+
 
 
 class Baseline(object):
@@ -39,7 +38,6 @@ class Baseline(object):
         Returns:
             list. list of ('pipeline_name', Pipeline) tuples
         """
-
         pipe_dict = {}
         pipe_dict['word_features'] = Pipeline([
             ('select', Selector(key="target_word")),
