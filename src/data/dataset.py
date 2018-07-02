@@ -4,6 +4,8 @@ This module contains the class(es) and functions to read the datasets.
 
 """
 import csv
+import pandas as pd
+
 
 
 class Dataset(object):
@@ -33,19 +35,19 @@ class Dataset(object):
 
     def train_set(self):
         """list. Getter method for the training set. """
-        if not self._trainset:  # loads the data to memory once and when requested.
+        if self._trainset is None:  # loads the data to memory once and when requested.
             self._trainset = self.read_dataset(self._trainset_path)
         return self._trainset
 
     def dev_set(self):
         """list. Getter method for the development set. """
-        if not self._devset:  # loads the data to memory once and when requested.
+        if self._devset is None:  # loads the data to memory once and when requested.
             self._devset = self.read_dataset(self._devset_path)
         return self._devset
 
     def test_set(self):
         """list. Getter method for the test set. """
-        if not self._testset:  # loads the data to memory once and when requested.
+        if self._testset is None:  # loads the data to memory once and when requested.
             self._testset = self.read_dataset(self._testset_path)
         return self._testset
 
@@ -63,8 +65,7 @@ class Dataset(object):
         with open(file_path, encoding = "utf-8") as file:
             fieldnames = ['hit_id', 'sentence', 'start_offset', 'end_offset', 'target_word', 'native_annots',
                           'nonnative_annots', 'native_complex', 'nonnative_complex', 'gold_label', 'gold_prob']
-            reader = csv.DictReader(file, fieldnames=fieldnames, delimiter='\t')
 
-            dataset = [sent for sent in reader]
+            dataset = pd.read_csv(file, names=fieldnames, sep="\t")
 
         return dataset
