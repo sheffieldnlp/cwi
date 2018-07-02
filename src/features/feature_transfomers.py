@@ -17,7 +17,8 @@ and http://scikit-learn.org/stable/auto_examples/hetero_feature_union.html#sphx-
 from sklearn.base import BaseEstimator, TransformerMixin
 from src.features import length_features as lenfeats
 from src.features import phonetic_features as phonfeats
-
+from src.features import affix_features as affeats
+from src.features import char_trigram_features as trifeats
 
 class Selector(BaseEstimator, TransformerMixin):
     """
@@ -86,9 +87,13 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             len_tokens = lenfeats.token_length(target_word)
             consonant_freq = phonfeats.consonant_frequency(target_word)
             len_syllables = phonfeats.num_syllables(target_word, language=self.language)
+            gr_or_lat = affeats.greek_or_latin(target_word)
+            char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
-            row_dict = {'len_chars_norm': len_chars_norm, 'len_tokens': len_tokens, 'len_syllables': len_syllables, 'consonant_freq': consonant_freq}
+            row_dict = {'len_chars_norm': len_chars_norm, 'len_tokens': len_tokens, 
+                        'len_syllables': len_syllables,'consonant_freq': consonant_freq, 
+                        'gr_or_lat': gr_or_lat, 'char_tri_sum': char_tri_sum, 'char_tri_avg': char_tri_avg}
             result.append(row_dict)
 
         return result
