@@ -26,6 +26,8 @@ from src.features import affix_features as affeats
 from src.features import char_trigram_features as trifeats
 from src.features import NGram_char_features as charfeats
 
+from src.features import lemma_features as lemmafeats
+
 class Selector(BaseEstimator, TransformerMixin):
     """
     Transformer to select a column from a dataframe
@@ -210,6 +212,11 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             row_dict = {
                     'len_tokens_norm': len_tokens_norm,
                     }
+
+            # there is probably a better way of doing this. Dictionary union?
+            lemma_features = lemmafeats.lemmas(spacy_tokens)
+            for lemma, count in lemma_features.items():
+                row_dict[lemma] = count
 
             result.append(row_dict)
 
