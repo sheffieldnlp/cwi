@@ -29,7 +29,8 @@ Spacy models:
 - es_core_news_md
 - de_core_news_sm
 - fr_core_news_md
-These can be installed using "$ python -m spacy download <MODEL>"
+
+These can be installed using "$ python -m spacy download <MODEL>", or downloaded from from the team Google drive (currently link sharing is unavailable).
 
 You are advised to use python environments.
 
