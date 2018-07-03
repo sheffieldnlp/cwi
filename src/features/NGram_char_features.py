@@ -5,13 +5,6 @@ Created on Mon Jul  2 17:54:45 2018
 @author: pmfin
 """
 
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jun 26 18:57:43 2018
-
-@author: pmfin
-"""
-
 from collections import Counter
 from nltk import ngrams
 
