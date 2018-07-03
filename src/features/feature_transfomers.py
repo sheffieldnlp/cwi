@@ -53,7 +53,7 @@ class Selector(BaseEstimator, TransformerMixin):
 class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
     """
     Transformer to extract word features from column of target words
-    
+
     """
 
     def __init__(self, language):
@@ -82,7 +82,10 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         """
 
         result = []
-        for target_word in X:
+
+        for instance in X:
+
+            target_word = instance["target_word"]
 
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
             len_tokens = lenfeats.token_length(target_word)
@@ -90,27 +93,28 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             len_syllables = phonfeats.num_syllables(target_word, language=self.language)
             gr_or_lat = affeats.greek_or_latin(target_word)
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
-            
+
             char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
             row_dict = {
-                    'len_chars_norm': len_chars_norm, 
-                    'len_tokens': len_tokens, 
+                    'len_chars_norm': len_chars_norm,
+                    'len_tokens': len_tokens,
                     'len_syllables': len_syllables,
                     'consonant_freq': consonant_freq,
-                    'gr_or_lat': gr_or_lat, 
+                    'gr_or_lat': gr_or_lat,
                     'char_tri_sum': char_tri_sum,
                     'char_tri_avg': char_tri_avg,
                     }
-            
+
+
             # Need to add these in a loop, since I don't know how many there will be:
             for ngram, count in char_ngrams.items():
                 row_dict['char_ngrams__' + ngram] = count
-            
+
 #            for i in row_dict:
 #                print(i, row_dict[i])
-            
+
             result.append(row_dict)
 
         return result
