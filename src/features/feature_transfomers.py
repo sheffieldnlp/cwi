@@ -63,14 +63,17 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
     """
 
-    def __init__(self, language):
+    def __init__(self, language, maxCharNgrams=6):
         """
         Define basic properties
 
         Args:
             language(str): language of input data
+            maxCharNgrams(int): Extract 1 to N length Character NGrams and 
+                                suffixes and prefixes (e.g. 2 = 'ch')
         """
         self.language = language
+        self.maxCharNgrams = maxCharNgrams
 
     def fit(self, X, *_):
         return self
@@ -99,7 +102,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             gr_or_lat = affeats.greek_or_latin(target_word)
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
 
-            char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
+            char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
             row_dict = {
@@ -218,6 +221,51 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             for lemma, count in lemma_features.items():
                 row_dict[lemma] = count
 
+            result.append(row_dict)
+
+        return result
+
+class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
+    """
+    Transformer to extract sentence features from column of sentences
+    
+    """
+
+    def __init__(self, language):
+        """
+        Define basic properties
+
+        Args:
+            language(str): language of input data
+        """
+        self.language = language
+
+    def fit(self, X, *_):
+        return self
+
+    def transform(self, X, *_):
+
+        """Extracts features from a given target word or phrase.
+
+        Args:
+            X (Series): Column of target words and phrases
+
+        Returns:
+            result (list[dict]): List of row dictionaries containing the values of the extracted features for each row.
+
+        This tranformer should always be followed by a DictionaryVectorizer in any pipeline which uses it.
+        """
+
+        result = []
+        for target_sent in X:
+            sent_length = lenfeats.token_length(target_sent)
+
+            # dictionary to store the features in, vectorize this with DictionaryVectorizer
+            row_dict = {
+                    'sent_length' : sent_length, 
+                    }
+            
+            
             result.append(row_dict)
 
         return result

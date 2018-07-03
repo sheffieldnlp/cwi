@@ -32,9 +32,20 @@ def countCharacterNgrams(target, N):
     
     return ngram_counts
 
+def getNGramsPrefixesSuffixes(token, index, N):
+    if index == 0:
+        result = ["PREFIX__" + token[ index : index + N ], token[ index : index + N ]]
+    elif index == len(token) - N:
+        result = ["SUFFIX__" + token[ index : index + N ], token[ index : index + N ]]
+    else:
+        result = [token[ index : index + N ]]
+    return result
+
 def getCharacterNgrams(token, N):
     word = normalizeWord(token)
-    char_ngrams = [word[ i : i + N ] for i in range(len(word) - N + 1)]
+    char_ngrams = Counter()
+    for i in range(len(word) - N + 1):
+        char_ngrams.update(getNGramsPrefixesSuffixes(word, i, N))
     return char_ngrams
 
 def getBigramsAndTrigrams(token):
@@ -44,12 +55,12 @@ def getBigramsAndTrigrams(token):
     return result
 
 def getAllCharNGrams(token, N=2):
-    ngrams = []
+    resultngrams = []
     result = Counter()
     for n in range(N):
-        ngrams += getCharacterNgrams(token, n+1)
+        resultngrams += getCharacterNgrams(token, n+1)
 
-    result.update(ngrams)
+    result.update(resultngrams)
     result = dict(result)
         
     return result
@@ -111,8 +122,8 @@ def getCorpusNgrams(corpus_text, min_length, max_length):
     return corpus_dict
 
 if __name__ == '__main__':
-    word = "Hellowagoawjgioajigohawaaaa"
-    print(getAllCharNGrams(word, 4))
+    word = "Extravagantly"
+    print(getAllCharNGrams(word, N=4))
 
 #    targets = ["The cat is eating the table","Huzzah","Happy","What the hell", "Whoops"]
 #    corpustext = "Don't read the test code!"
