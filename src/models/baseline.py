@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
-from src.features.feature_transfomers import Selector, Word_Feature_Extractor
+from src.features.feature_transfomers import Selector, Word_Feature_Extractor, Spacy_Feature_Extractor
 
 
 
@@ -47,6 +47,12 @@ class Baseline(object):
         pipe_dict['bag_of_words'] = Pipeline([
             ('select', Selector(key="target_word")),
             ('vectorize', CountVectorizer())])
+
+        # Spacy feature extraction. Uncomment to use.
+        # pipe_dict['spacy_features'] = Pipeline([
+        #     ('select', Selector(key=["target_word", "spacy"])),
+        #     ('extract', Spacy_Feature_Extractor(self.language)),
+        #     ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
 
