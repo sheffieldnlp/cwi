@@ -77,3 +77,6 @@ target/
 
 # Mac OS-specific storage files
 .DS_Store
+
+# Spacy Object Pickle Files
+*spacy-objs.pkl
