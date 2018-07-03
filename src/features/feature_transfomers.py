@@ -14,6 +14,11 @@ and http://scikit-learn.org/stable/auto_examples/hetero_feature_union.html#sphx-
 
 """
 
+import numpy as np
+import spacy
+from spacy.tokenizer import Tokenizer
+
+
 from sklearn.base import BaseEstimator, TransformerMixin
 from src.features import length_features as lenfeats
 from src.features import phonetic_features as phonfeats
@@ -83,9 +88,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
         result = []
 
-        for instance in X:
-
-            target_word = instance["target_word"]
+        for target_word in X:
 
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
             len_tokens = lenfeats.token_length(target_word)
@@ -107,13 +110,106 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'char_tri_avg': char_tri_avg,
                     }
 
-
             # Need to add these in a loop, since I don't know how many there will be:
             for ngram, count in char_ngrams.items():
                 row_dict['char_ngrams__' + ngram] = count
 
 #            for i in row_dict:
 #                print(i, row_dict[i])
+
+            result.append(row_dict)
+
+        return result
+
+class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
+    """
+    Transformer to extract word features from dataframe of target words and
+    spacy docs
+
+    """
+
+    def __init__(self, language):
+        """
+        Define basic properties
+
+        Args:
+            language(str): language of input data
+        """
+        self.language = language
+
+        # Loading the spacy vocab for tokenisation.
+        if self.language == "english":
+            self.nlp = spacy.load('en_core_web_lg')
+        elif self.language == "spanish":
+            self.nlp = spacy.load("es_core_news_md")
+        elif self.language == "german":
+            self.nlp = spacy.load('de_core_news_sm')
+        elif self.language == "french":
+            self.nlp = spacy.load('fr_core_news_md')
+
+        # Create the tokeniser
+        self.tokenizer = Tokenizer(self.nlp.vocab)
+
+    def fit(self, X, *_):
+        return self
+
+    def get_spacy_tokens(self, spacy_sentence, spacy_target_word):
+        """
+        A function to locate the target phrase spacy tokens in a spacy doc of
+        a whole sentence.
+
+        Args:
+            spacy_sentence: spacy doc for the context sentence
+            spacy_target_word: spacy doc for the target word/phrase only
+
+        Returns:
+            spacy_token_list: a list of the spacy tokens for the target phrase,
+                              using the information from the context sentence.
+
+        """
+        spacy_token_list = []
+
+        for target in self.tokenizer(spacy_target_word):
+            for wd in spacy_sentence:
+                if target.text == wd.text:
+                    spacy_token_list.append(wd)
+                    break
+
+        return spacy_token_list
+
+
+    def transform(self, X, *_):
+
+        """Extracts features from a given target word and context.
+
+        Args:
+            X (DataFrame): Columns of target words and spacy docs
+
+        Returns:
+            result (list[dict]): List of row dictionaries containing the values of the extracted features for each row.
+
+        This tranformer should always be followed by a DictionaryVectorizer in any pipeline which uses it.
+        """
+
+        result = []
+
+        self._avg_target_phrase_len = np.mean([len(x) for x in X["spacy"]])
+
+        for x in X.iterrows():
+
+            # Reference the spacy doc and the target word separately
+            spacy_sent = x[1]["spacy"]
+            target_word = x[1]["target_word"]
+
+            # Look up the spacy tokens of the target word.
+            spacy_tokens = self.get_spacy_tokens(spacy_sent, target_word)
+
+            # Extract features
+            len_tokens_norm = len(spacy_tokens)/self._avg_target_phrase_len
+
+            row_dict = {
+                    'len_tokens_norm': len_tokens_norm,
+                    }
 
             result.append(row_dict)
 
