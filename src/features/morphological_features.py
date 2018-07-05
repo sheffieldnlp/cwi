@@ -37,3 +37,17 @@ def word_shape(target_word, language):
     token = doc[0]
 
     return token.shape_
+
+
+def is_capitalised(target_word):
+    """Binary indicator of capitalisation of the target word
+
+    Args:
+        target_word (str): word or phrase candidate
+
+    Returns:
+        Boolean: Is the first letter of the phrase uppercase?
+
+    """
+
+    return target_word[0].isupper()

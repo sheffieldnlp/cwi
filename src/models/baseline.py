@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
-from src.features.feature_transfomers import Selector, Word_Feature_Extractor
+from src.features.feature_transfomers import Selector, Word_Feature_Extractor, Spacy_Feature_Extractor, Sentence_Feature_Extractor
 
 
 
@@ -43,10 +43,21 @@ class Baseline(object):
             ('select', Selector(key="target_word")),
             ('extract', Word_Feature_Extractor(self.language)),
             ('vectorize', DictVectorizer())])
+    
+        pipe_dict['sent_features'] = Pipeline([
+            ('select', Selector(key="sentence")),
+            ('extract', Sentence_Feature_Extractor(self.language)),
+            ('vectorize', DictVectorizer())])
 
         pipe_dict['bag_of_words'] = Pipeline([
             ('select', Selector(key="target_word")),
             ('vectorize', CountVectorizer())])
+
+        # Spacy feature extraction. Uncomment to use.
+        # pipe_dict['spacy_features'] = Pipeline([
+        #     ('select', Selector(key=["target_word", "spacy"])),
+        #     ('extract', Spacy_Feature_Extractor(self.language)),
+        #     ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
 
@@ -65,7 +76,7 @@ class Baseline(object):
                 In particular, the target words/phrases and their gold labels.
 
         """
-
+        
         X = self.features_pipeline.fit_transform(train_set)
         y = train_set['gold_label']
         self.model.fit(X, y)
