@@ -5,8 +5,11 @@ This module contains the class(es) and functions that implement the CWI baseline
 """
 
 from sklearn.linear_model import LogisticRegression
-from src.features import length_features as lenfeats
-from src.features import phonetic_features as phonfeats
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.pipeline import Pipeline, FeatureUnion
+from src.features.feature_transfomers import Selector, Word_Feature_Extractor
+
 
 
 class Baseline(object):
@@ -24,23 +27,35 @@ class Baseline(object):
         """
         self.language = language
         self.model = LogisticRegression()
+        self.features_pipeline = self.join_pipelines()
 
-    def extract_features(self, target_word):
-        """Extracts features from a given target word or phrase.
-
-        Args:
-            target_word (str): word or phrase candidate.
-
-        Returns:
-            list. The values of the extracted features.
-
+    def build_pipelines(self):
         """
-        len_chars_norm = lenfeats.character_length(target_word, language=self.language)
-        len_tokens = lenfeats.token_length(target_word)
-        consonant_freq = phonfeats.consonant_frequency(target_word)
-        len_syllables = phonfeats.num_syllables(target_word, language=self.language)
+        Builds all feature pipelines
+        Returns pipelines in format suitable for sklearn FeatureUnion
+        Args:
+            none
+        Returns:
+            list. list of ('pipeline_name', Pipeline) tuples
+        """
+        pipe_dict = {}
+        pipe_dict['word_features'] = Pipeline([
+            ('select', Selector(key="target_word")),
+            ('extract', Word_Feature_Extractor(self.language)),
+            ('vectorize', DictVectorizer())])
 
-        return [len_chars_norm, len_tokens, len_syllables, consonant_freq]
+        pipe_dict['bag_of_words'] = Pipeline([
+            ('select', Selector(key="target_word")),
+            ('vectorize', CountVectorizer())])
+
+        return list(pipe_dict.items())
+
+    def join_pipelines(self):
+
+        pipelines = self.build_pipelines()
+        feature_union = Pipeline([('join pipelines', FeatureUnion(transformer_list=pipelines))])
+
+        return feature_union
 
     def train(self, train_set):
         """Trains the model with the given instances.
@@ -50,12 +65,9 @@ class Baseline(object):
                 In particular, the target words/phrases and their gold labels.
 
         """
-        X = []  # to store the extracted features
-        y = []  # to store the gold labels
-        for sent in train_set:
-            X.append(self.extract_features(sent['target_word']))
-            y.append(sent['gold_label'])
 
+        X = self.features_pipeline.fit_transform(train_set)
+        y = train_set['gold_label']
         self.model.fit(X, y)
 
     def predict(self, test_set):
@@ -69,8 +81,7 @@ class Baseline(object):
             numpy array. The predicted label for each target word/phrase.
 
         """
-        X = []  # to store the extracted features
-        for sent in test_set:
-            X.append(self.extract_features(sent['target_word']))
+
+        X = self.features_pipeline.transform(test_set)
 
         return self.model.predict(X)
