@@ -26,6 +26,7 @@ from src.features import affix_features as affeats
 from src.features import char_trigram_features as trifeats
 from src.features import NGram_char_features as charfeats
 from src.features import sentence_features as sentfeats
+from src.features import syn_and_sense_features as synsenfeats
 
 
 from src.features import lemma_features as lemmafeats
@@ -116,6 +117,12 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'char_tri_sum': char_tri_sum,
                     'char_tri_avg': char_tri_avg,
                     }
+            if (self.language == 'english' or self.language == 'spanish'):
+                syn_count = synsenfeats.no_synonyms(target_word, self.language)
+                sense_count = synsenfeats.no_senses(target_word, self.language)
+                row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
+                
+                
 
             # Need to add these in a loop, since I don't know how many there will be:
             for ngram, count in char_ngrams.items():
