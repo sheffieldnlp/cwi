@@ -109,6 +109,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
         for target_word in X:
             #print(X['gold_label'])
+            
 
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
             len_tokens = lenfeats.token_length(target_word)
@@ -155,6 +156,8 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
         self.temp_BIOS = pd.DataFrame(self.Label_Encoder_BIOS.transform(self.BIOS),columns=['BIOS'])
         self.OneHot_BIOS = preprocessing.OneHotEncoder().fit(np.array(self.temp_BIOS['BIOS']).reshape(-1,1))
         self.language = language
+        self.trans_count = 0
+        self.translator = Translator()
         
         if self.language == 'english':
             self.nlp = spacy.load('en_core_web_sm')
@@ -206,11 +209,17 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
                         count2+= len(synset.hypernyms())
             count2 = count2/len(temp)
         else:
-            translator = Translator()
-            translated_word=translator.translate(word, dest='en')
+            self.trans_count+=1
+            if  self.trans_count < 350:
+                translated_word=self.translator.translate(word, dest='en')
+            else:
+                self.translator=Translator()
+                translated_word=self.translator.translate(word, dest='en')
+                self.trans_count=0
+                
             word = translated_word.text
             temp= word.split(" ")
-            if len(word.split(" ")) > 1:
+            if len(temp) > 1:
                 for wd in temp:
                     for synset in wordnet.synsets(wd, lang='eng'):
                         count2+= len(synset.hypernyms())
@@ -253,12 +262,16 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
             row_dict={'hypernym_count': hypernym_counts}
             is_nounphrase,d,doc = self.noun_phrases(sent, target_word)
             row_dict={'is_nounphrase': is_nounphrase}
-            Encoding = self.BIO_Encoding(target_word,d,doc)
-            for i in Encoding[target_word]:
-                row_dict.update({'BIO_Encoded'+str(num): i})
-                num+=1
+
+            # Uncomment to Use BIO Encoding         
+
+            #Encoding = self.BIO_Encoding(target_word,d,doc)
+            #for i in Encoding[target_word]:
+                #row_dict.update({'BIO_Encoded'+str(num): i})
+                #num+=1
+            
             result.append(row_dict)
-            num=1
+            #num=1
             
         return result
 
