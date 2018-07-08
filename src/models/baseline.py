@@ -53,6 +53,9 @@ class Baseline(object):
             ('select', Selector(key="target_word")),
             ('vectorize', CountVectorizer())])
 
+        # Noun Phrase, BIO Encoding, Hypernym Count. Comment to exclude.
+        # To include BIO Encoding uncomment lines in transform function of
+        # Advanced Features Extractor Class
         pipe_dict['is_noun_Phrase']=Pipeline([
             ('select', Selector(key=["target_word", "sentence"])),
             ('extract', Advanced_Extractor(self.language)),
