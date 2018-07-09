@@ -230,8 +230,9 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
                 row_dict[lemma] = count
 
             #word embedding
-            row_dict['word_emb'] = wordembfeats.get_word_emb(spacy_tokens, self.language)
-
+            word_vec = wordembfeats.get_word_emb(spacy_tokens, self.language)
+            for i in range(word_vec.shape[0]):
+                row_dict['vec_' + str(i)] = word_vec[i]
             result.append(row_dict)
 
         return result
