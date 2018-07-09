@@ -39,10 +39,10 @@ def execute_baseline(language, dataset_name):
 
 
 if __name__ == '__main__':
-    # execute_baseline("english", "News") #spacy objects for this don't exist as yet
+    # execute_baseline("english", "News") #spacy objects don't exist for train as yet
     execute_baseline("english", "WikiNews")
     execute_baseline("english", "Wikipedia")
-    execute_baseline("spanish", "Spanish")
-    execute_baseline("german", "German")
+    # execute_baseline("spanish", "Spanish") - spacy objects dont exist for train as yet
+    # execute_baseline("german", "German")
 
 
