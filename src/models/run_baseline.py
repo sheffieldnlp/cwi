@@ -5,7 +5,7 @@ This models runs the baseline model on the datasets of all languages.
 """
 
 from src.data.dataset import    Dataset
-from src.models.baseline import Baseline
+from src.models.baseline_plus_spacy_features import Baseline_Spacy
 from src.models.evaluation import report_binary_score
 
 
@@ -21,7 +21,7 @@ def execute_baseline(language, dataset_name):
 
     data = Dataset(language, dataset_name)
 
-    baseline = Baseline(language)
+    baseline = Baseline_Spacy(language)
 
     baseline.train(data.train_set())
 
@@ -39,10 +39,10 @@ def execute_baseline(language, dataset_name):
 
 
 if __name__ == '__main__':
-    execute_baseline("english", "News")
+    #execute_baseline("english", "News")
     execute_baseline("english", "WikiNews")
-    execute_baseline("english", "Wikipedia")
-    execute_baseline("spanish", "Spanish")
-    execute_baseline("german", "German")
+    # execute_baseline("english", "Wikipedia")
+    # execute_baseline("spanish", "Spanish")
+    # execute_baseline("german", "German")
 
 

@@ -4,7 +4,7 @@ This module contains functions to detect whether a target word or phrase contain
 
 """
 affixes = []
-with open('data/external/greek_and_latin_affixes.txt') as f:
+with open('data/external/greek_and_latin_affixes.txt', encoding = "latin-1") as f:
         for line in f:
             affixes.append(line.replace("\n", ""))
 

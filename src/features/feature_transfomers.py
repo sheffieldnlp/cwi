@@ -27,9 +27,8 @@ from src.features import char_trigram_features as trifeats
 from src.features import NGram_char_features as charfeats
 from src.features import sentence_features as sentfeats
 from src.features import syn_and_sense_features as synsenfeats
-
-
 from src.features import lemma_features as lemmafeats
+from src.features import word_emb_features as wordembfeats
 
 class Selector(BaseEstimator, TransformerMixin):
     """
@@ -229,6 +228,9 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             lemma_features = lemmafeats.lemmas(spacy_tokens)
             for lemma, count in lemma_features.items():
                 row_dict[lemma] = count
+
+            #word embedding
+            row_dict['word_emb'] = wordembfeats.get_word_emb(spacy_tokens, self.language)
 
             result.append(row_dict)
 
