@@ -66,17 +66,18 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
     """
 
-    def __init__(self, language, maxCharNgrams=6):
+    def __init__(self, language, maxCharNgrams=6, normaliseSynsenFeats=True):
         """
         Define basic properties
 
         Args:
             language(str): language of input data
-            maxCharNgrams(int): Extract 1 to N length Character NGrams and 
+            maxCharNgrams(int): Extract 1 to N length Character NGrams and
                                 suffixes and prefixes (e.g. 2 = 'ch')
         """
         self.language = language
         self.maxCharNgrams = maxCharNgrams
+        self.normaliseSynsenFeats = normaliseSynsenFeats
 
     def fit(self, X, *_):
         return self
@@ -95,6 +96,12 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         """
 
         result = []
+
+        """Gathering normalisation information from the whole dataset"""
+        if (self.language == 'english' or self.language == 'spanish'):
+            if self.normaliseSynsenFeats == True:
+                self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
+                self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
 
         for target_word in X:
 
@@ -117,19 +124,19 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'char_tri_sum': char_tri_sum,
                     'char_tri_avg': char_tri_avg,
                     }
+
             if (self.language == 'english' or self.language == 'spanish'):
                 syn_count = synsenfeats.no_synonyms(target_word, self.language)
                 sense_count = synsenfeats.no_senses(target_word, self.language)
-                row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
-                
-                
+
+                if self.normaliseSynsenFeats == True: # Normalisation
+                    row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
+                elif self.normaliseSynsenFeats == False:
+                    row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
 
             # Need to add these in a loop, since I don't know how many there will be:
             for ngram, count in char_ngrams.items():
                 row_dict['char_ngrams__' + ngram] = count
-
-#            for i in row_dict:
-#                print(i, row_dict[i])
 
             result.append(row_dict)
 
@@ -237,7 +244,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
 class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
     """
     Transformer to extract sentence features from column of sentences
-    
+
     """
 
     def __init__(self, language, maxSentNGram = 3):
@@ -273,12 +280,12 @@ class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
             row_dict = {
-                    'sent_length' : sent_length, 
+                    'sent_length' : sent_length,
                     }
-            
+
             for ngram, count in sent_NGrams.items():
                 row_dict['sent_ngrams__' + ngram] = count
-            
+
             result.append(row_dict)
 
         return result
