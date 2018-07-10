@@ -241,6 +241,12 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
                 for pos in pos_counts:
                     row_dict[pos] = pos_counts[pos]
 
+                ne_counts = synfeats.get_ne_counts(spacy_tokens)
+                for ne in ne_counts:
+                    # print(ne)
+                    row_dict[ne] = ne_counts[ne]
+
+
             result.append(row_dict)
 
         return result
@@ -248,7 +254,6 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
 class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
     """
     Transformer to extract sentence features from column of sentences
-    
     """
 
     def __init__(self, language, maxSentNGram = 3):
