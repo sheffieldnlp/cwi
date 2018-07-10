@@ -29,6 +29,7 @@ from src.features import sentence_features as sentfeats
 from src.features import syn_and_sense_features as synsenfeats
 from src.features import lemma_features as lemmafeats
 from src.features import word_emb_features as wordembfeats
+from src.features import syntactic_features as synfeats
 
 class Selector(BaseEstimator, TransformerMixin):
     """
@@ -121,8 +122,6 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                 sense_count = synsenfeats.no_senses(target_word, self.language)
                 row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
                 
-                
-
             # Need to add these in a loop, since I don't know how many there will be:
             for ngram, count in char_ngrams.items():
                 row_dict['char_ngrams__' + ngram] = count
@@ -230,9 +229,18 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
                 row_dict[lemma] = count
 
             #word embedding
-            word_vec = wordembfeats.get_word_emb(spacy_tokens, self.language)
-            for i in range(word_vec.shape[0]):
-                row_dict['vec_' + str(i)] = word_vec[i]
+            if (self.language == 'english'): #only for now
+
+                word_vec = wordembfeats.get_word_emb(spacy_tokens, self.language)
+                for i in range(word_vec.shape[0]):
+                    row_dict['vec_' + str(i)] = word_vec[i]
+
+            #pos counts
+            if (self.language == 'english' or self.language == 'german'): #only for now
+                pos_counts = synfeats.get_pos_counts(spacy_tokens)
+                for pos in pos_counts:
+                    row_dict[pos] = pos_counts[pos]
+
             result.append(row_dict)
 
         return result
