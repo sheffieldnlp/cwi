@@ -103,6 +103,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                 self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
                 self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
 
+
         for target_word in X:
 
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
@@ -113,6 +114,8 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
 
             char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
+
+
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
             row_dict = {
@@ -170,6 +173,15 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
 
         # Create the tokeniser
         self.tokenizer = Tokenizer(self.nlp.vocab)
+
+        """Build a Frequency Index reference for spanish language"""
+        if self.language == 'spanish':
+            self.esp_freq_index = {}
+            with open("data/external/spanish_subtitle_words_frequency_indexes.txt", "r", encoding="utf-8") as f:
+                for line in f.readlines():
+                    wd = line.split(",")[0]
+                    FI = int(line.split(",")[1])
+                    self.esp_freq_index[wd] = FI
 
     def fit(self, X, *_):
         return self
@@ -232,10 +244,16 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'len_tokens_norm': len_tokens_norm,
                     }
 
-            # there is probably a better way of doing this. Dictionary union?
+            # Bag-of-Lemmas Feature #TODO there is probably a better way of doing this. Dictionary union?
             lemma_features = lemmafeats.lemmas(spacy_tokens)
             for lemma, count in lemma_features.items():
                 row_dict[lemma] = count
+
+            # Spanish Frequency Index feature #TODO there is probably a better way of doing this. Dictionary union?
+            if self.language == 'spanish':
+                esp_freq_index_features = freqfeats.frequency_index(spacy_tokens, self.esp_freq_index)
+                for k, v in esp_freq_index_features.items():
+                    row_dict[k] = v
 
             result.append(row_dict)
 
