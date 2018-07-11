@@ -20,6 +20,8 @@ from src.features import phonetic_features as phonfeats
 from src.features import affix_features as affeats
 from src.features import char_trigram_features as trifeats
 from src.features import NGram_char_features as charfeats
+from src.features import morphological_features as morphfeats
+from src.features import frequency_features as freqfeats
 
 class Selector(BaseEstimator, TransformerMixin):
     """
@@ -90,8 +92,12 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             len_syllables = phonfeats.num_syllables(target_word, language=self.language)
             gr_or_lat = affeats.greek_or_latin(target_word)
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
-            
+            averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
+            num_complex_punct = morphfeats.num_complex_punct(target_word)
+            num_pronunciations = phonfeats.num_pronunciations(target_word, language=self.language)
             char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
+            rare_word_count = freqfeats.rare_word_count(target_word, self.language)
+            rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
             row_dict = {
@@ -102,6 +108,11 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'gr_or_lat': gr_or_lat, 
                     'char_tri_sum': char_tri_sum,
                     'char_tri_avg': char_tri_avg,
+                    'averaged_chars_per_word': averaged_chars_per_word,
+                    'num_complex_punct': num_complex_punct,
+                    'num_pronunciations':  num_pronunciations,
+                    'rare_word_count': rare_word_count,
+                    'rare_trigram_count': rare_trigram_count
                     }
             
             # Need to add these in a loop, since I don't know how many there will be:
