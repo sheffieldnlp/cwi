@@ -38,9 +38,9 @@ from src.features import NGram_char_features as charfeats
 from src.features import sentence_features as sentfeats
 from src.features import syn_and_sense_features as synsenfeats
 from src.features import stopwords as stop
-
-
 from src.features import lemma_features as lemmafeats
+from src.features import morphological_features as morphfeats
+from src.features import frequency_features as freqfeats
 
 class Selector(BaseEstimator, TransformerMixin):
     """
@@ -127,7 +127,12 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
             is_stopword = stop.is_stop(target_word,self.language)
             char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
-
+            averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
+            num_complex_punct = morphfeats.num_complex_punct(target_word)
+            num_pronunciations = phonfeats.num_pronunciations(target_word, language=self.language)
+            char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
+            rare_word_count = freqfeats.rare_word_count(target_word, self.language)
+            rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
 
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
@@ -139,7 +144,12 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'gr_or_lat': gr_or_lat,
                     'char_tri_sum': char_tri_sum,
                     'char_tri_avg': char_tri_avg,
-                    'is_stop':is_stopword
+                    'is_stop':is_stopword,
+                    'averaged_chars_per_word': averaged_chars_per_word,
+                    'num_complex_punct': num_complex_punct,
+                    'num_pronunciations':  num_pronunciations,
+                    'rare_word_count': rare_word_count,
+                    'rare_trigram_count': rare_trigram_count
                     }
 
             if (self.language == 'english' or self.language == 'spanish'):
