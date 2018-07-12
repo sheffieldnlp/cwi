@@ -19,7 +19,7 @@ import spacy
 from spacy.tokenizer import Tokenizer
 from sklearn import preprocessing
 import pandas as pd
-import goslate
+#import goslate
 import nltk
 from nltk.corpus import wordnet
 nltk.download("omw")
