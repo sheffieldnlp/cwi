@@ -27,7 +27,8 @@ from src.features import char_trigram_features as trifeats
 from src.features import NGram_char_features as charfeats
 from src.features import sentence_features as sentfeats
 from src.features import syn_and_sense_features as synsenfeats
-
+from src.features import morphological_features as morphfeats
+from src.features import frequency_index_features as freqixfeats
 
 from src.features import lemma_features as lemmafeats
 
@@ -112,6 +113,9 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             len_syllables = phonfeats.num_syllables(target_word, language=self.language)
             gr_or_lat = affeats.greek_or_latin(target_word)
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
+            is_capitalised = morphfeats.is_capitalised(target_word)
+
+
 
             char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
 
@@ -126,6 +130,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'gr_or_lat': gr_or_lat,
                     'char_tri_sum': char_tri_sum,
                     'char_tri_avg': char_tri_avg,
+                    'is_capitalised': is_capitalised
                     }
 
             if (self.language == 'english' or self.language == 'spanish'):
@@ -251,7 +256,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
 
             # Spanish Frequency Index feature #TODO there is probably a better way of doing this. Dictionary union?
             if self.language == 'spanish':
-                esp_freq_index_features = freqfeats.frequency_index(spacy_tokens, self.esp_freq_index)
+                esp_freq_index_features = freqixfeats.frequency_index(spacy_tokens, self.esp_freq_index)
                 for k, v in esp_freq_index_features.items():
                     row_dict[k] = v
 
