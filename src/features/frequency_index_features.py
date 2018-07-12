@@ -11,7 +11,7 @@ def frequency_index(target_word_spacy_tokens, frequency_index):
         target_word_spacy_tokens (list) : list of spacy objects
 
     Returns:
-        counter. counts of the frequency indexes of the lemmas of the tokens. 
+        counter. counts of the frequency indexes of the lemmas of the tokens.
 
     """
     freq_indexes = Counter()
@@ -19,8 +19,8 @@ def frequency_index(target_word_spacy_tokens, frequency_index):
     for token in target_word_spacy_tokens:
 
         if token.lemma_ in frequency_index:
-            x_features["FI_" + str(frequency_index[token.lemma_])] += (1 / len(target_word_spacy_tokens))
+            freq_indexes["FI_" + str(frequency_index[token.lemma_])] += (1 / len(target_word_spacy_tokens))
         else:
-            x_features["FI_0"] += (1 / len(target_word_spacy_tokens))
+            freq_indexes["FI_0"] += (1 / len(target_word_spacy_tokens))
 
     return freq_indexes
