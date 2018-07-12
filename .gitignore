@@ -80,3 +80,6 @@ target/
 
 # Spacy Object Pickle Files
 *spacy-objs.pkl
+
+# Desktop.ini files
+*desktop.ini
