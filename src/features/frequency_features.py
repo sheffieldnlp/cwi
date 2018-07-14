@@ -20,7 +20,7 @@ with open("data/external/frequent_english_words.txt",  encoding="utf8") as infil
                     
 # Spanish from https://en.wiktionary.org/wiki/User:Matthias_Buchmeier/Spanish_frequency_list-1-5000   
 top_span = []
-with open("data/external/frequent_spanish_words.txt") as infile:
+with open("data/external/frequent_spanish_words.txt", encoding = "latin-1") as infile:
     for line in infile:
         for word in wordRE.findall(line.lower()):  
             top_span.append(word)
