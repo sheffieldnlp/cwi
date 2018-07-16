@@ -28,7 +28,7 @@ with open("data/external/frequent_spanish_words.txt", encoding = "latin-1") as i
             
 #German top 3000 from http://germanvocab.com/
 top_ger = []
-with open("data/external/frequent_spanish_words.txt") as infile:
+with open("data/external/frequent_german_words.txt", encoding = "latin-1") as infile:
     for line in infile:
         for word in wordRE.findall(line.lower()):  
             top_ger.append(word)
