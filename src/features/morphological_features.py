@@ -41,13 +41,25 @@ def word_shape(target_word, language):
 
 def is_capitalised(target_word):
     """Binary indicator of capitalisation of the target word
+    Args:
+        target_word (str): word or phrase candidate
+    Returns:
+        Boolean: Is the first letter of the phrase uppercase?
+    """
+
+    return target_word[0].isupper()
+
+  
+def num_complex_punct(target_word): # Alison   
+    """Compute the  number of "complex" punctuation symbols in phrase
 
     Args:
         target_word (str): word or phrase candidate
 
     Returns:
-        Boolean: Is the first letter of the phrase uppercase?
+        int - the number of complex pronunications
 
     """
+    num_punct = sum(map(target_word.lower().count, "-,;"))
 
-    return target_word[0].isupper()
+    return num_punct
