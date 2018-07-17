@@ -1,5 +1,5 @@
 spanish_stop_words = []
-with open('data/external/Spanish_StopWords.txt','r') as infile:
+with open('data/external/Spanish_StopWords.txt','r',encoding="utf-8") as infile:
     for line in infile:
        spanish_stop_words.append(line.replace("\n", ""))
 
