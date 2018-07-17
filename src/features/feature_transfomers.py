@@ -37,6 +37,8 @@ from src.features import char_trigram_features as trifeats
 from src.features import NGram_char_features as charfeats
 from src.features import sentence_features as sentfeats
 from src.features import syn_and_sense_features as synsenfeats
+from src.features import morphological_features as morphfeats
+from src.features import frequency_index_features as freqixfeats
 from src.features import stopwords as stop
 from src.features import lemma_features as lemmafeats
 from src.features import morphological_features as morphfeats
@@ -117,7 +119,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
         for target_word in X:
             #print(X['gold_label'])
-            
+
 
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
             len_tokens = lenfeats.token_length(target_word)
@@ -125,6 +127,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             len_syllables = phonfeats.num_syllables(target_word, language=self.language)
             gr_or_lat = affeats.greek_or_latin(target_word)
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
+            is_capitalised = morphfeats.is_capitalised(target_word)
             is_stopword = stop.is_stop(target_word,self.language)
             char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
             averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
@@ -144,6 +147,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'gr_or_lat': gr_or_lat,
                     'char_tri_sum': char_tri_sum,
                     'char_tri_avg': char_tri_avg,
+                    'is_capitalised': is_capitalised,
                     'is_stop':is_stopword,
                     'averaged_chars_per_word': averaged_chars_per_word,
                     'num_complex_punct': num_complex_punct,
@@ -178,7 +182,7 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
         self.language = language
         self.trans_count = 0
         self.translator = Translator()
-        
+
         if self.language == 'english':
             self.nlp = spacy.load('en_core_web_sm')
         elif self.language == 'spanish':
@@ -197,7 +201,7 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
         d={}
         for chunk in doc.noun_chunks:
             t.append(chunk.text)
-            noun_phrase_encode.append(chunk.root.ent_iob_)           
+            noun_phrase_encode.append(chunk.root.ent_iob_)
             int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(noun_phrase_encode,columns=['BIOS_tags']).values.ravel())
             one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
             one_hot_encoded_str = [float(i) for i in list(one_hot_encoded[0])]
@@ -224,7 +228,7 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
                 for wd in temp:
                     for synset in wordnet.synsets(wd, lang='spa'):
                         count2+= len(synset.hypernyms())
-            else:                
+            else:
                 for synset in wordnet.synsets(word, lang='spa'):
                         count2+= len(synset.hypernyms())
             count2 = count2/len(temp)
@@ -236,7 +240,7 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
                 self.translator=Translator()
                 translated_word=self.translator.translate(word, dest='en')
                 self.trans_count=0
-                
+
             word = translated_word.text
             temp= word.split(" ")
             if len(temp) > 1:
@@ -249,7 +253,7 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
             count2 = count2/len(temp)
         return (round(count2))
 
-    def BIO_Encoding(self,word,d,doc):   
+    def BIO_Encoding(self,word,d,doc):
         temp=[]
         flag=0
         temp2 = []
@@ -283,21 +287,21 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
             is_nounphrase,d,doc = self.noun_phrases(sent, target_word)
             row_dict={'is_nounphrase': is_nounphrase}
 
-            # Uncomment to Use BIO Encoding         
+            # Uncomment to Use BIO Encoding
 
             #Encoding = self.BIO_Encoding(target_word,d,doc)
             #for i in Encoding[target_word]:
                 #row_dict.update({'BIO_Encoded'+str(num): i})
                 #num+=1
-            
+
             result.append(row_dict)
             #num=1
-            
+
         return result
 
 
-    
-        
+
+
 
 class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
     """
@@ -406,7 +410,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
 
             # Spanish Frequency Index feature #TODO there is probably a better way of doing this. Dictionary union?
             if self.language == 'spanish':
-                esp_freq_index_features = freqfeats.frequency_index(spacy_tokens, self.esp_freq_index)
+                esp_freq_index_features = freqixfeats.frequency_index(spacy_tokens, self.esp_freq_index)
                 for k, v in esp_freq_index_features.items():
                     row_dict[k] = v
 
