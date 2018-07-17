@@ -4,39 +4,23 @@ Morphological features.
 This module contains functions to extract features concerning word shape or morphology
 
 """
-import spacy
+from collections import Counter
 
 
-def word_shape(target_word, language):
-    """Compute the shape of the target word
+def word_shape(target_word_spacy_tokens):
+    """Compute the shapes of the words in target phrase
 
     Args:
-        target_word (str): word or phrase candidate
+        target_word_spacy_tokens (list): spacy tokens for the target phrase
 
     Returns:
-        str - the shape of the word
-
-    Raises:
-        ValueError
+        Dict. Word shapes in the target phrase
     """
+    shapes = Counter()
+    for token in target_word_spacy_tokens:
+        shapes["SHAPE_" + token.shape_] += 1
 
-    if language == 'english':
-        nlp = spacy.load('en')
-
-    elif language == 'spanish':
-        nlp = spacy.load('es')
-
-    elif language == 'german':
-        nlp = spacy.load('de')
-
-    else:
-        raise ValueError("Language specified ({}) not supported.".format(language))
-
-    doc = nlp(u'{}'.format(target_word))
-
-    token = doc[0]
-
-    return token.shape_
+    return shapes
 
 
 def is_capitalised(target_word):
@@ -49,8 +33,8 @@ def is_capitalised(target_word):
 
     return target_word[0].isupper()
 
-  
-def num_complex_punct(target_word): # Alison   
+
+def num_complex_punct(target_word):  # Alison
     """Compute the  number of "complex" punctuation symbols in phrase
 
     Args:

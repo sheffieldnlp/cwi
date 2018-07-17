@@ -408,6 +408,11 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             for lemma, count in lemma_features.items():
                 row_dict[lemma] = count
 
+            # Bag-of-shapes feature (1 word shape per word in target phrase)
+            shape_features = morphfeats.word_shape(spacy_tokens)
+            for shape, count in shape_features.items():
+                row_dict[shape] = count
+
             # Spanish Frequency Index feature #TODO there is probably a better way of doing this. Dictionary union?
             if self.language == 'spanish':
                 esp_freq_index_features = freqixfeats.frequency_index(spacy_tokens, self.esp_freq_index)
