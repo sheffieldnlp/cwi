@@ -140,7 +140,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
             row_dict = {
-                    'len_chars_norm': len_chars_norm,
+                    'len_chars_norm': len_chars_norm
                     # 'len_tokens': len_tokens
                     # 'len_syllables': len_syllables,
                     # 'consonant_freq': consonant_freq,
@@ -169,7 +169,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             # for ngram, count in char_ngrams.items():
             #     row_dict['char_ngrams__' + ngram] = count
             #
-            # result.append(row_dict)
+            result.append(row_dict)
 
         return result
 
