@@ -96,8 +96,8 @@ class CrosslingualCWI(object):
                 y_temp = train_data['gold_label']
                 print("X_temp: ", X_temp.shape)
                 print("y_temp: ", y_temp.shape)
-                X = np.concatenate(X, X_temp)
-                y = np.concatenate(y, y_temp)
+                X = np.concatenate((X, X_temp), axis=0)
+                y = np.concatenate((y, y_temp), axis=0)
         self.model.fit(X, y)
 
     def predict(self, test_set):
@@ -115,6 +115,6 @@ class CrosslingualCWI(object):
             if i == 0:
                 X = self.features_pipelines[language].transform(test_data)
             else:
-                X = np.concatenate(X, self.features_pipelines[language].transform(test_data))
+                X = np.concatenate((X, self.features_pipelines[language].transform(test_data)), axis=0)
 
         return self.model.predict(X)
