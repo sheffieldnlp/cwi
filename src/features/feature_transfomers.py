@@ -43,6 +43,7 @@ from src.features import lemma_features as lemmafeats
 from src.features import morphological_features as morphfeats
 from src.features import frequency_features as freqfeats
 
+
 class Selector(BaseEstimator, TransformerMixin):
     """
     Transformer to select a column from a dataframe
@@ -421,6 +422,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             result.append(row_dict)
 
         return result
+
 
 class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
     """

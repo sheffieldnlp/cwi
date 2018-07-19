@@ -7,11 +7,14 @@ from nltk import ngrams
 import pickle
 
 with open('data/external/german_tr_freqs.pkl', 'rb') as gtf:
-                german_tf = pickle.load(gtf)
+    german_tf = pickle.load(gtf)
+
 with open('data/external/english_tr_freqs.pkl', 'rb') as etf:
-                english_tf = pickle.load(etf)
+    english_tf = pickle.load(etf)
+
 with open('data/external/spanish_tr_freqs.pkl', 'rb') as stf:
-                spanish_tf = pickle.load(stf)
+    spanish_tf = pickle.load(stf)
+
 
 def trigram_stats(target_word, language):
     """Computes the sum of the absolute frequencies of the character trigrams in the target word as well as their average.
@@ -27,7 +30,7 @@ def trigram_stats(target_word, language):
         Value Error
     """
     if language == 'english':
-       freqs = english_tf
+        freqs = english_tf
     elif language == 'spanish':
         freqs = spanish_tf
     elif language == 'german':
@@ -40,11 +43,10 @@ def trigram_stats(target_word, language):
     for tr in target_trigrams:
         fr_sum += freqs[tr]
     average = 0 if len(target_trigrams) == 0 else fr_sum/len(target_trigrams)
-    return (fr_sum, average)
-        
+    return fr_sum, average
 
 
-def rare_trigram_count(target_word, language): # Alison
+def rare_trigram_count(target_word, language):  # Alison
     """Counts character trigrams in the target word that are rare (ie occuring less 
     than a threshold number of times) in external corpora of frequent words.
     Args:
@@ -58,8 +60,8 @@ def rare_trigram_count(target_word, language): # Alison
         Value Error
     """
     if language == 'english':
-       freqs = english_tf
-       thresh = 3
+        freqs = english_tf
+        thresh = 3
     elif language == 'spanish':
         freqs = spanish_tf
         thresh = 4
@@ -78,5 +80,4 @@ def rare_trigram_count(target_word, language): # Alison
             rare_trigram_count += 1
     
     return rare_trigram_count
-         
-        
+
