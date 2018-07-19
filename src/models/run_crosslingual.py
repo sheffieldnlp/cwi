@@ -6,7 +6,8 @@ from src.models.evaluation import report_binary_score
 
 datasets_per_language = {"english": ["News", "WikiNews", "Wikipedia"],
                          "spanish": ["Spanish"],
-                         "german": ["German"]}
+                         "german": ["German"],
+                         "french": ["French"]}
 
 
 def run_model(test_language, evaluation_split, detailed_report):
