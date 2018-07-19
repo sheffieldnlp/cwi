@@ -26,8 +26,8 @@ def character_length(target_word, normalised=True, language='en'):
             avg_word_length = 6.2
         elif language == 'german':
             avg_word_length = 6.5
-        else:
-            raise ValueError("Language specified ({}) not supported.".format(language))
+        else:  # TODO: What's the value for French?
+            avg_word_length = 1.0
     else:
         avg_word_length = 1.0
 
