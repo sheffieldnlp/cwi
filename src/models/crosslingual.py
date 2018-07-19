@@ -89,14 +89,14 @@ class CrosslingualCWI(object):
         y = []
         for language, train_data in train_set:
             X_temp = self.features_pipelines[language].fit_transform(train_data)
-            type(X_temp)
+            print("X_temp type: ", type(X_temp))
             X.append(X_temp)
             y.append(train_data['gold_label'])
 
         X_all = np.concatenate(X, axis=0)
         y_all = np.concatenate(y, axis=0)
 
-        type(X_all)
+        print("X_all type: ", type(X_all))
 
         self.model.fit(X_all, y_all)
 
