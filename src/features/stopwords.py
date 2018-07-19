@@ -16,31 +16,31 @@ german_stop_words.pop(0)
 
 
 def is_stop(target_word,language):
-    v=0
-    total_len =  len(target_word.split(" "))
+    v = 0
+    total_len = len(target_word.split(" "))
     if total_len > 1:
         for word in target_word.split(" "):
             if language == 'english':
                 if word in english_stop_words:
-                    v+=1
+                    v += 1
             elif language == 'spanish':
                 if word in spanish_stop_words:
-                    v+=1
+                    v += 1
             else:
                 if word in german_stop_words:
-                    v+=1
+                    v += 1
         if (v/total_len) > 0.2:
-            v=1
+            v = 1
         else:
-            v=0
+            v = 0
     else:
         if language == 'english':
             if target_word in english_stop_words:
-                v=1
-            elif  language == 'spanish':
+                v = 1
+            elif language == 'spanish':
                 if target_word in spanish_stop_words:
-                    v=1
+                    v = 1
             else:
                 if target_word in german_stop_words:
-                    v=1       
+                    v = 1
     return v

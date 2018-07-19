@@ -124,5 +124,3 @@ class Dataset(object):
             print('spaCy pickle file for {} does not exist. No spaCy objects will be included.'.format(
                 self._dataset_name))
             return None
-
-        return spacy_objects_dataset
