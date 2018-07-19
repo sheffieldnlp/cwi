@@ -85,7 +85,7 @@ class CrosslingualCWI(object):
                             instance in the dataset.
 
         """
-        for i, language, train_data in enumerate(train_set):
+        for i, (language, train_data) in enumerate(train_set):
             if i == 0:
                 X = self.features_pipelines[language].fit_transform(train_data)
                 y = train_data['gold_label']
@@ -105,7 +105,7 @@ class CrosslingualCWI(object):
             numpy array. The predicted label for each target word/phrase.
 
         """
-        for i, language, test_data in enumerate(test_set):
+        for i, (language, test_data) in enumerate(test_set):
             if i == 0:
                 X = self.features_pipelines[language].transform(test_data)
             else:
