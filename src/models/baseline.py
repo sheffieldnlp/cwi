@@ -5,7 +5,6 @@ This module contains the class(es) and functions that implement the CWI baseline
 """
 
 from sklearn.linear_model import LogisticRegression
-#from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
@@ -63,10 +62,10 @@ class Baseline(object):
             ('vectorize', DictVectorizer())])
 
         # Spacy feature extraction. Uncomment to use.
-        # pipe_dict['spacy_features'] = Pipeline([
-        #     ('select', Selector(key=["target_word", "spacy"])),
-        #     ('extract', Spacy_Feature_Extractor(self.language)),
-        #     ('vectorize', DictVectorizer())])
+#        pipe_dict['spacy_features'] = Pipeline([
+#             ('select', Selector(key=["target_word", "spacy"])),
+#             ('extract', Spacy_Feature_Extractor(self.language)),
+#             ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
 
