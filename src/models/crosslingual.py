@@ -86,6 +86,7 @@ class CrosslingualCWI(object):
 
         """
         for i, (language, train_data) in enumerate(train_set):
+            print(len(train_data))
             if i == 0:
                 X = self.features_pipelines[language].fit_transform(train_data)
                 y = train_data['gold_label']
