@@ -3,7 +3,8 @@
 This module contains the class(es) and functions that implement the CWI crosslingual model.
 
 """
-from scipy.sparse import vstack, hstack
+import numpy as np
+from scipy.sparse import vstack
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
@@ -89,14 +90,14 @@ class CrosslingualCWI(object):
         y = []
         for language, train_data in train_set:
             X.append(self.features_pipelines[language].fit_transform(train_data))
-            y_temp = train_data['gold_label']
+            y_temp = train_data['gold_label'].tolist()
             print("type y_temp: ", type(y_temp))
-            y.append(y_temp)
+            y.extend(y_temp)
 
         X_all = vstack(X)
-        y_all = hstack(y)
+        y_all = np.array(y)
 
-        self.model.fit(X_all, y_all)
+        self.model.fit(X_all, y)
 
     def predict(self, language, test_set):
         """Predicts the label for the given instances.
