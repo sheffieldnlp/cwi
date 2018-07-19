@@ -16,8 +16,8 @@ datasets_per_language = {"english": ["News", "WikiNews", "Wikipedia"],
                          "german": ["German"]}
 
 
-def execute_model(language, dataset_name, evaluation_split, detailed_report):
-    """Trains and tests the baseline system for a particular dataset of a particular language. Reports results.
+def run_model(language, dataset_name, evaluation_split, detailed_report):
+    """Trains and tests the CWI model for a particular dataset of a particular language. Reports results.
 
     Args:
         language: The language of the dataset.
@@ -34,17 +34,18 @@ def execute_model(language, dataset_name, evaluation_split, detailed_report):
 
     baseline.train(data.train_set())
 
-    if evaluation_split == "test":
-        print("\nResults on Test Data")
-        predictions_test = baseline.predict(data.test_set())
-        gold_labels_test = data.test_set()['gold_label']
-        print(report_binary_score(gold_labels_test, predictions_test, detailed_report))
-    else:
+    if evaluation_split in ["dev", "both"]:
         print("\nResults on Development Data")
         predictions_dev = baseline.predict(data.dev_set())
         gold_labels_dev = data.dev_set()['gold_label']
         print(report_binary_score(gold_labels_dev, predictions_dev, detailed_report))
 
+    if evaluation_split in ["test", "both"]:
+        print("\nResults on Test Data")
+        predictions_test = baseline.predict(data.test_set())
+        gold_labels_test = data.test_set()['gold_label']
+        print(report_binary_score(gold_labels_test, predictions_test, detailed_report))
+    
     print()
 
 
@@ -61,4 +62,4 @@ if __name__ == '__main__':
     datasets = datasets_per_language[args.language]
 
     for dataset_name in datasets:
-        execute_model(args.language, dataset_name, args.eval_split, args.detailed_report)
+        run_model(args.language, dataset_name, args.eval_split, args.detailed_report)
