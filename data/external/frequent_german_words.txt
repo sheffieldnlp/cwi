@@ -14,7 +14,7 @@ werden
 zu
 ein
 in
-kÃ¶nnen
+können
 wer
 mein
 mit
@@ -34,7 +34,7 @@ wollen
 hier
 eine
 von
-fÃ¼r
+für
 hat
 einen
 wenn
@@ -42,7 +42,7 @@ gut
 dich
 an
 gehen
-mÃ¼ssen
+müssen
 nein
 ihr
 nur
@@ -71,7 +71,7 @@ im
 dies
 das Mal
 kein
-das WeiÃŸ
+das Weiß
 lassen
 sollen
 oder
@@ -102,7 +102,7 @@ wieder
 zum
 das Leben
 das Los
-mÃ¶gen
+mögen
 einem
 sehr
 ihm
@@ -111,7 +111,7 @@ glauben
 der Dank
 viel
 denn
-Ã¼ber
+über
 vielleicht
 der Weg
 Komm
@@ -130,7 +130,7 @@ am
 der Tag
 finden
 nun
-hÃ¶ren
+hören
 euch
 weil
 der Gott
@@ -139,7 +139,7 @@ deine
 heute
 jemand
 das Jahr
-zurÃ¼ck
+zurück
 damit
 reden
 das Haus
@@ -154,7 +154,7 @@ ok
 der Freund
 ander
 seine
-groÃŸ
+groß
 stehen
 Mr
 verstehen
@@ -166,7 +166,7 @@ sicher
 genau
 zur
 dein
-schÃ¶n
+schön
 der Vater
 der Sir
 richtig
@@ -189,7 +189,7 @@ mach
 die Liebe
 gemacht
 der Mensch
-dÃ¼rfen
+dürfen
 das Paar
 der Ob
 jed
@@ -212,19 +212,19 @@ ihre
 das Wohl
 warten
 dort
-HÃ¶r
+Hör
 all
 her
 erst
 tot
-gehÃ¶rt
+gehört
 besser
 essen
 niemand
 Geh
 meiner
 fahren
-heiÃŸen
+heißen
 vom
 lhr
 das Ding
@@ -236,12 +236,12 @@ wieso
 das Recht
 ins
 gleich
-das MÃ¤dchen
+das Mädchen
 stimmen
 seit
 vergessen
 davon
-natÃ¼rlich
+natürlich
 die Welt
 der Halt
 gar
@@ -250,13 +250,13 @@ hin
 drei
 die Hand
 unter
-dafÃ¼r
+dafür
 die Warte
-tÃ¶ten
+töten
 der Abend
 die Angst
 zusammen
-ScheiÃŸe
+Scheiße
 treffen
 der Brauch
 genug
@@ -271,7 +271,7 @@ der Bruder
 getan
 ne
 der Moment
-fÃ¼hlen
+fühlen
 suchen
 verdammen
 gegen
@@ -307,7 +307,7 @@ der Junge
 der Kopf
 beim
 unser
-darÃ¼ber
+darüber
 stellen
 gefunden
 entschuldigen
@@ -332,7 +332,7 @@ der Grund
 die Art
 eigentlich
 nett
-erzÃ¤hlen
+erzählen
 die Uhr
 runter
 Namen
@@ -348,17 +348,17 @@ lhre
 das Land
 der Schatz
 Jungs
-biÃŸchen
+bißchen
 deiner
 allein
 das Wort
 der Teufel
 die Eins
-die TÃ¼r
+die Tür
 egal
 lang
 de
-drauÃŸen
+draußen
 gern
 das Spiel
 schaffen
@@ -368,15 +368,15 @@ darauf
 kurz
 der Tod
 der Monat
-spÃ¤t
+spät
 der Job
 setzen
 welch
-spÃ¤ter
+später
 der Film
 verschwinden
 der Name
-das GlÃ¼ck
+das Glück
 hoffen
 vorbei
 seiner
@@ -394,7 +394,7 @@ rufen
 die Seite
 schwer
 der Kerl
-verrÃ¼ckt
+verrückt
 toll
 ruhig
 eigen
@@ -403,7 +403,7 @@ dran
 trinken
 fast
 drin
-kÃ¼mmern
+kümmern
 sitzen
 John
 die Musik
@@ -419,7 +419,7 @@ Dad
 der Ruf
 die Polizei
 die Ahnung
-Ã¼berhaupt
+überhaupt
 das A
 die Idee
 die Frage
@@ -432,7 +432,7 @@ bedeutet
 die Chance
 der Gefallen
 der Wagen
-fÃ¼hren
+führen
 jeder
 die Tochter
 gekommen
@@ -444,13 +444,13 @@ das Gesicht
 verlieren
 lernen
 schreiben
-nÃ¤chst
+nächst
 erste
 der Versuch
 das Schiff
-fÃ¼nf
-Ã¤h
-wÃ¤hrend
+fünf
+äh
+während
 gewesen
 vier
 niemals
@@ -463,15 +463,15 @@ Schuld
 lesen
 die Mama
 der Dollar
-der SpaÃŸ
+der Spaß
 frei
 das O
 der Ernst
-frÃ¼h
+früh
 das Vertrauen
 deshalb
 gestern
-erzÃ¤hlt
+erzählt
 zwischen
 Herz
 beste
@@ -479,7 +479,7 @@ die Tu
 das Zimmer
 verdammt
 die Freundin
-getÃ¶tet
+getötet
 die Nachricht
 unten
 der Plan
@@ -488,8 +488,8 @@ beid
 fangen
 das Bett
 der Arsch
-glÃ¼cklich
-mÃ¶glich
+glücklich
+möglich
 die Entschuldigung
 der Hund
 unserer
@@ -503,24 +503,24 @@ lhnen
 geschehen
 eben
 das Fest
-bloÃŸ
+bloß
 Mrs
 der Pass
 die Nummer
 der Platz
 Ah
-ScheiÃŸ
+Scheiß
 schlimm
-die StraÃŸe
+die Straße
 endlich
 irgendwas
-das GefÃ¼hl
+das Gefühl
 voll
 dumm
 die Schule
 fliegen
 Bleib
-auÃŸer
+außer
 I
 die Miss
 stark
@@ -536,9 +536,9 @@ kaufen
 klingen
 versprechen
 legen
-groÃŸartig
+großartig
 die Menge
-heiÃŸ
+heiß
 schlagen
 schicken
 heiraten
@@ -547,10 +547,10 @@ der Traum
 kleiner
 zuerst
 ihrem
-der BÃ¶se
+der Böse
 sichern
 oft
-kÃ¤mpfen
+kämpfen
 beginnen
 aussehen
 das Wiedersehen
@@ -564,36 +564,36 @@ lachen
 wahrscheinlich
 Yeah
 irgendwie
-Ã¤ndern
+ändern
 sechs
 der Fehler
 hierher
 passieren
 New
 die Erde
-der KÃ¶nig
+der König
 www
 bereits
 sondern
 das Feuer
 langsam
 wohnen
-wÃ¼nschen
-aufhÃ¶ren
+wünschen
+aufhören
 ehrlich
 bitten
 schiessen
-die HÃ¶lle
-das StÃ¼ck
+die Hölle
+das Stück
 schreien
 umbringen
-wÃ¤r
-das GeschÃ¤ft
-das BÃ¼ro
-erklÃ¤ren
+wär
+das Geschäft
+das Büro
+erklären
 der Kumpel
 Captain
-der PrÃ¤sident
+der Präsident
 direkt
 das Alter
 kaum
@@ -604,21 +604,21 @@ anrufen
 keiner
 einige
 der Wert
-Ã¶ffnen
+öffnen
 froh
 alleine
-gefÃ¤llt
+gefällt
 werfen
 der Himmel
 freuen
 die Luft
 die Eltern
 lieb
-der KÃ¶rper
-lÃ¼gen
+der Körper
+lügen
 willkommen
-gehÃ¶ren
-Ã¼berall
+gehören
+überall
 Hol
 anfangen
 folgen
@@ -634,7 +634,7 @@ halb
 die Person
 erfahren
 schwarz
-hÃ¼bsch
+hübsch
 drehen
 dauern
 der Sinn
@@ -654,9 +654,9 @@ meist
 geworden
 benutzen
 cool
-der FuÃŸ
+der Fuß
 der Agent
-vÃ¶llig
+völlig
 der Witz
 gebracht
 der Papa
@@ -669,15 +669,15 @@ erwarten
 funktioniert
 lustig
 gegangen
-hÃ¤ngen
+hängen
 you
-drÃ¼ben
+drüben
 m
 der Kaffee
-Ã¤hm
+ähm
 singen
 bezahlen
-der SchlÃ¼ssel
+der Schlüssel
 Millionen
 genommen
 jede
@@ -686,7 +686,7 @@ die Karte
 irgendwo
 normal
 nachdem
-das GefÃ¤ngnis
+das Gefängnis
 der Befehl
 das Weh
 D
@@ -713,14 +713,14 @@ George
 der Gedanke
 die Kraft
 Herren
-persÃ¶nlich
+persönlich
 der Beweis
 genauso
 der Onkel
 der Punkt
 das Haar
 der Geist
-frÃ¼her
+früher
 sobald
 der Liebling
 verkaufen
@@ -742,9 +742,9 @@ das Ansehen
 der Stolz
 der Schlag
 leider
-der NÃ¤chste
+der Nächste
 werd
-gefÃ¤hrlich
+gefährlich
 die Wohnung
 vorsichtig
 zahlen
@@ -798,7 +798,7 @@ der Soldat
 absolut
 das Geheimnis
 das Hotel
-sÃ¼ÃŸ
+süß
 c
 Denk
 die Meinung
@@ -820,26 +820,26 @@ Setz
 eher
 nen
 erwartet
-unmÃ¶glich
+unmöglich
 die Tat
-fÃ¼rchten
+fürchten
 hassen
 brechen
-Ã¼bernehmen
-stÃ¶ren
-die MÃ¶glichkeit
-auÃŸerdem
+übernehmen
+stören
+die Möglichkeit
+außerdem
 die Tasche
 das Fenster
 die Lage
 der Anfang
-lÃ¤nger
+länger
 das Tier
 wen
 Daddy
 das Reich
 still
-plÃ¶tzlich
+plötzlich
 der Schaden
 die Seele
 bekannt
@@ -856,17 +856,17 @@ der Finger
 lhren
 das Geschenk
 B
-der SchluÃŸ
+der Schluß
 sieben
 wetten
 das Schwein
 das Bier
-rÃ¼ber
+rüber
 bestehen
-der MÃ¶rder
-wunderschÃ¶n
+der Mörder
+wunderschön
 aufs
-der Ã„rger
+der Ärger
 die Stimme
 verraten
 die Beziehung
@@ -892,19 +892,19 @@ erhalten
 die Stelle
 Klappe
 Alex
-blÃ¶d
+blöd
 der Schlaf
-die NÃ¤he
+die Nähe
 riechen
 sauber
 der Rum
-nÃ¶tig
+nötig
 entscheiden
 die Szene
 Peter
 bezahlt
-tatsÃ¤chlich
-schwÃ¶ren
+tatsächlich
+schwören
 regeln
 melden
 verdienen
@@ -919,7 +919,7 @@ aIs
 das System
 die Richtung
 erledigen
-der RÃ¼cken
+der Rücken
 die Verbindung
 das Rennen
 erreichen
@@ -958,12 +958,12 @@ enden
 das Wunder
 atmen
 Amerika
-mÃ¼de
+müde
 falls
 bauen
 die Show
 ewig
-ErzÃ¤hl
+Erzähl
 Vince
 unterwegs
 selber
@@ -971,23 +971,23 @@ gelernt
 die Ehe
 die Kontrolle
 voller
-stÃ¤ndig
+ständig
 bedeuten
-erschieÃŸen
+erschießen
 der Test
 geschrieben
 wach
 steh
-wofÃ¼r
+wofür
 der Bericht
 die Maschine
-beschÃ¼tzen
+beschützen
 James
 der Bob
 bieten
-gebÃ¤ren
+gebären
 der Kontakt
-zurÃ¼ckkommen
+zurückkommen
 das Beispiel
 die Verzeihung
 verheiratet
@@ -998,7 +998,7 @@ menschlich
 die Droge
 Tony
 die Hoffnung
-zerstÃ¶ren
+zerstören
 beweisen
 links
 die Dame
@@ -1017,15 +1017,15 @@ sowieso
 der Chef
 gefangen
 lhrer
-schÃ¼tzen
+schützen
 der Staat
 der Schuss
-das GebÃ¤ude
+das Gebäude
 gestohlen
 dahin
 die Lady
 schlimmer
-spÃ¼ren
+spüren
 die Nase
 der Rat
 die Liste
@@ -1050,16 +1050,16 @@ Damen
 der Stein
 die Suche
 neben
-Ã¼berleben
+überleben
 der Fisch
 Muss
-fÃ¼rs
+fürs
 tollen
 die Vorsicht
 gearbeitet
 der Bescheid
 der Fang
-nÃ¤her
+näher
 gehabt
 der Baum
 die Folge
@@ -1109,15 +1109,15 @@ offensichtlich
 vermissen
 das Gericht
 die Zeitung
-Ã¼brig
+übrig
 die Kugel
-wÃ¼tend
+wütend
 die Reise
 gewiss
 euer
 die Hochzeit
 entfernt
-das Ãœbel
+das Übel
 Jimmy
 der Blick
 der Gast
@@ -1125,7 +1125,7 @@ erwischt
 das Entweder
 nah
 das Zeichen
-TschÃ¼ss
+Tschüss
 weder
 stehlen
 seh
@@ -1133,17 +1133,17 @@ das Tor
 der Nutzen
 besuchen
 geredet
-zerstÃ¶rt
+zerstört
 die Gesellschaft
 die Sprache
 aIIes
 der Ball
-die MajestÃ¤t
+die Majestät
 der Professor
 schuldig
 nachdenken
 furchtbar
-die Ãœberraschung
+die Überraschung
 aufpassen
 amerikanisch
 hau
@@ -1165,12 +1165,12 @@ irgendwann
 die Vergangenheit
 Daniel
 der Meter
-gegenÃ¼ber
+gegenüber
 jagen
 das Glas
 die Wand
 gesucht
-verÃ¤ndert
+verändert
 verantwortlich
 der Don
 drinnen
@@ -1178,7 +1178,7 @@ funktionieren
 das Pro
 diesmal
 witzig
-ungefÃ¤hr
+ungefähr
 der Hut
 hoffentlich
 englisch
@@ -1189,40 +1189,40 @@ SHIELD
 verliebt
 soweit
 die Rede
-beschÃ¤ftigt
+beschäftigt
 Richard
 der Wald
-nervÃ¶s
+nervös
 verschwunden
-genieÃŸen
+genießen
 geheim
 die Kate
 gelassen
 by
 verlangen
 House
-lÃ¤cheln
+lächeln
 versteckt
 der Hunger
 leisten
 die Kirche
 beten
 genannt
-Ã¼berprÃ¼fen
+überprüfen
 brennen
 angefangen
 der Hals
 das Blau
-kÃ¼ssen
+küssen
 Major
 das Messer
 feiern
-wÃ¤hlen
+wählen
 das Weib
 befinden
 die Tante
 die Schlampe
-das GesprÃ¤ch
+das Gespräch
 die Achtung
 gesund
 geschlafen
@@ -1239,7 +1239,7 @@ irgendwelche
 dick
 Billy
 die Mission
-das VergnÃ¼gen
+das Vergnügen
 Doc
 ran
 das Meer
@@ -1262,7 +1262,7 @@ das Dorf
 miteinander
 fantastisch
 packen
-Ã¤hnlich
+ähnlich
 die Meile
 das Papier
 die Katze
@@ -1274,7 +1274,7 @@ Sarah
 lhrem
 fassen
 hauen
-Ã¼brigens
+übrigens
 nahe
 das Weihnachten
 it
@@ -1289,7 +1289,7 @@ warm
 schmecken
 Mary
 guck
-drÃ¼cken
+drücken
 der Tee
 Kleine
 gegessen
@@ -1303,9 +1303,9 @@ vermutlich
 die Einheit
 worauf
 das Fleisch
-die HÃ¤lfte
+die Hälfte
 der Respekt
-lÃ¶sen
+lösen
 trauen
 Roger
 die Freude
@@ -1316,14 +1316,14 @@ is
 ausgehen
 der Jude
 das Taxi
-worÃ¼ber
-die BrÃ¼cke
+worüber
+die Brücke
 zuvor
 rechts
 statt
-Ã¼berlegen
+überlegen
 herein
-nÃ¤mlich
+nämlich
 der Park
 Schuhe
 die Flasche
@@ -1331,16 +1331,16 @@ Charles
 Henry
 manch
 erscheinen
-der FluÃŸ
+der Fluß
 die Lust
 Jawohl
 wild
-schÃ¶nen
+schönen
 gebeten
 die Farbe
 Nick
 herkommen
-lÃ¤cherlich
+lächerlich
 die Energie
 das Kleid
 gespielt
@@ -1354,29 +1354,29 @@ klug
 der Angriff
 Ray
 das Eis
-die WÃ¼rde
+die Würde
 aufgeben
 R
 der Druck
 schneiden
-Ã¼bersetzen
+übersetzen
 der Star
-schÃ¤tzen
+schätzen
 verfolgen
 schwanger
 Chuck
 entschieden
-die KÃ¼che
+die Küche
 der Grad
 Handy
 der Engel
 Ehemann
 davor
 behandeln
-die GÃ¼te
+die Güte
 leer
 unschuldig
-schlieÃŸlich
+schließlich
 verpasst
 die Gegend
 der Ex
@@ -1384,7 +1384,7 @@ schwach
 die Erfahrung
 das Monster
 der Deal
-Ã¼berrascht
+überrascht
 Monsieur
 Lm
 nachts
@@ -1399,13 +1399,13 @@ der Bus
 Lieutenant
 beeilen
 die Brust
-geÃ¤ndert
-zÃ¤hlen
+geändert
+zählen
 wiederholen
 Abendessen
 entlang
 ermordet
-die Ãœbersetzung
+die Übersetzung
 Big
 der Auftrag
 unterhalten
@@ -1419,14 +1419,14 @@ zufrieden
 Claire
 allerdings
 wundervoll
-schÃ¶ner
+schöner
 der Lord
 das Fass
 der Zahn
 der Kunde
 der Erfolg
 schnappen
-fÃ¤llen
+fällen
 Anna
 die Rose
 der Lehrer
@@ -1438,8 +1438,8 @@ der Schwanz
 geholfen
 gewartet
 fremd
-SÃ¼ÃŸe
-das SchÃ¤tzchen
+Süße
+das Schätzchen
 Jerry
 Eric
 huh
@@ -1453,7 +1453,7 @@ Sorry
 Maria
 die Aufnahme
 stoppen
-verrÃ¼cken
+verrücken
 der Mut
 Hintern
 der Anzug
@@ -1477,9 +1477,9 @@ Detective
 high
 das Interesse
 schwimmen
-das MÃ¤del
-grÃ¶ÃŸte
-das GrÃ¼n
+das Mädel
+größte
+das Grün
 der Vertrag
 eurer
 das Benehmen
@@ -1494,7 +1494,7 @@ dessen
 das Programm
 das Datum
 scharf
-GlÃ¼ckwunsch
+Glückwunsch
 Walter
 der Scherz
 die Gabe
@@ -1508,9 +1508,9 @@ Bobby
 England
 verhaftet
 verdammter
-merkwÃ¼rdig
+merkwürdig
 Mami
-zufÃ¤llig
+zufällig
 steig
 Robert
 vollkommen
@@ -1525,13 +1525,13 @@ fern
 der Kauf
 blind
 die Au
-die KÃ¶nigin
+die Königin
 gefahren
 interessieren
 wieviel
 gehts
 welcher
-gewuÃŸt
+gewußt
 Jake
 US-amerikanischen
 erlauben
@@ -1547,7 +1547,7 @@ die Verantwortung
 beschissen
 mitgebracht
 Eddie
-das FrÃ¼hstÃ¼ck
+das Frühstück
 Red
 lebend
 teuer
@@ -1577,7 +1577,7 @@ abholen
 das Video
 gestellt
 herzlich
-drÃ¼ber
+drüber
 geraten
 einverstanden
 Adam
@@ -1592,14 +1592,14 @@ langweilig
 der Held
 einsam
 die Krankheit
-vorwÃ¤rts
+vorwärts
 Arme
 nachgedacht
 angehen
 Zeitpunkt
 der Tanz
 Washington
-der KapitÃ¤n
+der Kapitän
 zwingen
 Arthur
 der Nachmittag
@@ -1622,22 +1622,22 @@ akzeptieren
 kehren
 die Station
 warnen
-zurÃ¼ckkehren
+zurückkehren
 Nr
-zuhÃ¶ren
+zuhören
 Z
 College
 nackt
 Quatsch
 Lee
 mitkommen
-verÃ¤ndern
+verändern
 heben
 der Bastard
 Wochenende
 die Prinzessin
-franzÃ¶sisch
-die FÃ¤higkeit
+französisch
+die Fähigkeit
 spinnen
 das Radio
 klingeln
@@ -1645,7 +1645,7 @@ reissen
 das Projekt
 kennenlernen
 der Schauspieler
-erklÃ¤rt
+erklärt
 Nee
 das Risiko
 mies
@@ -1655,19 +1655,19 @@ erstes
 die Reihe
 heilig
 on
-das FrÃ¤ulein
+das Fräulein
 die Kiste
 die Zelle
 erreicht
 dorthin
 der Rock
 schenken
-auÃŸerhalb
+außerhalb
 gemeint
 der Schatten
 ankommen
 gezeigt
-grÃ¶ÃŸer
+größer
 aufnehmen
 no
 AIso
@@ -1685,7 +1685,7 @@ sammeln
 Mistkerl
 der Song
 der Stock
-berÃ¼hmt
+berühmt
 die Akte
 riskieren
 die Karriere
@@ -1705,7 +1705,7 @@ der Stuhl
 irgend
 auftauchen
 weitermachen
-die LÃ¶sung
+die Lösung
 hinein
 der Bart
 der Flughafen
@@ -1719,12 +1719,12 @@ der Killer
 Mm
 Chief
 leise
-stÃ¶hnen
+stöhnen
 fur
 die Gewalt
-nÃ¤chstes
+nächstes
 St
-der GroÃŸvater
+der Großvater
 entfernen
 der Umstand
 tauchen
@@ -1749,12 +1749,12 @@ der Einsatz
 gelaufen
 der Fan
 welches
-die ErklÃ¤rung
+die Erklärung
 der Wille
 weich
 klopfen
 die Fahrt
-der SchÃ¼ler
+der Schüler
 die Absicht
 der Kuchen
 eingeladen
@@ -1787,12 +1787,12 @@ verhaften
 schlau
 untersuchen
 nirgendwo
-trÃ¤umen
+träumen
 vorhin
 der Offizier
 die Untersuchung
 umsonst
-Ã¼bergeben
+übergeben
 gelogen
 die Mitte
 gebrauchen
@@ -1802,12 +1802,12 @@ Chloe
 verfluchen
 entlassen
 anhalten
-Ã¼berlassen
+überlassen
 anziehen
 seitdem
-die GrÃ¶ÃŸe
+die Größe
 Buffy
-bestÃ¤tigen
+bestätigen
 der Kollege
 der Termin
 die Form
@@ -1830,7 +1830,7 @@ verhindern
 offiziell
 getrunken
 Thomas
-hÃ¤sslich
+hässlich
 erlaubt
 die Aufmerksamkeit
 der Fahrer
@@ -1851,7 +1851,7 @@ stammen
 vertraut
 entdeckt
 das Theater
-Ã¶ffentlich
+öffentlich
 Bye
 beantworten
 der Stop
@@ -1873,16 +1873,16 @@ begraben
 zusehen
 die Vorstellung
 die Schande
-mÃ¤chtig
+mächtig
 die Post
-Ã¼berzeugen
+überzeugen
 Gentlemen
 das Ergebnis
 liefern
-das GerÃ¤usch
+das Geräusch
 die Figur
 der Westen
-die GroÃŸmutter
+die Großmutter
 Ryan
 das Knie
 Commander
@@ -1896,7 +1896,7 @@ der Schild
 peinlich
 woran
 irgendeine
-erwÃ¤hnen
+erwähnen
 abhauen
 Steve
 Fick
@@ -1904,7 +1904,7 @@ betreffen
 aufmachen
 Jackson
 die Runde
-erwÃ¤hnt
+erwähnt
 ertragen
 innerhalb
 geblieben
@@ -1917,12 +1917,12 @@ durcheinander
 die Panik
 soII
 die Milch
-der BÃ¼rgermeister
+der Bürgermeister
 woIIen
 das TV
 der Russe
 Penny
-die LÃ¼ge
+die Lüge
 das Extra
 der Schutz
 nehm
@@ -1930,19 +1930,19 @@ die Kuh
 We
 Ed
 verboten
-jÃ¤hrig
+jährig
 die Rache
 schalen
 das Drehbuch
 jen
-bewuÃŸt
+bewußt
 die Oma
 der Freitag
 schmutzig
 Clark
 verteidigen
 Scott
-lÃ¤ngst
+längst
 verlangt
 das Leck
 die Kunst
@@ -1965,14 +1965,14 @@ eng
 die Anweisung
 der Sklave
 GOA
-berÃ¼hren
+berühren
 wenden
 getrennt
 die SG
 die Bahn
 das Talent
 satt
-die SÃ¼nde
+die Sünde
 die Angelegenheit
 tausende
 leiten
@@ -1983,7 +1983,7 @@ weiterhin
 die Heilige
 beinahe
 der Norden
-zÃ¤hlt
+zählt
 verbinden
 morgens
 ebenso
@@ -2007,7 +2007,7 @@ die Medizin
 der Graben
 extrem
 der Sonntag
-das GerÃ¤t
+das Gerät
 die Maus
 Lisa
 kapieren
@@ -2031,9 +2031,9 @@ Matt
 gebraucht
 das Genie
 gemein
-der BlÃ¶dsinn
+der Blödsinn
 Louis
-das GerÃ¼cht
+das Gerücht
 dennoch
 Jones
 entspannen
@@ -2044,7 +2044,7 @@ Sara
 Wilson
 nieder
 Miami
-schÃ¤men
+schämen
 kenn
 die Erlaubnis
 beendet
@@ -2056,7 +2056,7 @@ irgendein
 vermuten
 uld
 Nachbarn
-weiÃŸen
+weißen
 der Besitz
 der Fernseher
 link
@@ -2064,12 +2064,12 @@ festhalten
 desto
 Emily
 wachen
-die SchÃ¶nheit
+die Schönheit
 der Motor
 anfassen
 or
 die Bedeutung
-mÃ¶glicherweise
+möglicherweise
 ruhen
 Mister
 das Gift
@@ -2080,7 +2080,7 @@ Kleider
 trotz
 verwirrt
 Rachel
-ungewÃ¶hnlich
+ungewöhnlich
 der Verkauf
 Chicago
 der Strom
@@ -2094,48 +2094,48 @@ Street
 der Bauch
 der Gewinn
 jedoch
-Ã¼berlebt
+überlebt
 der Sturm
-vernÃ¼nftig
+vernünftig
 hungrig
 erfolgreich
 weglaufen
 angenehm
 Angeles
-Ã¼berzeugt
+überzeugt
 empfinden
 behaupten
 erstaunlich
 die Botschaft
-gewÃ¶hnlich
+gewöhnlich
 gesetzt
 klauen
 das Brot
 Europa
-der SÃ¼den
+der Süden
 fordern
 Lily
-Ã¢
+â
 chinesisch
 beweg
 der Beruf
 Chase
-Ã¼blich
+üblich
 die Probe
 Karen
 beobachtet
 der Stich
 Jeff
 irren
-unterstÃ¼tzen
+unterstützen
 mitgenommen
 die Menschheit
 achten
 schieben
-LÃ¼gner
+Lügner
 das Gras
 das Ereignis
-der FÃ¼hrer
+der Führer
 spannend
 deutlich
 der Scheck
@@ -2145,20 +2145,20 @@ das Gas
 Dave
 anschauen
 that
-eifersÃ¼chtig
+eifersüchtig
 ums
 die Presse
 Mexiko
 rEAL
 das Gen
-aufgehÃ¶rt
+aufgehört
 der Samstag
 geklaut
 definitiv
 Susan
 nachher
 Helden
-sÃ¼sser
+süsser
 Madam
 Phil
 der Vampir
@@ -2166,7 +2166,7 @@ auseinander
 wichtiger
 taub
 praktisch
-die BÃ¼hne
+die Bühne
 Carl
 up
 Ios
@@ -2179,10 +2179,10 @@ die Freundschaft
 aufgeregt
 die Lippe
 zugeben
-die UnterstÃ¼tzung
+die Unterstützung
 schief
 Kevin
-Âª
+ª
 verwenden
 turteln
 die Flucht
@@ -2208,8 +2208,8 @@ dreckig
 Universum
 entdecken
 weisen
-nÃ¤hern
-entfÃ¼hrt
+nähern
+entführt
 vorbeikommen
 Jane
 ebenfalls
@@ -2224,7 +2224,7 @@ Simon
 die Behandlung
 testen
 reinkommen
-zurÃ¼ckbringen
+zurückbringen
 die Pizza
 Nenn
 Kim
@@ -2238,7 +2238,7 @@ losen
 der Knopf
 blasen
 betreten
-stÃ¤rker
+stärker
 das Positiv
 die Serie
 tausend
@@ -2254,7 +2254,7 @@ der Osten
 antun
 zuletzt
 der Wissenschaftler
-Ã¼berprÃ¼ft
+überprüft
 Teal
 das Vergehen
 das Kid
@@ -2268,7 +2268,7 @@ jederzeit
 wecken
 die Strafe
 der Geschmack
-selbstverstÃ¤ndlich
+selbstverständlich
 erheben
 ficken
 entwickeln
@@ -2277,20 +2277,20 @@ Vincent
 die Geduld
 der Kaiser
 die Jacke
-gewÃ¤hlt
+gewählt
 Hank
 gekriegt
-enttÃ¤uscht
-HÃ¤
+enttäuscht
+Hä
 One
-der BÃ¼rger
+der Bürger
 abends
 das Wetter
 die Reaktion
 Homer
-die MÃ¼he
+die Mühe
 Joey
-die WÃ¼ste
+die Wüste
 Leonard
 Entspann
 schmeissen
@@ -2308,17 +2308,17 @@ der Champagner
 bilden
 das Chaos
 aufregend
-prÃ¼fen
+prüfen
 Nancy
 der Montag
 meins
 abgeschlossen
 die Unterhaltung
 der Hubschrauber
-die TrÃ¤ne
+die Träne
 der Dummkopf
 Jason
-fÃ¼hl
+fühl
 anbieten
 die Gerechtigkeit
 wonach
@@ -2326,13 +2326,13 @@ der Mittag
 der Hof
 Barry
 netter
-AnfÃ¼hrer
+Anführer
 der Botschafter
 der WOLF
 bluten
 der Huhn
 neulich
-vÃ¶geln
+vögeln
 der Stand
 vorn
 der Tunnel
@@ -2348,34 +2348,34 @@ die Kohle
 unheimlich
 der Manager
 die Geisel
-gefÃ¼hrt
+geführt
 die Technologie
 der Spieler
 Schlafzimmer
 Fred
 die Tasse
-fÃ¤hig
+fähig
 dicht
-anhÃ¶ren
+anhören
 das Mittel
-erfÃ¼llen
-verdÃ¤chtigen
+erfüllen
+verdächtigen
 die Nation
 verbrannt
 sexuell
 das Prozent
 Hurensohn
-Ã¤lter
+älter
 der Opa
 der Boy
 unbekannt
 einstellen
-anstÃ¤ndig
-unglÃ¼cklich
+anständig
+unglücklich
 die Regel
 die Kette
 die Kopie
-geÃ¶ffnet
+geöffnet
 filmen
 Doctor
 spazieren
@@ -2394,10 +2394,10 @@ welchen
 Bruce
 Smith
 Lincoln
-tÃ¤glich
-SchieÃŸ
-VerrÃ¤ter
-Ã¼ben
+täglich
+Schieß
+Verräter
+üben
 das Studio
 mehrere
 Fayed
@@ -2407,7 +2407,7 @@ die Hoheit
 das Dutzend
 die Locke
 der Oberst
-der MÃ¼ll
+der Müll
 die Pille
 einladen
 inner
@@ -2420,7 +2420,7 @@ die Dunkelheit
 woIIte
 ann
 die Milliarde
-frÃ¶hlich
+fröhlich
 der Stil
 lecker
 das Symptom
@@ -2441,7 +2441,7 @@ der Ausweis
 Hosen
 das Nass
 do
-der SchÃ¤del
+der Schädel
 ruiniert
 das Gegenteil
 der Empfang
@@ -2452,7 +2452,7 @@ dahinter
 weitergehen
 ruinieren
 das Gewissen
-der BÃ¤r
+der Bär
 das Vorgehen
 die CIA
 Maggie
@@ -2469,12 +2469,12 @@ Amanda
 starren
 Jin
 gleichzeitig
-rÃ¼hren
+rühren
 national
 der Leiter
 geworfen
 speziell
-das MilitÃ¤r
+das Militär
 die Fabrik
 der Block
 die Beerdigung
@@ -2493,23 +2493,23 @@ erfunden
 das Heil
 Cousin
 das Hirn
-der GruÃŸ
+der Gruß
 der Anteil
 leichter
 gezwungen
 Walt
-die VerÃ¤nderung
+die Veränderung
 Neill
 geil
 einfallen
-SchÃ¶ne
+Schöne
 der Glaube
 gering
 der Inspektor
 Charlotte
 die Welle
 Julie
-stoÃŸen
+stoßen
 die Politik
 gefolgt
 die Ursache
@@ -2518,11 +2518,11 @@ der Markt
 Hill
 neugierig
 richtiger
-der KÃ¤se
+der Käse
 die Nutte
 der Kanal
 nerven
-wÃ¼rd
+würd
 respektieren
 freiwillig
 der Artikel
@@ -2535,22 +2535,22 @@ korrekt
 find
 weii
 love
-Ã¼berraschen
+überraschen
 Palmer
 der Klient
-die HÃ¶hle
+die Höhle
 your
-bestÃ¤tigt
+bestätigt
 das Werk
 der Stress
 inzwischen
-rÃ¤umen
+räumen
 das Klo
-die ZwÃ¶lf
+die Zwölf
 der Verbrecher
 die Tour
-blÃ¶de
-der KÃ¼nstler
+blöde
+der Künstler
 Jo
 Larry
 informieren
@@ -2564,9 +2564,9 @@ beschreiben
 die Wissenschaft
 verschiedene
 der Verlust
-erfÃ¼llt
+erfüllt
 dieselbe
-betrÃ¼gen
+betrügen
 der Zweck
 Tim
 die Decke
@@ -2578,7 +2578,7 @@ beibringen
 das Amen
 Neue
 lauter
-fÃ¼llen
+füllen
 versichern
 das Pech
 die Schwarze
@@ -2586,7 +2586,7 @@ Uniform
 rechten
 trocken
 der Schnee
-der FlÃ¼gel
+der Flügel
 das Experiment
 rechtzeitig
 erschrecken
@@ -2596,7 +2596,7 @@ Beeilung
 der Schuh
 Dexter
 umdrehen
-klÃ¤ren
+klären
 ahnen
 die Klinik
 die Schokolade
@@ -2622,7 +2622,7 @@ bescheuert
 Grant
 drum
 begonnen
-nÃ¼tzen
+nützen
 gewarnt
 der Chinese
 durchs
@@ -2641,9 +2641,9 @@ Grace
 Scarlett
 der Experte
 die Warnung
-die StÃ¶rung
+die Störung
 Katie
-die HÃ¼tte
+die Hütte
 eingehen
 bedenken
 der Schrank
@@ -2654,15 +2654,15 @@ hergekommen
 Hollywood
 Email
 Scofield
-muÃŸtest
+mußtest
 das Konto
 betrachten
 die Bedingung
 der Start
 die Vision
-tÃ¤uschen
+täuschen
 nachsehen
-ScheiÃŸkerl
+Scheißkerl
 die Dusche
 der Zucker
 Stanley
@@ -2672,12 +2672,12 @@ reagieren
 der Profi
 die Hexe
 wirkIich
-Ã¼berlegt
+überlegt
 der Regisseur
 die Einladung
 loswerden
 die Lektion
-flieÃŸen
+fließen
 das Pack
 per
 das Objekt
@@ -2692,13 +2692,13 @@ erfreut
 Lloyd
 ignorieren
 hinsetzen
-flÃ¼stern
+flüstern
 Johnson
 wenige
 der Besitzer
 der Arbeiter
 abgeben
-tÃ¶dlich
+tödlich
 Cent
 besucht
 telefonieren
@@ -2712,16 +2712,16 @@ die Stufe
 der Schreibtisch
 Bursche
 momentan
-das GedÃ¤chtnis
+das Gedächtnis
 dramatisch
 tauschen
 anstellen
 Day
-die RealitÃ¤t
+die Realität
 besiegen
-begrÃ¼ÃŸen
+begrüßen
 die Klamotte
-getrÃ¤umt
+geträumt
 Cooper
 unterbrechen
 die Stimmung
@@ -2746,20 +2746,20 @@ BLACK
 WohI
 die Ewigkeit
 brach
-belÃ¼gen
+belügen
 der Schnitt
 meistens
 wehtun
 unterscheiden
 toller
 Helen
-die HÃ¶he
+die Höhe
 der Donnerstag
 das Modell
-kÃ¼ndigen
+kündigen
 das Training
 einsetzen
-die VerstÃ¤rkung
+die Verstärkung
 behauptet
 What
 geschaffen
@@ -2772,20 +2772,20 @@ kotzen
 das Holz
 die Versicherung
 Sheldon
-jÃ¼disch
+jüdisch
 weiblich
 little
 eilig
-Ã¶fter
+öfter
 Mars
 der Leutnant
 ausgeben
-dÃ¤mlich
+dämlich
 aufgegeben
 schreib
 der Dienstag
 die Aktion
-StÃ¤rke
+Stärke
 Linda
 der Stift
 die Sicht
@@ -2793,12 +2793,12 @@ Sayid
 loslassen
 Julia
 hervorragend
-bekÃ¤mpfen
+bekämpfen
 weigern
 Jesse
 die Farm
-die Ã–ffentlichkeit
-gefÃ¼hlt
+die Öffentlichkeit
+gefühlt
 Eva
 die Suppe
 das Mitleid
@@ -2808,12 +2808,12 @@ losgehen
 Aye
 abnehmen
 technisch
-die SchwÃ¤che
+die Schwäche
 der Roman
-prÃ¤sentiert
+präsentiert
 hunderte
 die Generation
-zurÃ¼ckgehen
+zurückgehen
 Titten
 verlieben
 Nate
@@ -2823,21 +2823,21 @@ Marshall
 der Gouverneur
 der Fluch
 mitbringen
-dÃ¼nn
+dünn
 rechnen
 der Rauch
 mitmachen
 leeren
 die Scheidung
-lÃ¶schen
+löschen
 dauernd
 White
 eingesperrt
 clever
-Ã¼berfallen
+überfallen
 Marie
 malen
-nÃ¼tzlich
+nützlich
 die Stellung
 Stan
 gIaube
@@ -2857,9 +2857,9 @@ die Ware
 toter
 Donna
 Berlin
-WeiÃŸe
+Weiße
 stillen
-gekÃ¤mpft
+gekämpft
 rausfinden
 zurecht
 der Parker
@@ -2871,18 +2871,18 @@ German
 beeindruckt
 Alice
 folgend
-erhÃ¶hen
-DÃ¤monen
+erhöhen
+Dämonen
 sun
 dritte
-verrÃ¼ckter
+verrückter
 die Mine
-gestÃ¶rt
+gestört
 Truck
 Ned
 besessen
 this
-sÃ¼ÃŸen
+süßen
 britisch
 das Afrika
 treu
@@ -2898,33 +2898,33 @@ Tracy
 gesteckt
 Hauptmann
 verzweifelt
-Ã¼bers
+übers
 der Penner
 die Marine
-die BehÃ¶rde
+die Behörde
 Sean
 Stargate
 der Autor
 attraktiv
 modern
 das Alien
-groÃŸzÃ¼gig
+großzügig
 bezweifeln
-benÃ¶tigen
+benötigen
 bedanken
 die Verteidigung
 Christian
-amÃ¼sieren
+amüsieren
 ll
 Jay
 beigebracht
 Tatort
 Houston
-gekÃ¼sst
+geküsst
 Andrew
 der Tempel
 der Gegner
-DÃ¤mon
+Dämon
 Cole
 der Antrag
 der Anschlag
@@ -2935,17 +2935,17 @@ der Staub
 der Junior
 Oscar
 Ladies
-Ã¤uÃŸerst
+äußerst
 over
 intelligent
 der Sport
-mÃ¤nnlich
+männlich
 Jackie
 die Elle
 abhalten
 rauskommen
 das Plus
-gewÃ¶hnen
+gewöhnen
 gerecht
 emotional
 der Christus
@@ -2958,10 +2958,10 @@ Santa
 Badezimmer
 der Verdacht
 der Mitarbeiter
-die VerfÃ¼gung
+die Verfügung
 reizend
 Marian
-das VermÃ¶gen
+das Vermögen
 unangenehm
 stets
 Marcus
@@ -2975,14 +2975,14 @@ Deck
 bequem
 der Rasen
 Kelly
-der JÃ¤ger
+der Jäger
 der Reporter
 Heut
 gedreht
 friedlich
 Emma
-berÃ¼hrt
-vollstÃ¤ndig
+berührt
+vollständig
 japanisch
 Football
 der Diener
@@ -2994,8 +2994,8 @@ die Episode
 der Dschungel
 winzig
 versagen
-die KÃ¼ste
+die Küste
 bergen
 die Wette
-die RÃ¼ckkehr
-die AffÃ¤re
+die Rückkehr
+die Affäre
