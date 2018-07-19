@@ -19,7 +19,6 @@ import spacy
 from spacy.tokenizer import Tokenizer
 from sklearn import preprocessing
 import pandas as pd
-import goslate
 import nltk
 from nltk.corpus import wordnet
 nltk.download("omw")
@@ -184,9 +183,9 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
         self.translator = Translator()
 
         if self.language == 'english':
-            self.nlp = spacy.load('en_core_web_sm')
+            self.nlp = spacy.load('en_core_web_lg')
         elif self.language == 'spanish':
-            self.nlp = spacy.load('es_core_news_sm')
+            self.nlp = spacy.load('es_core_news_md')
         else:
             self.nlp = spacy.load('de_core_news_sm')
 
