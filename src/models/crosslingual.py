@@ -85,20 +85,20 @@ class CrosslingualCWI(object):
                             instance in the dataset.
 
         """
-        for i, (language, train_data) in enumerate(train_set):
-            if i == 0:
-                X = self.features_pipelines[language].fit_transform(train_data)
-                y = train_data['gold_label']
-                print("X: ", X.shape)
-                print("y: ", y.shape)
-            else:
-                X_temp = self.features_pipelines[language].fit_transform(train_data)
-                y_temp = train_data['gold_label']
-                print("X_temp: ", X_temp.shape)
-                print("y_temp: ", y_temp.shape)
-                X = np.concatenate((X, X_temp), axis=0)
-                y = np.concatenate((y, y_temp), axis=0)
-        self.model.fit(X, y)
+        X = []
+        y = []
+        for language, train_data in train_set:
+            X_temp = self.features_pipelines[language].fit_transform(train_data)
+            type(X_temp)
+            X.append(X_temp)
+            y.append(train_data['gold_label'])
+
+        X_all = np.concatenate(X, axis=0)
+        y_all = np.concatenate(y, axis=0)
+
+        type(X_all)
+
+        self.model.fit(X_all, y_all)
 
     def predict(self, test_set):
         """Predicts the label for the given instances.
