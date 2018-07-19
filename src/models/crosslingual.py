@@ -90,14 +90,12 @@ class CrosslingualCWI(object):
         y = []
         for language, train_data in train_set:
             X.append(self.features_pipelines[language].fit_transform(train_data))
-            y_temp = train_data['gold_label'].tolist()
-            print("type y_temp: ", type(y_temp))
-            y.extend(y_temp)
+            y.extend(train_data['gold_label'].tolist())
 
         X_all = vstack(X)
         y_all = np.array(y)
 
-        self.model.fit(X_all, y)
+        self.model.fit(X_all, y_all)
 
     def predict(self, language, test_set):
         """Predicts the label for the given instances.

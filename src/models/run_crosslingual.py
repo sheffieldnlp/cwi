@@ -22,16 +22,14 @@ def run_model(test_language, evaluation_split, detailed_report):
 
     # collect the training data for all the languages but one
     train_data = []
-    train_langs = []
     for language, datasets_names in datasets_per_language.items():
         if language != test_language:
-            train_langs.append(language)
             for dataset_name in datasets_names:
                 data = Dataset(language, dataset_name)
                 train_data.append((language, data.train_set()))
 
     # train the CWI model
-    cwi_model = CrosslingualCWI(train_langs)
+    cwi_model = CrosslingualCWI(list(datasets_per_language.keys()))
     cwi_model.train(train_data)
 
     # test the model
