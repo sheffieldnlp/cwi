@@ -43,13 +43,13 @@ def run_model(test_language, evaluation_split, detailed_report):
 
         if evaluation_split in ["dev", "both"]:
             print("\nResults on Development Data")
-            predictions_dev = cwi_model.predict([(test_language, data.dev_set())])
+            predictions_dev = cwi_model.predict(test_language, data.dev_set())
             gold_labels_dev = data.dev_set()['gold_label']
             print(report_binary_score(gold_labels_dev, predictions_dev, detailed_report))
 
         if evaluation_split in ["test", "both"]:
             print("\nResults on Test Data")
-            predictions_test = cwi_model.predict([(test_language, data.test_set())])
+            predictions_test = cwi_model.predict(test_language, data.test_set())
             gold_labels_test = data.test_set()['gold_label']
             print(report_binary_score(gold_labels_test, predictions_test, detailed_report))
 
