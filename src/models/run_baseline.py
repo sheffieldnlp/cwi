@@ -44,5 +44,3 @@ if __name__ == '__main__':
     execute_baseline("english", "Wikipedia")
     execute_baseline("spanish", "Spanish")
     execute_baseline("german", "German")
-
-

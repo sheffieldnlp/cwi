@@ -10,14 +10,21 @@ We will follow the Fork and Pull Workflow. Instructions on how this development 
 
 Once you have cloned your fork, run `setup.py develop` from the root folder, so that the `src` module is "installed" and can be imported from anywhere in the code.
 
-In terms of requirements (i.e. versions of python modules), we will use the same as those from the com4513-6513 module:
+In terms of requirements (i.e. versions of python modules), we will use these:
 - python == 3.6.3
-- spacy == 2.0.4
+- spacy == 2.0.11 
 - gensim== 3.1.0
 - sklearn == 0.19.1
 - nltk == 3.2.4
 - numpy== 1.12.1
 - torch==0.3.0.post4
+
+Note that for spacy, you need to replace the file spacy/lang/es/syntax_iterators.py with this [version](spacy/lang/es/syntax_iterators.py) to resolve this [issue](https://github.com/explosion/spaCy/issues/2210). To find where your spacy installation lives use the following in a python terminal:
+```
+import sys
+sys.path
+```
+and look for the site-packages directory.
 
 and we also need:
 - pyphen
