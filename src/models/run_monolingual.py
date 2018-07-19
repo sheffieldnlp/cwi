@@ -7,7 +7,7 @@ This models runs the baseline model on the datasets of all languages.
 import argparse
 
 from src.data.dataset import Dataset
-from src.models.baseline import Baseline
+from src.models.monolingual import Baseline
 from src.models.evaluation import report_binary_score
 
 
@@ -45,7 +45,7 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
         predictions_test = baseline.predict(data.test_set())
         gold_labels_test = data.test_set()['gold_label']
         print(report_binary_score(gold_labels_test, predictions_test, detailed_report))
-    
+
     print()
 
 
