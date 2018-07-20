@@ -111,10 +111,10 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         result=[]
 
         """Gathering normalisation information from the whole dataset"""
-        # if (self.language == 'english' or self.language == 'spanish'):
-        #     if self.normaliseSynsenFeats == True:
-        #         self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
-        #         self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
+        if (self.language == 'english' or self.language == 'spanish'):
+            if self.normaliseSynsenFeats == True:
+                self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
+                self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
 
 
         for target_word in X:
@@ -122,53 +122,53 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
 
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
-            # len_tokens = lenfeats.token_length(target_word)
-            # consonant_freq = phonfeats.consonant_frequency(target_word)
-            # len_syllables = phonfeats.num_syllables(target_word, language=self.language)
-            # gr_or_lat = affeats.greek_or_latin(target_word)
-            # char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
-            # is_capitalised = morphfeats.is_capitalised(target_word)
-            # is_stopword = stop.is_stop(target_word,self.language)
-            # char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
-            # averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
-            # num_complex_punct = morphfeats.num_complex_punct(target_word)
-            # num_pronunciations = phonfeats.num_pronunciations(target_word, language=self.language)
-            # char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
-            # rare_word_count = freqfeats.rare_word_count(target_word, self.language)
-            # rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
+            len_tokens = lenfeats.token_length(target_word)
+            consonant_freq = phonfeats.consonant_frequency(target_word)
+            len_syllables = phonfeats.num_syllables(target_word, language=self.language)
+            gr_or_lat = affeats.greek_or_latin(target_word)
+            char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
+            is_capitalised = morphfeats.is_capitalised(target_word)
+            is_stopword = stop.is_stop(target_word,self.language)
+            char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
+            averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
+            num_complex_punct = morphfeats.num_complex_punct(target_word)
+            num_pronunciations = phonfeats.num_pronunciations(target_word, language=self.language)
+            char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
+            rare_word_count = freqfeats.rare_word_count(target_word, self.language)
+            rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
 
 
             # dictionary to store the features in, vectorize this with DictionaryVectorizer
             row_dict = {
-                    'len_chars_norm': len_chars_norm
-                    # 'len_tokens': len_tokens
-                    # 'len_syllables': len_syllables,
-                    # 'consonant_freq': consonant_freq,
-                    # 'gr_or_lat': gr_or_lat,
-                    # 'char_tri_sum': char_tri_sum,
-                    # 'char_tri_avg': char_tri_avg,
-                    # 'is_capitalised': is_capitalised,
-                    # 'is_stop':is_stopword,
-                    # 'averaged_chars_per_word': averaged_chars_per_word,
-                    # 'num_complex_punct': num_complex_punct,
-                    # 'num_pronunciations':  num_pronunciations,
-                    # 'rare_word_count': rare_word_count,
-                    # 'rare_trigram_count': rare_trigram_count
+                    'len_chars_norm': len_chars_norm,
+                    'len_tokens': len_tokens,
+                    'len_syllables': len_syllables,
+                    'consonant_freq': consonant_freq,
+                    'gr_or_lat': gr_or_lat,
+                    'char_tri_sum': char_tri_sum,
+                    'char_tri_avg': char_tri_avg,
+                    'is_capitalised': is_capitalised,
+                    'is_stop':is_stopword,
+                    'averaged_chars_per_word': averaged_chars_per_word,
+                    'num_complex_punct': num_complex_punct,
+                    'num_pronunciations':  num_pronunciations,
+                    'rare_word_count': rare_word_count,
+                    'rare_trigram_count': rare_trigram_count
                     }
 
-            # if (self.language == 'english' or self.language == 'spanish'):
-            #     syn_count = synsenfeats.no_synonyms(target_word, self.language)
-            #     sense_count = synsenfeats.no_senses(target_word, self.language)
-            #
-            #     if self.normaliseSynsenFeats == True: # Normalisation
-            #         row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
-            #     elif self.normaliseSynsenFeats == False:
-            #         row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
-            #
+            if (self.language == 'english' or self.language == 'spanish'):
+                syn_count = synsenfeats.no_synonyms(target_word, self.language)
+                sense_count = synsenfeats.no_senses(target_word, self.language)
+
+                if self.normaliseSynsenFeats: # Normalisation
+                    row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
+                else:
+                    row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
+
             # Need to add these in a loop, since I don't know how many there will be:
-            # for ngram, count in char_ngrams.items():
-            #     row_dict['char_ngrams__' + ngram] = count
-            #
+            for ngram, count in char_ngrams.items():
+                row_dict['char_ngrams__' + ngram] = count
+
             result.append(row_dict)
 
         return result
