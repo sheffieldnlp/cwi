@@ -26,7 +26,11 @@ def run_model(test_language, evaluation_split, detailed_report):
         if language != test_language:
             for dataset_name in datasets_names:
                 data = Dataset(language, dataset_name)
-                train_data.append((language, data.train_set()))
+                lang_train_set = data.train_set()
+                if lang_train_set is None:
+                    print("No training data found for language {}.".format(language))
+                else:
+                    train_data.append((language, lang_train_set))
 
     # train the CWI model
     cwi_model = CrosslingualCWI(list(datasets_per_language.keys()))

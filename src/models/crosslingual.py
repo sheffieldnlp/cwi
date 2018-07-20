@@ -22,7 +22,7 @@ class CrosslingualCWI(object):
         """Defines the basic properties of the model.
 
         Args:
-            languages (list of str): languages of the data that will be used for training.
+            languages (list of str): languages of the data that will be used for training and testing.
 
         """
         self.model = LogisticRegression()
