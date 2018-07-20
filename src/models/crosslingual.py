@@ -46,28 +46,28 @@ class CrosslingualCWI(object):
             ('extract', Word_Feature_Extractor(language)),
             ('vectorize', DictVectorizer())])
 
-        pipe_dict['sent_features'] = Pipeline([
-            ('select', Selector(key="sentence")),
-            ('extract', Sentence_Feature_Extractor(language)),
-            ('vectorize', DictVectorizer())])
-
-        pipe_dict['bag_of_words'] = Pipeline([
-            ('select', Selector(key="target_word")),
-            ('vectorize', CountVectorizer())])
-
-        # Noun Phrase, BIO Encoding, Hypernym Count. Comment to exclude.
-        # To include BIO Encoding uncomment lines in transform function of
-        # Advanced Features Extractor Class
-        pipe_dict['Advanced_Features']=Pipeline([
-            ('select', Selector(key=["target_word", "sentence"])),
-            ('extract', Advanced_Extractor(language)),
-            ('vectorize', DictVectorizer())])
-
-        # Spacy feature extraction. Uncomment to use.
-        pipe_dict['spacy_features'] = Pipeline([
-            ('select', Selector(key=["target_word", "spacy"])),
-            ('extract', Spacy_Feature_Extractor(language)),
-            ('vectorize', DictVectorizer())])
+        # pipe_dict['sent_features'] = Pipeline([
+        #     ('select', Selector(key="sentence")),
+        #     ('extract', Sentence_Feature_Extractor(language)),
+        #     ('vectorize', DictVectorizer())])
+        #
+        # pipe_dict['bag_of_words'] = Pipeline([
+        #     ('select', Selector(key="target_word")),
+        #     ('vectorize', CountVectorizer())])
+        #
+        # # Noun Phrase, BIO Encoding, Hypernym Count. Comment to exclude.
+        # # To include BIO Encoding uncomment lines in transform function of
+        # # Advanced Features Extractor Class
+        # pipe_dict['Advanced_Features']=Pipeline([
+        #     ('select', Selector(key=["target_word", "sentence"])),
+        #     ('extract', Advanced_Extractor(language)),
+        #     ('vectorize', DictVectorizer())])
+        #
+        # # Spacy feature extraction. Uncomment to use.
+        # pipe_dict['spacy_features'] = Pipeline([
+        #     ('select', Selector(key=["target_word", "spacy"])),
+        #     ('extract', Spacy_Feature_Extractor(language)),
+        #     ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
 

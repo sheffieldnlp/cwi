@@ -111,10 +111,10 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         result=[]
 
         """Gathering normalisation information from the whole dataset"""
-        if (self.language == 'english' or self.language == 'spanish'):
-            if self.normaliseSynsenFeats == True:
-                self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
-                self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
+        # if (self.language == 'english' or self.language == 'spanish'):
+        #     if self.normaliseSynsenFeats == True:
+        #         self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
+        #         self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
 
 
         for target_word in X:
@@ -156,14 +156,14 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'rare_trigram_count': rare_trigram_count
                     }
 
-            if (self.language == 'english' or self.language == 'spanish'):
-                syn_count = synsenfeats.no_synonyms(target_word, self.language)
-                sense_count = synsenfeats.no_senses(target_word, self.language)
-
-                if self.normaliseSynsenFeats: # Normalisation
-                    row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
-                else:
-                    row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
+            # if (self.language == 'english' or self.language == 'spanish'):
+            #     syn_count = synsenfeats.no_synonyms(target_word, self.language)
+            #     sense_count = synsenfeats.no_senses(target_word, self.language)
+            #
+            #     if self.normaliseSynsenFeats: # Normalisation
+            #         row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
+            #     else:
+            #         row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
 
             # Need to add these in a loop, since I don't know how many there will be:
             # for ngram, count in char_ngrams.items():
