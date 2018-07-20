@@ -108,6 +108,6 @@ class CrosslingualCWI(object):
 
         """
 
-        X = self.features_pipelines[language].transform(test_set)
+        X = self.features_pipelines[language].fit_transform(test_set)
 
         return self.model.predict(X)
