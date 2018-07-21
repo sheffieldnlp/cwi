@@ -111,10 +111,10 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         result=[]
 
         """Gathering normalisation information from the whole dataset"""
-        # if (self.language == 'english' or self.language == 'spanish'):
-        #     if self.normaliseSynsenFeats == True:
-        #         self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
-        #         self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
+        if (self.language == 'english' or self.language == 'spanish'):
+            if self.normaliseSynsenFeats == True:
+                self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
+                self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
 
 
         for target_word in X:
@@ -129,11 +129,11 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
             is_capitalised = morphfeats.is_capitalised(target_word)
             is_stopword = stop.is_stop(target_word,self.language)
-            # char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
+            char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
             averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
             num_complex_punct = morphfeats.num_complex_punct(target_word)
             num_pronunciations = phonfeats.num_pronunciations(target_word, language=self.language)
-            # char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
+            char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
             rare_word_count = freqfeats.rare_word_count(target_word, self.language)
             rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
 
@@ -156,18 +156,18 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'rare_trigram_count': rare_trigram_count
                     }
 
-            # if (self.language == 'english' or self.language == 'spanish'):
-            #     syn_count = synsenfeats.no_synonyms(target_word, self.language)
-            #     sense_count = synsenfeats.no_senses(target_word, self.language)
-            #
-            #     if self.normaliseSynsenFeats: # Normalisation
-            #         row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
-            #     else:
-            #         row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
+            if (self.language == 'english' or self.language == 'spanish'):
+                syn_count = synsenfeats.no_synonyms(target_word, self.language)
+                sense_count = synsenfeats.no_senses(target_word, self.language)
+
+                if self.normaliseSynsenFeats: # Normalisation
+                    row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
+                else:
+                    row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
 
             # Need to add these in a loop, since I don't know how many there will be:
-            # for ngram, count in char_ngrams.items():
-            #     row_dict['char_ngrams__' + ngram] = count
+            for ngram, count in char_ngrams.items():
+                row_dict['char_ngrams__' + ngram] = count
 
             result.append(row_dict)
 
