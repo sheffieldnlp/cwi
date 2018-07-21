@@ -229,14 +229,14 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
                 row_dict[lemma] = count
 
             #word embedding
-            if (self.language == 'english'): #only for now
+            if (self.language == 'english' or self.language == 'spanish'): #only for now
 
                 word_vec = wordembfeats.get_word_emb(spacy_tokens, self.language)
                 for i in range(word_vec.shape[0]):
                     row_dict['vec_' + str(i)] = word_vec[i]
 
             #pos counts
-            if (self.language == 'english' or self.language == 'german'): #only for now
+            if (self.language != 'french'): #only for now
                 pos_counts = synfeats.get_pos_counts(spacy_tokens)
                 for pos in pos_counts:
                     row_dict[pos] = pos_counts[pos]
