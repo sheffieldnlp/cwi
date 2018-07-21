@@ -417,7 +417,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
                 for i in range(word_vec.shape[0]):
                     row_dict['vec_' + str(i)] = word_vec[i]
 
-            #pos counts
+            # pos counts
             if (self.language != 'french'): #only for now
                 pos_counts = synfeats.get_pos_counts(spacy_tokens)
                 for pos in pos_counts:

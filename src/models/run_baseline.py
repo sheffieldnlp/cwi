@@ -4,9 +4,8 @@ This models runs the baseline model on the datasets of all languages.
 
 """
 
-from src.data.dataset import    Dataset
+from src.data.dataset import Dataset
 from src.models.baseline_plus_spacy_features import Baseline_Spacy
-from src.models.baseline import Baseline
 from src.models.evaluation import report_binary_score
 
 
@@ -40,7 +39,7 @@ def execute_baseline(language, dataset_name):
 
 
 if __name__ == '__main__':
-    #execute_baseline("english", "News") #spacy objects don't exist for train as yet
+    execute_baseline("english", "News") #spacy objects don't exist for train as yet
     execute_baseline("english", "WikiNews")
     execute_baseline("english", "Wikipedia")
     execute_baseline("spanish", "Spanish") #spacy objects dont exist for train as yet

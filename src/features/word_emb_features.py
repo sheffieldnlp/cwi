@@ -21,6 +21,9 @@ def get_word_emb(target_word_spacy_tokens, lang):
     if (lang == 'english'):
         dim = 300 #will be different for different languages.
 
+    if (lang == 'spanish'):
+        dim = 50
+
     word_vec = np.zeros((dim,)) #if no vector - add vector of zeros
     number_of_vecs = len([token.has_vector for token in target_word_spacy_tokens])
     if number_of_vecs > 0:
