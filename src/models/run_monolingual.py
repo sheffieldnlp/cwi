@@ -7,7 +7,7 @@ This models runs the baseline model on the datasets of all languages.
 import argparse
 
 from src.data.dataset import Dataset
-from src.models.monolingual import Baseline
+from src.models.monolingual import MonolingualCWI
 from src.models.evaluation import report_binary_score
 
 
@@ -31,7 +31,7 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
 
     data = Dataset(language, dataset_name)
 
-    baseline = Baseline(language)
+    baseline = MonolingualCWI(language)
 
     baseline.train(data.train_set())
 

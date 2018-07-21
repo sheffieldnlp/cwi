@@ -11,7 +11,7 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from src.features.feature_transfomers import Selector,Advanced_Extractor, Word_Feature_Extractor, Spacy_Feature_Extractor, Sentence_Feature_Extractor
 
 
-class Baseline(object):
+class MonolingualCWI(object):
     """
     A basic CWI model implementing simple features that serves as baseline.
 
