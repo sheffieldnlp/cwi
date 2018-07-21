@@ -90,11 +90,16 @@ class Dataset(object):
             list. A list of dictionaries that contain the information of each sentence in the dataset.
 
         """
-        with open(file_path, encoding = "utf-8") as file:
-            fieldnames = ['hit_id', 'sentence', 'start_offset', 'end_offset', 'target_word', 'native_annots',
-                          'nonnative_annots', 'native_complex', 'nonnative_complex', 'gold_label', 'gold_prob']
+        try:
+            with open(file_path, encoding="utf-8") as file:
+                fieldnames = ['hit_id', 'sentence', 'start_offset', 'end_offset', 'target_word', 'native_annots',
+                              'nonnative_annots', 'native_complex', 'nonnative_complex', 'gold_label', 'gold_prob']
 
-            dataset = pd.read_csv(file, names=fieldnames, sep="\t")
+                dataset = pd.read_csv(file, names=fieldnames, sep="\t")
+
+        except FileNotFoundError:
+            print("File {} not found.".format(file_path))
+            dataset = None
 
         return dataset
 
@@ -124,5 +129,3 @@ class Dataset(object):
             print('spaCy pickle file for {} does not exist. No spaCy objects will be included.'.format(
                 self._dataset_name))
             return None
-
-        return spacy_objects_dataset
