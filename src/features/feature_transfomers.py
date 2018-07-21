@@ -26,8 +26,6 @@ from googletrans import Translator
 
 
 
-
-
 from sklearn.base import BaseEstimator, TransformerMixin
 from src.features import length_features as lenfeats
 from src.features import phonetic_features as phonfeats
@@ -118,7 +116,6 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
 
         for target_word in X:
-            #print(X['gold_label'])
 
 
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
@@ -173,22 +170,50 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
         return result
 
-class Advanced_Extractor(BaseEstimator, TransformerMixin):
+
+class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
+    """
+    Transformer to extract word features from dataframe of target words and
+    spacy docs
+
+    """
+
     def __init__(self, language):
+        """
+        Define basic properties
+
+        Args:
+            language(str): language of input data
+        """
+        self.language = language
         self.BIOS = ["B","I","O"]
         self.Label_Encoder_BIOS = preprocessing.LabelEncoder().fit(pd.DataFrame(self.BIOS,columns=['BIOS']).values.ravel())
         self.temp_BIOS = pd.DataFrame(self.Label_Encoder_BIOS.transform(self.BIOS),columns=['BIOS'])
         self.OneHot_BIOS = preprocessing.OneHotEncoder().fit(np.array(self.temp_BIOS['BIOS']).reshape(-1,1))
-        self.language = language
         self.trans_count = 0
         self.translator = Translator()
 
-        if self.language == 'english':
+        # Loading the spacy vocab for tokenisation.
+        if self.language == "english":
             self.nlp = spacy.load('en_core_web_lg')
-        elif self.language == 'spanish':
-            self.nlp = spacy.load('es_core_news_md')
-        else:
+        elif self.language == "spanish":
+            self.nlp = spacy.load("es_core_news_md")
+        elif self.language == "german":
             self.nlp = spacy.load('de_core_news_sm')
+        elif self.language == "french":
+            self.nlp = spacy.load('fr_core_news_md')
+
+        # Create the tokeniser
+        self.tokenizer = Tokenizer(self.nlp.vocab)
+
+        """Build a Frequency Index reference for spanish language"""
+        if self.language == 'spanish':
+            self.esp_freq_index = {}
+            with open("data/external/spanish_subtitle_words_frequency_indexes.txt", "r", encoding="utf-8") as f:
+                for line in f.readlines():
+                    wd = line.split(",")[0]
+                    FI = int(line.split(",")[1])
+                    self.esp_freq_index[wd] = FI
 
     def fit(self, X, *_):
         return self
@@ -274,76 +299,7 @@ class Advanced_Extractor(BaseEstimator, TransformerMixin):
                 one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
                 d[word] = [float(i) for i in list(one_hot_encoded[0])]
         return d
-
-
-    def transform(self, X, *_):
-        result=[]
-        num=1
-        for x in X.iterrows():
-            sent = x[1]["sentence"]
-            target_word = x[1]["target_word"]
-            hypernym_counts = self.hypernym_count(target_word)
-            row_dict={'hypernym_count': hypernym_counts}
-            is_nounphrase,d,doc = self.noun_phrases(sent, target_word)
-            row_dict={'is_nounphrase': is_nounphrase}
-
-            # Uncomment to Use BIO Encoding
-
-            #Encoding = self.BIO_Encoding(target_word,d,doc)
-            #for i in Encoding[target_word]:
-                #row_dict.update({'BIO_Encoded'+str(num): i})
-                #num+=1
-
-            result.append(row_dict)
-            #num=1
-
-        return result
-
-
-
-
-
-class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
-    """
-    Transformer to extract word features from dataframe of target words and
-    spacy docs
-
-    """
-
-    def __init__(self, language):
-        """
-        Define basic properties
-
-        Args:
-            language(str): language of input data
-        """
-        self.language = language
-
-        # Loading the spacy vocab for tokenisation.
-        if self.language == "english":
-            self.nlp = spacy.load('en_core_web_lg')
-        elif self.language == "spanish":
-            self.nlp = spacy.load("es_core_news_md")
-        elif self.language == "german":
-            self.nlp = spacy.load('de_core_news_sm')
-        elif self.language == "french":
-            self.nlp = spacy.load('fr_core_news_md')
-
-        # Create the tokeniser
-        self.tokenizer = Tokenizer(self.nlp.vocab)
-
-        """Build a Frequency Index reference for spanish language"""
-        if self.language == 'spanish':
-            self.esp_freq_index = {}
-            with open("data/external/spanish_subtitle_words_frequency_indexes.txt", "r", encoding="utf-8") as f:
-                for line in f.readlines():
-                    wd = line.split(",")[0]
-                    FI = int(line.split(",")[1])
-                    self.esp_freq_index[wd] = FI
-
-    def fit(self, X, *_):
-        return self
-
+    
 
     def get_spacy_tokens(self, spacy_sentence, spacy_target_word):
         """
@@ -370,6 +326,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
         return spacy_token_list
 
 
+
     def transform(self, X, *_):
 
         """Extracts features from a given target word and context.
@@ -384,6 +341,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
         """
 
         result = []
+        num=1
 
         self._avg_target_phrase_len = np.mean([len(x) for x in X["spacy"]])
 
@@ -392,6 +350,22 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             # Reference the spacy doc and the target word separately
             spacy_sent = x[1]["spacy"]
             target_word = x[1]["target_word"]
+            sent = x[1]["sentence"]
+            hypernym_counts = self.hypernym_count(target_word)
+            row_dict={'hypernym_count': hypernym_counts}
+            is_nounphrase,d,doc = self.noun_phrases(sent, target_word)
+            row_dict={'is_nounphrase': is_nounphrase}
+
+            # Uncomment to Use BIO Encoding
+
+            #Encoding = self.BIO_Encoding(target_word,d,doc)
+            #for i in Encoding[target_word]:
+                #row_dict.update({'BIO_Encoded'+str(num): i})
+                #num+=1
+            #result.append(row_dict)
+            #num=1
+
+
 
             # Look up the spacy tokens of the target word.
             spacy_tokens = self.get_spacy_tokens(spacy_sent, target_word)
