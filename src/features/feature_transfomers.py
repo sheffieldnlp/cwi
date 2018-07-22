@@ -34,6 +34,8 @@ from src.features import char_trigram_features as trifeats
 from src.features import NGram_char_features as charfeats
 from src.features import sentence_features as sentfeats
 from src.features import syn_and_sense_features as synsenfeats
+from src.features import word_emb_features as wordembfeats
+from src.features import syntactic_features as synfeats
 from src.features import morphological_features as morphfeats
 from src.features import frequency_index_features as freqixfeats
 from src.features import stopwords as stop
@@ -382,6 +384,24 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             for lemma, count in lemma_features.items():
                 row_dict[lemma] = count
 
+            #word embedding
+            if (self.language == 'english' or self.language == 'spanish'): #only for now
+
+                word_vec = wordembfeats.get_word_emb(spacy_tokens, self.language)
+                for i in range(word_vec.shape[0]):
+                    row_dict['vec_' + str(i)] = word_vec[i]
+
+            # pos counts
+            if (self.language != 'french'): #only for now
+                pos_counts = synfeats.get_pos_counts(spacy_tokens)
+                for pos in pos_counts:
+                    row_dict[pos] = pos_counts[pos]
+
+                ne_counts = synfeats.get_ne_counts(spacy_tokens)
+                for ne in ne_counts:
+                    # print(ne)
+                    row_dict[ne] = ne_counts[ne]
+
             # Bag-of-shapes feature (1 word shape per word in target phrase)
             shape_features = morphfeats.word_shape(spacy_tokens)
             for shape, count in shape_features.items():
@@ -401,7 +421,6 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
 class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
     """
     Transformer to extract sentence features from column of sentences
-
     """
 
     def __init__(self, language, maxSentNGram = 3):
