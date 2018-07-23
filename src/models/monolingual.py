@@ -54,10 +54,10 @@ class MonolingualCWI(object):
         # Noun Phrase, BIO Encoding, Hypernym Count. Comment to exclude.
         # To include BIO Encoding uncomment lines in transform function of
         # Advanced Features Extractor Class
-        pipe_dict['Advanced_Features']=Pipeline([
-            ('select', Selector(key=["target_word", "sentence"])),
-            ('extract', Advanced_Extractor(language)),
-            ('vectorize', DictVectorizer())])
+        # pipe_dict['Advanced_Features']=Pipeline([
+        #     ('select', Selector(key=["target_word", "sentence"])),
+        #     ('extract', Advanced_Extractor(language)),
+        #     ('vectorize', DictVectorizer())])
 
         # Spacy feature extraction. Uncomment to use.
         pipe_dict['spacy_features'] = Pipeline([
