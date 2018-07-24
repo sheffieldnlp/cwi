@@ -8,7 +8,7 @@ This module contains functions to extract features concerning phonetics from a t
 
 import pyphen
 import nltk
-nltk.download('cmudict')
+nltk.download('cmudict', quiet=True)
 from nltk.corpus import cmudict
 CMUdic = cmudict.dict()
 
@@ -76,19 +76,19 @@ def num_pronunciations(target_word, language): # ALison
     Returns:
         int - the number of pronunciations of the target word if language = English
         int 0 else
-        
-    
+
+
     """
     if language == 'english':
-        num_pronun = 0 
+        num_pronun = 0
         for token in target_word.split(' '):
             num_pronun += 1
             if token.lower() in CMUdic.keys():
-                num_pronun += len(CMUdic[token.lower()]) - 1  
-                
-                
+                num_pronun += len(CMUdic[token.lower()]) - 1
+
+
     else:
         #raise ValueError("Language specified ({}) not supported.".format(language))
         num_pronun = 0
-    
+
     return num_pronun
