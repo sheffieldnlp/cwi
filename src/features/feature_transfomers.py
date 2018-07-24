@@ -20,13 +20,10 @@ from spacy.tokenizer import Tokenizer
 from sklearn import preprocessing
 import pandas as pd
 import nltk
-from nltk.corpus import wordnet
-nltk.download("omw")
-from googletrans import Translator
-
-
+nltk.download("omw", quiet=True)
 
 from sklearn.base import BaseEstimator, TransformerMixin
+
 from src.features import length_features as lenfeats
 from src.features import phonetic_features as phonfeats
 from src.features import affix_features as affeats
@@ -42,6 +39,9 @@ from src.features import stopwords as stop
 from src.features import lemma_features as lemmafeats
 from src.features import morphological_features as morphfeats
 from src.features import frequency_features as freqfeats
+from src.features import hypernym_features as hyper_feats
+from src.features import noun_phrase_features as noun_feats
+from src.features import iob_features as iobfeats
 
 
 class Selector(BaseEstimator, TransformerMixin):
@@ -128,7 +128,6 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
             is_capitalised = morphfeats.is_capitalised(target_word)
             is_stopword = stop.is_stop(target_word,self.language)
-            char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
             averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
             num_complex_punct = morphfeats.num_complex_punct(target_word)
             num_pronunciations = phonfeats.num_pronunciations(target_word, language=self.language)
@@ -188,12 +187,6 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             language(str): language of input data
         """
         self.language = language
-        self.BIOS = ["B","I","O"]
-        self.Label_Encoder_BIOS = preprocessing.LabelEncoder().fit(pd.DataFrame(self.BIOS,columns=['BIOS']).values.ravel())
-        self.temp_BIOS = pd.DataFrame(self.Label_Encoder_BIOS.transform(self.BIOS),columns=['BIOS'])
-        self.OneHot_BIOS = preprocessing.OneHotEncoder().fit(np.array(self.temp_BIOS['BIOS']).reshape(-1,1))
-        self.trans_count = 0
-        self.translator = Translator()
 
         # Loading the spacy vocab for tokenisation.
         if self.language == "english":
@@ -204,9 +197,6 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             self.nlp = spacy.load('de_core_news_sm')
         elif self.language == "french":
             self.nlp = spacy.load('fr_core_news_md')
-
-        # Create the tokeniser
-        self.tokenizer = Tokenizer(self.nlp.vocab)
 
         """Build a Frequency Index reference for spanish language"""
         if self.language == 'spanish':
@@ -220,88 +210,6 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
     def fit(self, X, *_):
         return self
 
-    def noun_phrases(self,sentence,word):
-        t=[]
-        is_nounphrase=0
-        doc = self.nlp(sentence)
-        noun_phrase_encode = []
-        d={}
-        for chunk in doc.noun_chunks:
-            t.append(chunk.text)
-            noun_phrase_encode.append(chunk.root.ent_iob_)
-            int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(noun_phrase_encode,columns=['BIOS_tags']).values.ravel())
-            one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
-            one_hot_encoded_str = [float(i) for i in list(one_hot_encoded[0])]
-            noun_phrase_encode = []
-            d[chunk.text]= one_hot_encoded_str
-        if (word in t) and (len(word.split(" ")) > 1):
-            is_nounphrase=1
-        return is_nounphrase,d,doc
-
-    def hypernym_count(self,word):
-        temp= word.split(" ")
-        count2 = 0
-        if self.language == "english":
-            if len(word.split(" ")) > 1:
-                for wd in temp:
-                    for synset in wordnet.synsets(wd, lang='eng'):
-                        count2+= len(synset.hypernyms())
-            else:
-                for synset in wordnet.synsets(word, lang='eng'):
-                    count2+= len(synset.hypernyms())
-            count2 = count2/len(temp)
-        elif self.language == 'spanish':
-            if len(word.split(" ")) > 1:
-                for wd in temp:
-                    for synset in wordnet.synsets(wd, lang='spa'):
-                        count2+= len(synset.hypernyms())
-            else:
-                for synset in wordnet.synsets(word, lang='spa'):
-                        count2+= len(synset.hypernyms())
-            count2 = count2/len(temp)
-        else:
-            self.trans_count+=1
-            if  self.trans_count < 350:
-                translated_word=self.translator.translate(word, dest='en')
-            else:
-                self.translator=Translator()
-                translated_word=self.translator.translate(word, dest='en')
-                self.trans_count=0
-
-            word = translated_word.text
-            temp= word.split(" ")
-            if len(temp) > 1:
-                for wd in temp:
-                    for synset in wordnet.synsets(wd, lang='eng'):
-                        count2+= len(synset.hypernyms())
-            else:
-                for synset in wordnet.synsets(word, lang='eng'):
-                    count2+= len(synset.hypernyms())
-            count2 = count2/len(temp)
-        return (round(count2))
-
-    def BIO_Encoding(self,word,d,doc):
-        temp=[]
-        flag=0
-        temp2 = []
-        if word in d:
-            flag=1
-        else:
-            for token in doc:
-                temp.append(token.ent_iob_)
-                int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(temp,columns=['BIOS_tags']).values.ravel())
-                one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
-                one_hot_encoded_str = [float(i) for i in list(one_hot_encoded[0])]
-                d[token.text]= one_hot_encoded_str
-                temp=[]
-            if word not in d:
-                doc=self.nlp(word)
-                temp.append(doc[0].ent_iob_)
-                int_encoded = self.Label_Encoder_BIOS.transform(pd.DataFrame(temp,columns=['BIOS_tags']).values.ravel())
-                one_hot_encoded = self.OneHot_BIOS.transform(np.array(pd.DataFrame(int_encoded,columns=['BIOS'])).reshape(-1,1)).toarray()
-                d[word] = [float(i) for i in list(one_hot_encoded[0])]
-        return d
-    
 
     def get_spacy_tokens(self, spacy_sentence, spacy_target_word):
         """
@@ -317,9 +225,12 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
                               using the information from the context sentence.
 
         """
+        # Create the tokeniser
+        tokenizer = Tokenizer(self.nlp.vocab)
+
         spacy_token_list = []
 
-        for target in self.tokenizer(spacy_target_word):
+        for target in tokenizer(spacy_target_word):
             for wd in spacy_sentence:
                 if target.text == wd.text:
                     spacy_token_list.append(wd)
@@ -343,46 +254,51 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
         """
 
         result = []
-        num=1
 
         self._avg_target_phrase_len = np.mean([len(x) for x in X["spacy"]])
 
-        for x in X.iterrows():
+        for ix, row in X.iterrows():
 
             # Reference the spacy doc and the target word separately
-            spacy_sent = x[1]["spacy"]
-            target_word = x[1]["target_word"]
-            sent = x[1]["sentence"]
-            hypernym_counts = self.hypernym_count(target_word)
-            row_dict={'hypernym_count': hypernym_counts}
-            is_nounphrase,d,doc = self.noun_phrases(sent, target_word)
-            row_dict={'is_nounphrase': is_nounphrase}
-
-            # Uncomment to Use BIO Encoding
-
-            #Encoding = self.BIO_Encoding(target_word,d,doc)
-            #for i in Encoding[target_word]:
-                #row_dict.update({'BIO_Encoded'+str(num): i})
-                #num+=1
-            #result.append(row_dict)
-            #num=1
-
-
+            spacy_sent = row["spacy"]
+            target_word = row["target_word"]
+            sent = row["sentence"]
 
             # Look up the spacy tokens of the target word.
             spacy_tokens = self.get_spacy_tokens(spacy_sent, target_word)
 
             # Extract features
+            is_nounphrase = noun_feats.is_noun_phrase(spacy_sent, target_word)
+
             len_tokens_norm = len(spacy_tokens)/self._avg_target_phrase_len
+
+            hypernym_counts = hyper_feats.hypernym_count(target_word, self.language)
 
             row_dict = {
                     'len_tokens_norm': len_tokens_norm,
+                    'hypernym_count': hypernym_counts,
+                    'is_nounphrase': is_nounphrase
                     }
 
-            # Bag-of-Lemmas Feature #TODO there is probably a better way of doing this. Dictionary union?
+            # iob tags
+            iob_tags = iobfeats.iob_tags(spacy_tokens)
+            row_dict.update(iob_tags)
+
+            # Bag-of-Lemmas Feature
             lemma_features = lemmafeats.lemmas(spacy_tokens)
-            for lemma, count in lemma_features.items():
-                row_dict[lemma] = count
+            row_dict.update(lemma_features)
+
+            # Bag-of-shapes feature (1 word shape per word in target phrase)
+            shape_features = morphfeats.word_shape(spacy_tokens)
+            row_dict.update(shape_features)
+
+            # Part-of-speech tag features
+            pos_features = synfeats.get_pos_counts(spacy_tokens)
+            row_dict.update(pos_features)
+
+            # Named-Entity tag features
+            ne_features = synfeats.get_ne_counts(spacy_tokens)
+            row_dict.update(ne_features)
 
             #word embedding
             if (self.language == 'english' or self.language == 'spanish'): #only for now
@@ -391,27 +307,10 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
                 for i in range(word_vec.shape[0]):
                     row_dict['vec_' + str(i)] = word_vec[i]
 
-            # pos counts
-            if (self.language != 'french'): #only for now
-                pos_counts = synfeats.get_pos_counts(spacy_tokens)
-                for pos in pos_counts:
-                    row_dict[pos] = pos_counts[pos]
-
-                ne_counts = synfeats.get_ne_counts(spacy_tokens)
-                for ne in ne_counts:
-                    # print(ne)
-                    row_dict[ne] = ne_counts[ne]
-
-            # Bag-of-shapes feature (1 word shape per word in target phrase)
-            shape_features = morphfeats.word_shape(spacy_tokens)
-            for shape, count in shape_features.items():
-                row_dict[shape] = count
-
-            # Spanish Frequency Index feature #TODO there is probably a better way of doing this. Dictionary union?
+            # Spanish Frequency Index feature
             if self.language == 'spanish':
                 esp_freq_index_features = freqixfeats.frequency_index(spacy_tokens, self.esp_freq_index)
-                for k, v in esp_freq_index_features.items():
-                    row_dict[k] = v
+                row_dict.update(esp_freq_index_features)
 
             result.append(row_dict)
 
