@@ -24,7 +24,7 @@ def build(infile_path, nlp):
 
     spacy_objects = {}
 
-    with open(infile_path) as file:
+    with open(infile_path, encoding='utf-8') as file:
 
         reader = csv.DictReader(file, fieldnames=fieldnames, delimiter='\t')
         dataset = [sent for sent in reader]
