@@ -19,7 +19,7 @@ In terms of requirements (i.e. versions of python modules), we will use these:
 - numpy== 1.12.1
 - torch==0.3.0.post4
 
-Note that for spacy, you need to replace the file spacy/lang/es/syntax_iterators.py with this [version](spacy/lang/es/syntax_iterators.py) to resolve this [issue](https://github.com/explosion/spaCy/issues/2210). To find where your spacy installation lives use the following in a python terminal:
+Note that for spacy, you need to replace the file spacy/lang/es/syntax_iterators.py with this [version](https://raw.githubusercontent.com/explosion/spaCy/master/spacy/lang/es/syntax_iterators.py) to resolve this [issue](https://github.com/explosion/spaCy/issues/2210). To find where your spacy installation lives use the following in a python terminal:
 ```
 import sys
 sys.path
