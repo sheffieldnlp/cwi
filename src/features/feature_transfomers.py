@@ -94,18 +94,12 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         self.normaliseSynsenFeats = normaliseSynsenFeats
 
         if (self.language == 'english'):
-            #self.corpus_words = nltk.corpus.brown.words()
-            print('reading unigram probs')
+            #print('reading unigram probs')
             self.u_prob = file_io.read_file('data/external/english_u_prob.csv') #should be in data/external
 
         if (self.language == 'spanish'):
-            #self.corpus_words = nltk.corpus.brown.words()
             print('reading unigram probs')
             self.u_prob = file_io.read_file('data/external/spanish_u_prob.csv')
-
-        # if (self.language == 'english' or self.language == 'spanish'):    
-        #     self.unigram_counts = Counter(self.corpus_words)
-        #     self.total_words = len(self.corpus_words)
 
     def fit(self, X, *_):
         return self
@@ -164,7 +158,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'rare_trigram_count': rare_trigram_count
 
                     }
-            #unigram prob
+            unigram prob
             if(self.language == 'english' or self.language == 'spanish'):
                 unigram_prob = prob_feats.get_unigram_prob(target_word, self.language, self.u_prob)
                 #print(unigram_prob)
