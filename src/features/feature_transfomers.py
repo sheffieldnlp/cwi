@@ -43,6 +43,7 @@ from src.features import hypernym_features as hyper_feats
 from src.features import noun_phrase_features as noun_feats
 from src.features import iob_features as iobfeats
 from src.features import probability_features as prob_feats
+from src.features import file_io
 
 
 class Selector(BaseEstimator, TransformerMixin):
@@ -161,9 +162,8 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             #unigram prob
             if(self.language == 'english' or self.language == 'spanish'):
                 unigram_prob = prob_feats.get_unigram_prob(target_word, self.language, self.u_prob)
-                print(unigram_prob)
-                wehiu
-                row_dict['unigram_prob': unigram_prob]
+                #print(unigram_prob)
+                row_dict['unigram_prob'] = unigram_prob
 
             if (self.language == 'english' or self.language == 'spanish'):
                 syn_count = synsenfeats.no_synonyms(target_word, self.language)

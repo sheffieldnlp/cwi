@@ -6,7 +6,8 @@ Author: Sanjana Khot
 
 """
 from collections import Counter
-def get_unigram_prob(target_word, language, u_prob):
+import math
+def get_unigram_prob(target_phrase, language, u_prob):
     """
     Compute the unigram probability of the target phrase
 
