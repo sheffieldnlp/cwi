@@ -24,7 +24,7 @@ class MonolingualCWI(object):
             language (str): The language of the data.
 
         """
-        self.model = LogisticRegression()
+        self.model = LogisticRegression(random_state=0)
         self.features_pipeline = self.join_pipelines(language)
 
     def build_pipelines(self, language):
@@ -51,11 +51,8 @@ class MonolingualCWI(object):
             ('select', Selector(key="target_word")),
             ('vectorize', CountVectorizer())])
 
-        # Spacy feature extraction. Uncomment to use.
-        # To include BIO Encoding uncomment lines in transform function of
-        # Spacy_Feature_Extractor Class
         pipe_dict['spacy_features'] = Pipeline([
-            ('select', Selector(key=["target_word", "spacy","sentence"])),
+            ('select', Selector(key=["target_word", "spacy", "sentence"])),
             ('extract', Spacy_Feature_Extractor(language)),
             ('vectorize', DictVectorizer())])
 
