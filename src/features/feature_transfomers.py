@@ -89,7 +89,6 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                                 suffixes and prefixes (e.g. 2 = 'ch')
         """
         self.language = language
-        self.maxCharNgrams = maxCharNgrams
         self.normaliseSynsenFeats = normaliseSynsenFeats
 
     def fit(self, X, *_):
@@ -108,18 +107,15 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         This tranformer should always be followed by a DictionaryVectorizer in any pipeline which uses it.
         """
 
-        result=[]
-
         """Gathering normalisation information from the whole dataset"""
         if (self.language == 'english' or self.language == 'spanish'):
             if self.normaliseSynsenFeats == True:
                 self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
                 self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
 
+        result=[]
 
         for target_word in X:
-
-
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
             len_tokens = lenfeats.token_length(target_word)
             consonant_freq = phonfeats.consonant_frequency(target_word)
@@ -135,8 +131,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             rare_word_count = freqfeats.rare_word_count(target_word, self.language)
             rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
 
-
-            # dictionary to store the features in, vectorize this with DictionaryVectorizer
+            # dictionary to store the features in, vectorize this with DictionaryVectorizer 'len_chars_norm': len_chars_norm,
             row_dict = {
                     'len_chars_norm': len_chars_norm,
                     'len_tokens': len_tokens,
@@ -269,9 +264,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
 
             # Extract features
             is_nounphrase = noun_feats.is_noun_phrase(spacy_sent, target_word)
-
             len_tokens_norm = len(spacy_tokens)/self._avg_target_phrase_len
-
             hypernym_counts = hyper_feats.hypernym_count(target_word, self.language)
 
             row_dict = {
