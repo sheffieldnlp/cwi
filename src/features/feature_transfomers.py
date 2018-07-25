@@ -158,7 +158,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'rare_trigram_count': rare_trigram_count
 
                     }
-            unigram prob
+            #unigram prob
             if(self.language == 'english' or self.language == 'spanish'):
                 unigram_prob = prob_feats.get_unigram_prob(target_word, self.language, self.u_prob)
                 #print(unigram_prob)
