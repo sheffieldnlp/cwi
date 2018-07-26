@@ -5,6 +5,7 @@ This module contains the class(es) and functions that implement the CWI baseline
 """
 
 from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion

@@ -98,8 +98,10 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             self.u_prob = file_io.read_file('data/external/english_u_prob.csv') #should be in data/external
 
         if (self.language == 'spanish'):
-            print('reading unigram probs')
             self.u_prob = file_io.read_file('data/external/spanish_u_prob.csv')
+
+        if (self.language == 'german'):
+            self.u_prob = file_io.read_file('data/external/german_u_prob.csv')
 
     def fit(self, X, *_):
         return self
@@ -161,7 +163,6 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             #unigram prob
             if(self.language == 'english' or self.language == 'spanish'):
                 unigram_prob = prob_feats.get_unigram_prob(target_word, self.language, self.u_prob)
-                #print(unigram_prob)
                 row_dict['unigram_prob'] = unigram_prob
 
             if (self.language == 'english' or self.language == 'spanish'):

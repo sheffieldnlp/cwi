@@ -36,8 +36,11 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
 
     #The code below is used for creating unigram probability csv files
 
-    # if (language == 'spanish'):
-    #     corpus_words = nltk.corpus.cess_esp.words()
+    # if (language == 'german'):
+    #     corp = nltk.corpus.ConllCorpusReader('.', 'tiger_release_aug07.corrected.16012013.conll09',
+    #                                  ['ignore', 'words', 'ignore', 'ignore', 'ignore'],
+    #                                  encoding='utf-8')
+    #     corpus_words = corp.words()
     #     unigram_counts = Counter(corpus_words)
     #     total_words = len(corpus_words)
 
@@ -55,8 +58,7 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
 
     # u_prob = calc_unigram_prob(unigram_counts, total_words)
     # print('saving file')
-    # save_to_file(u_prob, 'data/external/spanish_u_prob.csv')
-    # kdfjei
+    # save_to_file(u_prob, 'data/external/german_u_prob.csv')
 
     baseline = MonolingualCWI(language)
 
