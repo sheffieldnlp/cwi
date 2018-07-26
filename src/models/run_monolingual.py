@@ -5,10 +5,13 @@ This models runs the baseline model on the datasets of all languages.
 """
 
 import argparse
+import nltk
+import csv
 
 from src.data.dataset import Dataset
 from src.models.monolingual import MonolingualCWI
 from src.models.evaluation import report_binary_score
+from collections import Counter
 
 
 datasets_per_language = {"english": ["News", "WikiNews", "Wikipedia"],
@@ -30,6 +33,30 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
     print("\nModel for {} - {}.".format(language, dataset_name))
 
     data = Dataset(language, dataset_name)
+
+    #The code below is used for creating unigram probability csv files
+
+    # if (language == 'spanish'):
+    #     corpus_words = nltk.corpus.cess_esp.words()
+    #     unigram_counts = Counter(corpus_words)
+    #     total_words = len(corpus_words)
+
+    # def calc_unigram_prob(unigram_counts, total_words):
+    #     u_prob = {} #defaultdict
+    #     for word in unigram_counts:
+    #         u_prob[word] = unigram_counts[word]/total_words
+    #     return u_prob
+
+    # def save_to_file(u_prob,file_name):
+    #     w = csv.writer(open(file_name, "w"))
+    #     for word, prob in u_prob.items():
+    #         w.writerow([word, prob])
+    # print('calc unigram prob: ')
+
+    # u_prob = calc_unigram_prob(unigram_counts, total_words)
+    # print('saving file')
+    # save_to_file(u_prob, 'data/external/spanish_u_prob.csv')
+    # kdfjei
 
     baseline = MonolingualCWI(language)
 

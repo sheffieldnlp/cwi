@@ -42,6 +42,8 @@ from src.features import frequency_features as freqfeats
 from src.features import hypernym_features as hyper_feats
 from src.features import noun_phrase_features as noun_feats
 from src.features import iob_features as iobfeats
+from src.features import probability_features as prob_feats
+from src.features import file_io
 
 
 class Selector(BaseEstimator, TransformerMixin):
@@ -91,6 +93,14 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         self.language = language
         self.normaliseSynsenFeats = normaliseSynsenFeats
 
+        if (self.language == 'english'):
+            #print('reading unigram probs')
+            self.u_prob = file_io.read_file('data/external/english_u_prob.csv') #should be in data/external
+
+        if (self.language == 'spanish'):
+            print('reading unigram probs')
+            self.u_prob = file_io.read_file('data/external/spanish_u_prob.csv')
+
     def fit(self, X, *_):
         return self
 
@@ -130,7 +140,6 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
             rare_word_count = freqfeats.rare_word_count(target_word, self.language)
             rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
-
             # dictionary to store the features in, vectorize this with DictionaryVectorizer 'len_chars_norm': len_chars_norm,
             row_dict = {
                     'len_chars_norm': len_chars_norm,
@@ -147,7 +156,13 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'num_pronunciations':  num_pronunciations,
                     'rare_word_count': rare_word_count,
                     'rare_trigram_count': rare_trigram_count
+
                     }
+            #unigram prob
+            if(self.language == 'english' or self.language == 'spanish'):
+                unigram_prob = prob_feats.get_unigram_prob(target_word, self.language, self.u_prob)
+                #print(unigram_prob)
+                row_dict['unigram_prob'] = unigram_prob
 
             if (self.language == 'english' or self.language == 'spanish'):
                 syn_count = synsenfeats.no_synonyms(target_word, self.language)
