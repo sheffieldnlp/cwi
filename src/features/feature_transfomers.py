@@ -81,7 +81,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 
     """
 
-    def __init__(self, language, maxCharNgrams=6, normaliseSynsenFeats=True):
+    def __init__(self, language, crosslingual=False, maxCharNgrams=6, normaliseSynsenFeats=True):
         """
         Define basic properties
 
@@ -91,6 +91,8 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                                 suffixes and prefixes (e.g. 2 = 'ch')
         """
         self.language = language
+        self.crosslingual = crosslingual
+        self.maxCharNgrams = maxCharNgrams
         self.normaliseSynsenFeats = normaliseSynsenFeats
 
         if (self.language == 'english'):
@@ -118,12 +120,14 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
         """
 
         """Gathering normalisation information from the whole dataset"""
-        if (self.language == 'english' or self.language == 'spanish'):
-            if self.normaliseSynsenFeats == True:
-                self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
-                self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
-
         result=[]
+        if not self.crosslingual:
+            if (self.language == 'english' or self.language == 'spanish'):
+                if self.normaliseSynsenFeats == True:
+                    self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
+                    self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
+
+        
 
         for target_word in X:
             len_chars_norm = lenfeats.character_length(target_word, language=self.language)
@@ -137,7 +141,7 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
             averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
             num_complex_punct = morphfeats.num_complex_punct(target_word)
             num_pronunciations = phonfeats.num_pronunciations(target_word, language=self.language)
-            char_ngrams = charfeats.getAllCharNGrams(target_word, N=6)
+            char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
             rare_word_count = freqfeats.rare_word_count(target_word, self.language)
             rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
             # dictionary to store the features in, vectorize this with DictionaryVectorizer 'len_chars_norm': len_chars_norm,
@@ -158,6 +162,20 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'rare_trigram_count': rare_trigram_count
 
                     }
+            
+#            # Ideally I'd like to make two loops, one for all the non-crosslingual features
+#            # and one for all the crosslingual features, so that this check can be
+#            # taken outside the loop:
+#            if not self.crosslingual:
+#                if (self.language == 'english' or self.language == 'spanish'):
+#                    syn_count = synsenfeats.no_synonyms(target_word, self.language)
+#                    sense_count = synsenfeats.no_senses(target_word, self.language)
+#    
+#                    if self.normaliseSynsenFeats: # Normalisation
+#                        row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
+#                    else:
+#                        row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
+
             #unigram prob
             if(self.language == 'english' or self.language == 'spanish'):
                 unigram_prob = prob_feats.get_unigram_prob(target_word, self.language, self.u_prob)
@@ -189,7 +207,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
 
     """
 
-    def __init__(self, language):
+    def __init__(self, language, crosslingual=False):
         """
         Define basic properties
 
@@ -197,6 +215,7 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             language(str): language of input data
         """
         self.language = language
+        self.crosslingual = crosslingual
 
         # Loading the spacy vocab for tokenisation.
         if self.language == "english":
@@ -330,7 +349,7 @@ class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
     Transformer to extract sentence features from column of sentences
     """
 
-    def __init__(self, language, maxSentNGram = 3):
+    def __init__(self, language, crosslingual=False, maxSentNGram = 3):
         """
         Define basic properties
 
@@ -338,6 +357,7 @@ class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
             language(str): language of input data
         """
         self.language = language
+        self.crosslingual = crosslingual
         self.maxSentNGram = maxSentNGram
 
     def fit(self, X, *_):
