@@ -9,7 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
-from src.features.feature_transfomers import Selector,Advanced_Extractor, Word_Feature_Extractor, Spacy_Feature_Extractor, Sentence_Feature_Extractor
+from src.features.feature_transfomers import Selector, Word_Feature_Extractor, Spacy_Feature_Extractor, Sentence_Feature_Extractor
 
 
 class CrosslingualCWI(object):
@@ -26,6 +26,7 @@ class CrosslingualCWI(object):
 
         """
         self.model = LogisticRegression()
+        self.crosslingual = True
 
         self.features_pipelines = {}
         for language in languages:
@@ -43,7 +44,7 @@ class CrosslingualCWI(object):
         pipe_dict = {}
         pipe_dict['word_features'] = Pipeline([
             ('select', Selector(key="target_word")),
-            ('extract', Word_Feature_Extractor(language)),
+            ('extract', Word_Feature_Extractor(language, crosslingual=self.crosslingual)),
             ('vectorize', DictVectorizer())])
 
         # pipe_dict['sent_features'] = Pipeline([
