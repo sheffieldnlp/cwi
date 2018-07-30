@@ -57,8 +57,12 @@ class Dataset(object):
         if self._trainset is None:  # loads the data to memory once and when requested.
             trainset_raw = self.read_dataset(self._trainset_path)
             trainset_spacy = self.read_spacy_pickle(self._trainset_spacy_path)
-            self._trainset = pd.concat([trainset_raw, trainset_spacy], axis=1)
-
+            if trainset_raw is None and trainset_spacy is None:
+                # This is for languages we never see (French)
+                self._trainset = None
+            else:
+                self._trainset = pd.concat([trainset_raw, trainset_spacy], axis=1)
+            
         return self._trainset
 
     def dev_set(self):
@@ -66,7 +70,11 @@ class Dataset(object):
         if self._devset is None:  # loads the data to memory once and when requested.
             devset_raw = self.read_dataset(self._devset_path)
             devset_spacy = self.read_spacy_pickle(self._devset_spacy_path)
-            self._devset = pd.concat([devset_raw, devset_spacy], axis=1)
+            if devset_raw is None and devset_spacy is None:
+                # This is for languages we never see (French)
+                self._devset = None
+            else:
+                self._devset = pd.concat([devset_raw, devset_spacy], axis=1)
 
         return self._devset
 
