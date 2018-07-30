@@ -168,15 +168,15 @@ class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
 #            # Ideally I'd like to make two loops, one for all the non-crosslingual features
 #            # and one for all the crosslingual features, so that this check can be
 #            # taken outside the loop:
-#            if not self.crosslingual:
-#                if (self.language == 'english' or self.language == 'spanish'):
-#                    syn_count = synsenfeats.no_synonyms(target_word, self.language)
-#                    sense_count = synsenfeats.no_senses(target_word, self.language)
-#    
-#                    if self.normaliseSynsenFeats: # Normalisation
-#                        row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
-#                    else:
-#                        row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
+           if not self.crosslingual:
+               if (self.language == 'english' or self.language == 'spanish'):
+                   syn_count = synsenfeats.no_synonyms(target_word, self.language)
+                   sense_count = synsenfeats.no_senses(target_word, self.language)
+   
+                   if self.normaliseSynsenFeats: # Normalisation
+                       row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
+                   else:
+                       row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
 
             #unigram prob
             if(self.language == 'english' or self.language == 'spanish'):
