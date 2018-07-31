@@ -11,25 +11,13 @@ We will follow the Fork and Pull Workflow. Instructions on how this development 
 Once you have cloned your fork, run `setup.py develop` from the root folder, so that the `src` module is "installed" and can be imported from anywhere in the code.
 
 In terms of requirements (i.e. versions of python modules), we will use these:
-- python == 3.6.3
-- spacy == 2.0.11 
-- gensim== 3.1.0
+- python == 3.6.5
+- spacy == 2.0.12
 - sklearn == 0.19.1
-- nltk == 3.2.4
-- numpy== 1.12.1
-- torch==0.3.0.post4
-
-Note that for spacy, you need to replace the file spacy/lang/es/syntax_iterators.py with this [version](https://raw.githubusercontent.com/explosion/spaCy/master/spacy/lang/es/syntax_iterators.py) to resolve this [issue](https://github.com/explosion/spaCy/issues/2210). To find where your spacy installation lives use the following in a python terminal:
-```
-import sys
-sys.path
-```
-and look for the site-packages directory.
-
-and we also need:
-- pyphen
-- csv
-- pickle
+- nltk == 3.3
+- pyphen==0.9.4
+- pandas==0.23.3
+- googletrans==2.3.0
 
 Spacy models:
 - en_core_web_lg
@@ -39,7 +27,14 @@ Spacy models:
 
 These can be installed using "$ python -m spacy download <MODEL>", or downloaded from from the team Google drive (currently link sharing is unavailable).
 
-You are advised to use python environments.
+You are advised to use python environments. For reporting results you should only use the docker image that can be built as follows:
+- create your own copy of Dockerfile_ADD_USERNAME_AND_PASSWORD
+- replace USERNAME and PASSWORD with yours
+- build it by running `docker build -t cwi - < Dockerfile`
+- get an interactive terminal on the image with `docker run -i -t cwi bash`
+- run commands as you normally would (remember this is a very minimal linux installation)
+
+If you want to run the image with a new version of the code, add the option `--no-cache` to the build.
 
 Project Organization
 --------------------
