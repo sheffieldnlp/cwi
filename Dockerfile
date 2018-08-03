@@ -4,7 +4,7 @@ MAINTAINER Andreas Vlachos <a.vlachos@sheffield.ac.uk>
 RUN apt-get update -y
 RUN apt-get install -y git
 
-RUN git clone https://USERNAME:PASSWORD@github.com/sheffieldnlp/cwi.git
+RUN git clone http://github.com/sheffieldnlp/cwi.git
 WORKDIR /cwi
 RUN pip install -r requirements_docker.txt
 
