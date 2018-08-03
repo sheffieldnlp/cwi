@@ -83,3 +83,7 @@ target/
 
 # Desktop.ini files
 *desktop.ini
+.python-version
+data/interim/english/
+data/interim/german/
+data/interim/spanish/
