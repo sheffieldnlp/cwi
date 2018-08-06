@@ -16,3 +16,8 @@ RUN python -m spacy download en_core_web_lg
 RUN python -m spacy download fr_core_news_md
 
 RUN python -m nltk.downloader wordnet
+
+RUN python src/data/build_spacy_objects.py english
+RUN python src/data/build_spacy_objects.py spanish
+RUN python src/data/build_spacy_objects.py german
+RUN python src/data/build_spacy_objects.py french

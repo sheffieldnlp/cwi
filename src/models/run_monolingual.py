@@ -34,7 +34,6 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
 
     data = Dataset(language, dataset_name)
 
-
     #The code below is used for creating unigram probability csv files
 
     # if (language == 'spanish'):

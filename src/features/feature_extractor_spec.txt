@@ -1,0 +1,14 @@
+extractor modules:
+If no first pass needed over dataset:
+  INPUT from :  {sentence text, target phrase text, sentence spacy object, target phrase spacy objects}
+                {language}
+  OUTPUT:  dictionary of style: {"FEATURE_NAME_" + TAG: count}
+
+
+
+
+# notes:
+hypernyms had been incorrectly implemented.they weren't being used! slight decrease in performance for english wikinews
+using noun chunk feature reduces performance on english - news.
+
+we dont need normalised and non normed token lengths
