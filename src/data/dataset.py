@@ -63,8 +63,8 @@ class Dataset(object):
             else:
                 self._trainset = pd.concat([trainset_raw, trainset_spacy], axis=1)
 
-            self._trainset['language'] = self._language
-            self._trainset['dataset_name'] = self._dataset_name
+                self._trainset['language'] = self._language
+                self._trainset['dataset_name'] = self._dataset_name
 
         return self._trainset
 
@@ -79,8 +79,8 @@ class Dataset(object):
             else:
                 self._devset = pd.concat([devset_raw, devset_spacy], axis=1)
 
-            self._devset['language'] = self._language
-            self._devset['dataset_name'] = self._dataset_name
+                self._devset['language'] = self._language
+                self._devset['dataset_name'] = self._dataset_name
 
         return self._devset
 

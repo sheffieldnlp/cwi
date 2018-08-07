@@ -1,6 +1,6 @@
 import argparse
 from src.data.dataset import Dataset
-from src.models.crosslingual import CrosslingualCWI_2
+from src.models.crosslingual import CrosslingualCWI
 from src.models.evaluation import report_binary_score
 import pandas as pd
 
@@ -12,12 +12,17 @@ datasets_per_language = {"english": ["News", "WikiNews", "Wikipedia"],
 
 
 def run_model(test_language, evaluation_split, detailed_report):
-    """Trains the CWI model in all languages but one. Tests on all datasets of a particular language. Reports results.
+    """ Trains the CWI model in all languages but one. Tests on all datasets of
+        a particular language. Reports results.
 
     Args:
-        test_language: The language of the dataset to use for testing.
-        evaluation_split: The split of the data to use for evaluating the performance of the model (dev or test).
-        detailed_report: Whether to display a detailed report or just overall score.
+        test_language:      The language of the dataset to use for testing.
+                            evaluation_split: The split of the data to use for
+                            evaluating the performance of the model (dev or
+                            test).
+
+        detailed_report:    Whether to display a detailed report or just overall
+                            score.
 
     """
 
@@ -39,6 +44,7 @@ def run_model(test_language, evaluation_split, detailed_report):
     cwi_model = CrosslingualCWI(list(datasets_per_language.keys()))
 
     cwi_model.train(train_data)
+
 
     # test the model
     test_datasets = datasets_per_language[test_language]
