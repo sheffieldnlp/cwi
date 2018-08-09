@@ -9,7 +9,7 @@ from sklearn.svm import SVC
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
-from src.features.feature_transfomers import Selector, Word_Feature_Extractor, Spacy_Feature_Extractor, Sentence_Feature_Extractor
+from src.features.feature_transfomers import Selector, Monolingual_Feature_Extractor, Crosslingual_Feature_Extractor
 
 
 class MonolingualCWI(object):
@@ -38,23 +38,19 @@ class MonolingualCWI(object):
             list. list of ('pipeline_name', Pipeline) tuples
         """
         pipe_dict = {}
-        pipe_dict['word_features'] = Pipeline([
-            ('select', Selector(key="target_word")),
-            ('extract', Word_Feature_Extractor(language)),
-            ('vectorize', DictVectorizer())])
-
-        pipe_dict['sent_features'] = Pipeline([
-            ('select', Selector(key="sentence")),
-            ('extract', Sentence_Feature_Extractor(language)),
-            ('vectorize', DictVectorizer())])
 
         pipe_dict['bag_of_words'] = Pipeline([
             ('select', Selector(key="target_word")),
             ('vectorize', CountVectorizer())])
 
-        pipe_dict['spacy_features'] = Pipeline([
-            ('select', Selector(key=["target_word", "spacy", "sentence"])),
-            ('extract', Spacy_Feature_Extractor(language)),
+        pipe_dict['monolingual_features'] = Pipeline([
+            ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
+            ('extract', Monolingual_Feature_Extractor(language)),
+            ('vectorize', DictVectorizer())])
+
+        pipe_dict['crosslingual_features'] = Pipeline([
+            ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
+            ('extract', Crosslingual_Feature_Extractor(language)),
             ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
