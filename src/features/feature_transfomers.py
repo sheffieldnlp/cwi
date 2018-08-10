@@ -113,7 +113,7 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
 
         # load pyphen stuff here #TODO
 
-       """Build a Frequency Index reference for spanish language"""
+        """Build a Frequency Index reference for spanish language"""
         if self.language == 'spanish':
             self.esp_freq_index = {}
             with open("data/external/spanish_subtitle_words_frequency_indexes.txt", "r", encoding="utf-8") as f:
@@ -235,22 +235,25 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
         Args:
             language(str): language of input data
         """
-
         if language == 'english':
             self.spacy_models = {'english': spacy.load('en_core_web_lg')}
             self.hyph_dictionaries = {'english': pyphen.Pyphen(lang='en')}
+            self.unigram_prob_dict = {'english': file_io.read_file('data/external/english_u_prob.csv')}
 
         elif language == 'spanish':
             self.spacy_models = {'spanish': spacy.load('es_core_news_md')}
             self.hyph_dictionaries = {'spanish': pyphen.Pyphen(lang='es')}
+            self.unigram_prob_dict = {'spanish': file_io.read_file('data/external/spanish_u_prob.csv')}
 
         elif language == 'german':
             self.spacy_models = {'german': spacy.load('de_core_news_sm')}
             self.hyph_dictionaries = {'german': pyphen.Pyphen(lang='de')}
+            self.unigram_prob_dict = {'german': file_io.read_file('data/external/german_u_prob.csv')}
 
         elif language == 'french':
             self.spacy_models = {'french': spacy.load('fr_core_news_md')}
             self.hyph_dictionaries = {'french': pyphen.Pyphen(lang='fr')}
+            self.unigram_prob_dict = {'french': file_io.read_file('data/external/french_u_prob.csv')}
 
         else:
             self.spacy_models = {
@@ -265,6 +268,13 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'spanish': pyphen.Pyphen(lang='es'),
                     'german': pyphen.Pyphen(lang='de'),
                     'french': pyphen.Pyphen(lang='fr')
+            }
+
+            self.unigram_prob_dict = {
+                    'english' : file_io.read_file('data/external/english_u_prob.csv'),
+                    'spanish' : file_io.read_file('data/external/spanish_u_prob.csv'),
+                    'german' : file_io.read_file('data/external/german_u_prob.csv'),
+                    'french': file_io.read_file('data/external/french_u_prob.csv')
             }
 
     def fit(self, X, *_):
@@ -322,7 +332,7 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
             spacy_sent = row["spacy"]
             target_word = row["target_word"]
             target_sent = row["sentence"]
-            language = row['language']
+            language = row["language"]
             spacy_tokens = self.get_spacy_tokens(spacy_sent,
                                                  target_word,
                                                  self.spacy_models[language])
@@ -353,7 +363,6 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 'num_complex_punct': num_complex_punct,
                 'averaged_chars_per_word': averaged_chars_per_word,
                 'sent_length' : sent_length
-
             }
 
             #Character NGram Features
@@ -376,6 +385,10 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
 
             # Named-Entity tag features
             row_dict.update(syntactic_features.get_ne_counts(spacy_tokens))
+
+            #Unigram probability features
+            unigram_prob = probability_features.get_unigram_prob(target_word, language, self.unigram_prob_dict[language])
+            row_dict['unigram_prob'] = unigram_prob
 
             row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 

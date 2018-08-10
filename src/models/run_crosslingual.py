@@ -42,7 +42,6 @@ def run_model(test_language, evaluation_split, detailed_report):
 
     # train the CWI model
     cwi_model = CrosslingualCWI(list(datasets_per_language.keys()))
-
     cwi_model.train(train_data)
 
 
