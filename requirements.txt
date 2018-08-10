@@ -11,7 +11,7 @@ ca-certificates=2018.4.16=0
 certifi=2018.4.16=py36_0
 cffi=1.11.5=py36_0
 chardet=3.0.4=py36_2
-cryptography=2.2.1=py36hdffb7b8_1
+cryptography=2.3
 cymem=1.31.2=py36_0
 cytoolz=0.8.2=py36_0
 dill=0.2.8.2=py36_0

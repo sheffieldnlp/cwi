@@ -22,7 +22,7 @@ def countCharacterNgrams(target, N):
     else:
         for token in tokens:
             ngram_counts.update(countCharacterNgrams(token, N))
-    
+
     return ngram_counts
 
 def getNGramsPrefixesSuffixes(token, index, N):
@@ -55,7 +55,7 @@ def getAllCharNGrams(token, N=2):
 
     result.update(resultngrams)
     result = dict(result)
-        
+
     return result
 
 def getPrefixesAndSuffixes(target, min_length, max_length):
@@ -80,13 +80,13 @@ def getPrefixesAndSuffixes(target, min_length, max_length):
             prefixes, suffixes = getPrefixesAndSuffixes(token, min_length, max_length)
             prefix_counts.update(prefixes)
             suffix_counts.update(suffixes)
-            
+
     return prefix_counts, suffix_counts
 
 def getCorpusCharNgramsFromTarget(target, corpus_NGram_counts):
     # For different values of N:
     ngram_counts = Counter()
-    
+
     tokens = target.split(' ')
     num_tokens = len(tokens)
     if num_tokens == 1:
@@ -101,8 +101,8 @@ def getCorpusCharNgramsFromTarget(target, corpus_NGram_counts):
     else:
         for token in tokens:
             ngram_counts.update(getCorpusCharNgramsFromTarget(token, corpus_NGram_counts))
-    
-    
+
+
     return ngram_counts
 
 # This is a preprocessing function
@@ -111,7 +111,7 @@ def getCorpusNgrams(corpus_text, min_length, max_length):
     corpus_dict = {}
     for n in range(min_length, max_length+1):
         corpus_dict[n] = getCharacterNgrams(words, n)
-        
+
     return corpus_dict
 
 if __name__ == '__main__':
@@ -121,15 +121,14 @@ if __name__ == '__main__':
 #    targets = ["The cat is eating the table","Huzzah","Happy","What the hell", "Whoops"]
 #    corpustext = "Don't read the test code!"
 #    corpus = getCorpusNgrams(corpustext, 1, 4)
-#    
-#    
+#
+#
 #    for target in targets:
 #        corpus_ngrams = getCorpusCharNgramsFromTarget(target, corpus)
 #        char_trigrams = getCharacterNgrams(target, 3)
 #        char_bigrams = getCharacterNgrams(target, 2)
 #        prefixes, suffixes = getPrefixesAndSuffixes(target, 1, 4)
-#        
-#        
-#        
+#
+#
+#
 #        print("{}\nCorpus Ngrams:\n{}\n\nTrigrams:\n{}\n\nBigrams:\n{}\n\nPrefixes:\n{}\n\nSuffixes:\n{}".format(target, corpus_ngrams, char_trigrams, char_bigrams, prefixes, suffixes))
-    

@@ -1,36 +1,31 @@
 """Crosslingual Model
 
-This module contains the class(es) and functions that implement the CWI crosslingual model.
+    This module contains the class(es) and functions that implement the CWI
+    crosslingual model.
 
 """
-import numpy as np
-from scipy.sparse import vstack
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
-from src.features.feature_transfomers import Selector, Word_Feature_Extractor, Spacy_Feature_Extractor, Sentence_Feature_Extractor
-
+from src.features.feature_transfomers import Selector, Monolingual_Feature_Extractor, Crosslingual_Feature_Extractor
 
 class CrosslingualCWI(object):
     """
-    A CWI model implementing features that for crosslingual setting of the task.
+    A basic CWI model implementing simple features that serves as baseline.
 
     """
 
-    def __init__(self, languages):
+    def __init__(self, language):
         """Defines the basic properties of the model.
 
         Args:
-            languages (list of str): languages of the data that will be used for training and testing.
+            language (str): The language of the data.
 
         """
-        self.model = LogisticRegression()
-        self.crosslingual = True
-
-        self.features_pipelines = {}
-        for language in languages:
-            self.features_pipelines[language] = self.join_pipelines(language)
+        self.model = LogisticRegression(random_state=0)
+        self.features_pipeline = self.join_pipelines(language)
 
     def build_pipelines(self, language):
         """
@@ -42,33 +37,15 @@ class CrosslingualCWI(object):
             list. list of ('pipeline_name', Pipeline) tuples
         """
         pipe_dict = {}
-        pipe_dict['word_features'] = Pipeline([
-            ('select', Selector(key="target_word")),
-            ('extract', Word_Feature_Extractor(language, crosslingual=self.crosslingual)),
-            ('vectorize', DictVectorizer())])
 
-        # pipe_dict['sent_features'] = Pipeline([
-        #     ('select', Selector(key="sentence")),
-        #     ('extract', Sentence_Feature_Extractor(language)),
-        #     ('vectorize', DictVectorizer())])
-        #
-        # pipe_dict['bag_of_words'] = Pipeline([
-        #     ('select', Selector(key="target_word")),
-        #     ('vectorize', CountVectorizer())])
-        #
-        # # Noun Phrase, BIO Encoding, Hypernym Count. Comment to exclude.
-        # # To include BIO Encoding uncomment lines in transform function of
-        # # Advanced Features Extractor Class
-        # pipe_dict['Advanced_Features']=Pipeline([
-        #     ('select', Selector(key=["target_word", "sentence"])),
-        #     ('extract', Advanced_Extractor(language)),
-        #     ('vectorize', DictVectorizer())])
-        #
-        # # Spacy feature extraction. Uncomment to use.
-        # pipe_dict['spacy_features'] = Pipeline([
-        #     ('select', Selector(key=["target_word", "spacy"])),
-        #     ('extract', Spacy_Feature_Extractor(language)),
-        #     ('vectorize', DictVectorizer())])
+        pipe_dict['bag_of_words'] = Pipeline([
+            ('select', Selector(key="target_word")),
+            ('vectorize', CountVectorizer())])
+
+        pipe_dict['crosslingual_features'] = Pipeline([
+            ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
+            ('extract', Crosslingual_Feature_Extractor()),
+            ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
 
@@ -83,36 +60,27 @@ class CrosslingualCWI(object):
         """Trains the model with the given instances.
 
         Args:
-            train_set (list): A list of (str, dictionary) tuples that contain the language and information of each
-                            instance in the dataset.
+            train_set (list): A list of dictionaries that contain the information of each instance in the dataset.
+                In particular, the target words/phrases and their gold labels.
 
         """
-        X = []
-        y = []
-        for language, train_data in train_set:
-            X_temp = self.features_pipelines[language].fit_transform(train_data)
 
-            print("{}: {}".format(language, X_temp.shape))
+        X = self.features_pipeline.fit_transform(train_set)
+        y = train_set['gold_label']
+        self.model.fit(X, y)
 
-            X.append(X_temp)
-            y.extend(train_data['gold_label'].tolist())
-
-        X_all = vstack(X)
-        y_all = np.array(y)
-
-        self.model.fit(X_all, y_all)
-
-    def predict(self, language, test_set):
+    def predict(self, test_set):
         """Predicts the label for the given instances.
 
         Args:
-            test_set (list): A list that contains the information of each instance in the dataset.
+            test_set (list): A list of dictionaries that contain the information of each instance in the dataset.
+                In particular, the target words/phrases.
 
         Returns:
             numpy array. The predicted label for each target word/phrase.
 
         """
 
-        X = self.features_pipelines[language].fit_transform(test_set)
+        X = self.features_pipeline.transform(test_set)
 
         return self.model.predict(X)
