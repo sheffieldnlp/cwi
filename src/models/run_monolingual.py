@@ -12,6 +12,7 @@ from src.data.dataset import Dataset
 from src.models.monolingual import MonolingualCWI
 from src.models.evaluation import report_binary_score
 from collections import Counter
+from src.features import file_io
 
 
 datasets_per_language = {"english": ["News", "WikiNews", "Wikipedia"],
@@ -33,16 +34,22 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
     print("\nModel for {} - {}.".format(language, dataset_name))
 
     data = Dataset(language, dataset_name)
-
     #The code below is used for creating unigram probability csv files
 
-    # if (language == 'german'):
-    #     corp = nltk.corpus.ConllCorpusReader('.', 'tiger_release_aug07.corrected.16012013.conll09',
-    #                                  ['ignore', 'words', 'ignore', 'ignore', 'ignore'],
-    #                                  encoding='utf-8')
-    #     corpus_words = corp.words()
-    #     unigram_counts = Counter(corpus_words)
-    #     total_words = len(corpus_words)
+        #corp = nltk.corpus.ConllCorpusReader('.', 'tiger_release_aug07.corrected.16012013.conll09',
+                                    # ['ignore', 'words', 'ignore', 'ignore', 'ignore'],
+                                     #encoding='utf-8')
+    # filename = 'europarl-v7.fr-en.fr'
+    # file = open(filename, mode='rt', encoding='utf-8')
+    # corpus_words = []
+    # for line in file:
+    #     #print(line)
+    #     corpus_words += line.strip(',').strip('.').split()
+    #     #print(corpus_words)
+
+    # #corpus_words = corp.words()
+    # unigram_counts = Counter(corpus_words)
+    # total_words = len(corpus_words)
 
     # def calc_unigram_prob(unigram_counts, total_words):
     #     u_prob = {} #defaultdict
@@ -58,7 +65,8 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
 
     # u_prob = calc_unigram_prob(unigram_counts, total_words)
     # print('saving file')
-    # save_to_file(u_prob, 'data/external/german_u_prob.csv')
+    # save_to_file(u_prob, 'data/external/french_u_prob.csv')
+    # hgiuyo
 
     baseline = MonolingualCWI(language)
 
