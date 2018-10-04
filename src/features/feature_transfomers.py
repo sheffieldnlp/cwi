@@ -167,10 +167,10 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
         result = []
 
         """ Dataset level Statistics """
-        if (self.language == 'english' or self.language == 'spanish'):
+        """if (self.language == 'english' or self.language == 'spanish'):
             self.avg_sense_count = np.mean([syn_and_sense_features.no_synonyms(target_word, self.language) for target_word in X.target_word])
             self.avg_syn_count = np.mean([syn_and_sense_features.no_senses(target_word, self.language) for target_word in X.target_word])
-
+        """
         # self._avg_target_phrase_len = np.mean([len(x) for x in X["spacy"]])
 
         """ """
@@ -187,7 +187,7 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
             char_tri_sum, char_tri_avg = char_trigram_features.trigram_stats(target_word, language)
             rare_trigram_count = char_trigram_features.rare_trigram_count(target_word, language)
             is_stopword = stopwords.is_stop(target_word,language)
-            num_pronunciations = phonetic_features.num_pronunciations(target_word, language=language)
+            #num_pronunciations = phonetic_features.num_pronunciations(target_word, language=language)
             rare_word_count = frequency_features.rare_word_count(target_word, language)
 
             row_dict = {
@@ -199,7 +199,7 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'rare_word_count': rare_word_count,
                     }
 
-            if(language == 'english' or language == 'spanish'):
+            """if(language == 'english' or language == 'spanish'):
                 unigram_prob = probability_features.get_unigram_prob(target_word, language, self.u_prob) #also german
                 row_dict['unigram_prob'] = unigram_prob
                 syn_count = syn_and_sense_features.no_synonyms(target_word, language)
@@ -207,13 +207,13 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
                 word_vec = word_emb_features.get_word_emb(spacy_tokens, language)
                 for i in range(word_vec.shape[0]):
-                    row_dict['vec_' + str(i)] = word_vec[i] #word embedding
+                    row_dict['vec_' + str(i)] = word_vec[i] #word embedding"""
 
             # Spanish Frequency Index feature
-            if language == 'spanish':
+            """if language == 'spanish':
                 esp_freq_index_features = frequency_index_features.frequency_index(spacy_tokens, self.esp_freq_index)
                 row_dict.update(esp_freq_index_features)
-
+            """
             row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 
             result.append(row_dict)
@@ -362,32 +362,41 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 'num_complex_punct': num_complex_punct,
                 'averaged_chars_per_word': averaged_chars_per_word,
                 'sent_length' : sent_length
+                'unigram_prob': probability_features.get_unigram_prob(target_word, language, self.unigram_prob_dict[language])
             }
 
+            long_feat_dict = {
+            'char_n_gram_feats': NGram_char_features.getAllCharNGrams(target_word, 6),
+            'sent_n_gram_feats': sentence_features.getAllSentNGrams(target_sent, 3),
+            'iob_tags': iob_features.iob_tags(spacy_tokens),
+            'lemma_feats': lemma_features.lemmas(spacy_tokens),
+            'bag_of_shapes': morphological_features.word_shape(spacy_tokens),
+            'pos_tag_counts': syntactic_features.get_pos_counts(spacy_tokens),
+            'NER_tag_counts': syntactic_features.get_ne_counts(spacy_tokens)
+            }
+
+            for feat, value_dict in long_feat_dict.items():
+                row_dict.update(value_dict.items())
             #Character NGram Features
-            row_dict.update(NGram_char_features.getAllCharNGrams(target_word, 6))
+            #row_dict.update()
 
             # Sentence N gram features
-            row_dict.update(sentence_features.getAllSentNGrams(target_sent, 3))
+            #row_dict.update()
 
             # iob tags
-            row_dict.update(iob_features.iob_tags(spacy_tokens))
+            #row_dict.update()
 
             # Bag-of-Lemmas Feature
-            row_dict.update(lemma_features.lemmas(spacy_tokens))
+            #row_dict.update()
 
             # Bag-of-shapes feature (1 word shape per word in target phrase)
-            row_dict.update(morphological_features.word_shape(spacy_tokens))
+            #row_dict.update()
 
             # Part-of-speech tag features
-            row_dict.update(syntactic_features.get_pos_counts(spacy_tokens)) #TODO check this is universal POStag
+            #row_dict.update() #TODO check this is universal POStag
 
             # Named-Entity tag features
-            row_dict.update(syntactic_features.get_ne_counts(spacy_tokens))
-
-            #Unigram probability features
-            unigram_prob = probability_features.get_unigram_prob(target_word, language, self.unigram_prob_dict[language])
-            row_dict['unigram_prob'] = unigram_prob
+            #row_dict.update()
 
             row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 
