@@ -113,13 +113,14 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
         # load pyphen stuff here #TODO
 
         """Build a Frequency Index reference for spanish language"""
-        if self.language == 'spanish':
+        """if self.language == 'spanish':
             self.esp_freq_index = {}
             with open("data/external/spanish_subtitle_words_frequency_indexes.txt", "r", encoding="utf-8") as f:
                 for line in f.readlines():
                     wd = line.split(",")[0]
                     FI = int(line.split(",")[1])
                     self.esp_freq_index[wd] = FI
+        """
 
     def fit(self, X, *_):
         return self
@@ -187,7 +188,7 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
             char_tri_sum, char_tri_avg = char_trigram_features.trigram_stats(target_word, language)
             rare_trigram_count = char_trigram_features.rare_trigram_count(target_word, language)
             is_stopword = stopwords.is_stop(target_word,language)
-            num_pronunciations = phonetic_features.num_pronunciations(target_word, language=language)
+            #num_pronunciations = phonetic_features.num_pronunciations(target_word, language=language)
             rare_word_count = frequency_features.rare_word_count(target_word, language)
 
             row_dict = {
@@ -195,11 +196,11 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'char_tri_avg': char_tri_avg,
                     'rare_trigram_count': rare_trigram_count,
                     'is_stop':is_stopword,
-                    'num_pronunciations':  num_pronunciations,
+                    #'num_pronunciations':  num_pronunciations,
                     'rare_word_count': rare_word_count,
                     }
 
-            if(language == 'english' or language == 'spanish'):
+            """if(language == 'english' or language == 'spanish'):
                 unigram_prob = probability_features.get_unigram_prob(target_word, language, self.u_prob) #also german
                 row_dict['unigram_prob'] = unigram_prob
                 syn_count = syn_and_sense_features.no_synonyms(target_word, language)
@@ -213,6 +214,7 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
             if language == 'spanish':
                 esp_freq_index_features = frequency_index_features.frequency_index(spacy_tokens, self.esp_freq_index)
                 row_dict.update(esp_freq_index_features)
+            """
 
             row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 
