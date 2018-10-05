@@ -83,7 +83,7 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
 
     """
 
-    def __init__(self, language):
+    def __init__(self, language, ablate=None):
         """
         Define basic properties
 
@@ -109,6 +109,8 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
             self.nlp = spacy.load('de_core_news_sm')
         elif self.language == "french":
             self.nlp = spacy.load('fr_core_news_md')
+
+        self.ablate = ablate
 
         # load pyphen stuff here #TODO
 
@@ -215,6 +217,10 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 esp_freq_index_features = frequency_index_features.frequency_index(spacy_tokens, self.esp_freq_index)
                 row_dict.update(esp_freq_index_features)
             """
+            if self.ablate:
+                for key in self.ablate:
+                    if key in row_dict:
+                        del row_dict[key]
 
             row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 
@@ -229,7 +235,7 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
 
     """
 
-    def __init__(self, language=None):
+    def __init__(self, language=None, ablate=None):
         """
         Define basic properties
 
@@ -277,6 +283,7 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'german' : file_io.read_file('data/external/german_u_prob.csv'),
                     'french': file_io.read_file('data/external/french_u_prob.csv')
             }
+        self.ablate = ablate
 
     def fit(self, X, *_):
         return self
@@ -363,33 +370,33 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 'is_capitalised': is_capitalised,
                 'num_complex_punct': num_complex_punct,
                 'averaged_chars_per_word': averaged_chars_per_word,
-                'sent_length' : sent_length
+                'sent_length' : sent_length,
+                'unigram_prob': probability_features.get_unigram_prob(target_word, language, self.unigram_prob_dict[language])
+
             }
 
-            #Character NGram Features
-            row_dict.update(NGram_char_features.getAllCharNGrams(target_word, 6))
+            if self.ablate:
+                for key in self.ablate:
+                    if key in row_dict:
+                        del row_dict[key]
 
-            # Sentence N gram features
-            row_dict.update(sentence_features.getAllSentNGrams(target_sent, 3))
+            long_feat_dict = {
+                'char_n_gram_feats': NGram_char_features.getAllCharNGrams(target_word, 6),
+                'sent_n_gram_feats': sentence_features.getAllSentNGrams(target_sent, 3),
+                'iob_tags': iob_features.iob_tags(spacy_tokens),
+                'lemma_feats': lemma_features.lemmas(spacy_tokens),
+                'bag_of_shapes': morphological_features.word_shape(spacy_tokens),
+                'pos_tag_counts': syntactic_features.get_pos_counts(spacy_tokens),
+                'NER_tag_counts': syntactic_features.get_ne_counts(spacy_tokens)
+            }
 
-            # iob tags
-            row_dict.update(iob_features.iob_tags(spacy_tokens))
+            if self.ablate:
+                for key in self.ablate:
+                    if key in long_feat_dict:
+                        del long_feat_dict[key]
 
-            # Bag-of-Lemmas Feature
-            row_dict.update(lemma_features.lemmas(spacy_tokens))
-
-            # Bag-of-shapes feature (1 word shape per word in target phrase)
-            row_dict.update(morphological_features.word_shape(spacy_tokens))
-
-            # Part-of-speech tag features
-            row_dict.update(syntactic_features.get_pos_counts(spacy_tokens)) #TODO check this is universal POStag
-
-            # Named-Entity tag features
-            row_dict.update(syntactic_features.get_ne_counts(spacy_tokens))
-
-            #Unigram probability features
-            unigram_prob = probability_features.get_unigram_prob(target_word, language, self.unigram_prob_dict[language])
-            row_dict['unigram_prob'] = unigram_prob
+            for feat, value_dict in long_feat_dict.items():
+                row_dict.update(value_dict.items())
 
             row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 

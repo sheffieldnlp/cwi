@@ -18,7 +18,7 @@ class MonolingualCWI(object):
 
     """
 
-    def __init__(self, language):
+    def __init__(self, language, ablate):
         """Defines the basic properties of the model.
 
         Args:
@@ -26,8 +26,8 @@ class MonolingualCWI(object):
 
         """
         self.model = LogisticRegression(random_state=0)
+        self.ablate = ablate
         self.features_pipeline = self.join_pipelines(language)
-
     def build_pipelines(self, language):
         """
         Builds all feature pipelines
@@ -45,12 +45,12 @@ class MonolingualCWI(object):
 
         pipe_dict['monolingual_features'] = Pipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
-            ('extract', Monolingual_Feature_Extractor(language)),
+            ('extract', Monolingual_Feature_Extractor(language, self.ablate)),
             ('vectorize', DictVectorizer())])
 
         pipe_dict['crosslingual_features'] = Pipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
-            ('extract', Crosslingual_Feature_Extractor(language)),
+            ('extract', Crosslingual_Feature_Extractor(language, self.ablate)),
             ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
