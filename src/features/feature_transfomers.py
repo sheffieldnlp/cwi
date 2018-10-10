@@ -21,28 +21,30 @@ from sklearn import preprocessing
 import pandas as pd
 import nltk
 nltk.download("omw", quiet=True)
+import pyphen
+
+from collections import OrderedDict
 
 from sklearn.base import BaseEstimator, TransformerMixin
 
-from src.features import length_features as lenfeats
-from src.features import phonetic_features as phonfeats
-from src.features import affix_features as affeats
-from src.features import char_trigram_features as trifeats
-from src.features import NGram_char_features as charfeats
-from src.features import sentence_features as sentfeats
-from src.features import syn_and_sense_features as synsenfeats
-from src.features import word_emb_features as wordembfeats
-from src.features import syntactic_features as synfeats
-from src.features import morphological_features as morphfeats
-from src.features import frequency_index_features as freqixfeats
-from src.features import stopwords as stop
-from src.features import lemma_features as lemmafeats
-from src.features import morphological_features as morphfeats
-from src.features import frequency_features as freqfeats
-from src.features import hypernym_features as hyper_feats
-from src.features import noun_phrase_features as noun_feats
-from src.features import iob_features as iobfeats
-from src.features import probability_features as prob_feats
+from src.features import length_features
+from src.features import phonetic_features
+from src.features import affix_features
+from src.features import char_trigram_features
+from src.features import NGram_char_features
+from src.features import sentence_features
+from src.features import syn_and_sense_features
+from src.features import word_emb_features
+from src.features import syntactic_features
+from src.features import morphological_features
+from src.features import frequency_index_features
+from src.features import stopwords
+from src.features import lemma_features
+from src.features import frequency_features
+from src.features import hypernym_features
+from src.features import noun_phrase_features
+from src.features import iob_features
+from src.features import probability_features
 from src.features import file_io
 
 
@@ -74,153 +76,14 @@ class Selector(BaseEstimator, TransformerMixin):
         """
         return df[self.key]
 
-
-class Word_Feature_Extractor(BaseEstimator, TransformerMixin):
-    """
-    Transformer to extract word features from column of target words
-
-    """
-
-    def __init__(self, language, crosslingual=False, maxCharNgrams=6, normaliseSynsenFeats=True):
-        """
-        Define basic properties
-
-        Args:
-            language(str): language of input data
-            maxCharNgrams(int): Extract 1 to N length Character NGrams and
-                                suffixes and prefixes (e.g. 2 = 'ch')
-        """
-        self.language = language
-        self.crosslingual = crosslingual
-        self.maxCharNgrams = maxCharNgrams
-        self.normaliseSynsenFeats = normaliseSynsenFeats
-
-        if (self.language == 'english'):
-            #print('reading unigram probs')
-            self.u_prob = file_io.read_file('data/external/english_u_prob.csv') #should be in data/external
-
-        if (self.language == 'spanish'):
-            print('reading unigram probs')
-            self.u_prob = file_io.read_file('data/external/spanish_u_prob.csv')
-
-    def fit(self, X, *_):
-        return self
-
-    def transform(self, X, *_):
-
-        """Extracts features from a given target word or phrase.
-
-        Args:
-            X (Series): Column of target words and phrases
-
-        Returns:
-            result (list[dict]): List of row dictionaries containing the values of the extracted features for each row.
-
-        This tranformer should always be followed by a DictionaryVectorizer in any pipeline which uses it.
-        """
-
-        """Gathering normalisation information from the whole dataset"""
-        result=[]
-        if not self.crosslingual:
-            if (self.language == 'english' or self.language == 'spanish'):
-                if self.normaliseSynsenFeats == True:
-                    self.avg_sense_count = np.mean([synsenfeats.no_synonyms(target_word, self.language) for target_word in X])
-                    self.avg_syn_count = np.mean([synsenfeats.no_senses(target_word, self.language) for target_word in X])
-
-        
-
-        for target_word in X:
-            
-            len_chars_norm = lenfeats.character_length(target_word, language=self.language)
-            len_tokens = lenfeats.token_length(target_word)
-            consonant_freq = phonfeats.consonant_frequency(target_word)
-            gr_or_lat = affeats.greek_or_latin(target_word)
-            is_capitalised = morphfeats.is_capitalised(target_word)
-            num_complex_punct = morphfeats.num_complex_punct(target_word)
-            
-            if not self.crosslingual:
-                len_syllables = phonfeats.num_syllables(target_word, language=self.language)
-                char_tri_sum, char_tri_avg = trifeats.trigram_stats(target_word, self.language)
-                is_stopword = stop.is_stop(target_word,self.language)
-                averaged_chars_per_word = lenfeats.averaged_chars_per_word(target_word, self.language)
-                num_pronunciations = phonfeats.num_pronunciations(target_word, language=self.language)
-                char_ngrams = charfeats.getAllCharNGrams(target_word, self.maxCharNgrams)
-                rare_word_count = freqfeats.rare_word_count(target_word, self.language)
-                rare_trigram_count = trifeats.rare_trigram_count(target_word, self.language)
-                # dictionary to store the features in, vectorize this with DictionaryVectorizer 'len_chars_norm': len_chars_norm,
-                row_dict = {
-                        'len_chars_norm': len_chars_norm,
-                        'len_tokens': len_tokens,
-                        'len_syllables': len_syllables,
-                        'consonant_freq': consonant_freq,
-                        'gr_or_lat': gr_or_lat,
-                        'char_tri_sum': char_tri_sum,
-                        'char_tri_avg': char_tri_avg,
-                        'is_capitalised': is_capitalised,
-                        'is_stop':is_stopword,
-                        'averaged_chars_per_word': averaged_chars_per_word,
-                        'num_complex_punct': num_complex_punct,
-                        'num_pronunciations':  num_pronunciations,
-                        'rare_word_count': rare_word_count,
-                        'rare_trigram_count': rare_trigram_count
-                        }
-            else:
-                row_dict = {
-                    'len_chars_norm': len_chars_norm,
-                    'len_tokens': len_tokens,
-                    'consonant_freq': consonant_freq,
-                    'gr_or_lat': gr_or_lat,
-                    'is_capitalised': is_capitalised,
-                    'num_complex_punct': num_complex_punct,
-                        }
-            
-#            # Ideally I'd like to make two loops, one for all the non-crosslingual features
-#            # and one for all the crosslingual features, so that this check can be
-#            # taken outside the loop:
-#            if not self.crosslingual:
-#                if (self.language == 'english' or self.language == 'spanish'):
-#                    syn_count = synsenfeats.no_synonyms(target_word, self.language)
-#                    sense_count = synsenfeats.no_senses(target_word, self.language)
-#    
-#                    if self.normaliseSynsenFeats: # Normalisation
-#                        row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
-#                    else:
-#                        row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
-
-            #unigram prob
-            
-            if not self.crosslingual:
-                if(self.language == 'english' or self.language == 'spanish'):
-                    unigram_prob = prob_feats.get_unigram_prob(target_word, self.language, self.u_prob)
-                    #print(unigram_prob)
-                    row_dict['unigram_prob'] = unigram_prob
-    
-                if (self.language == 'english' or self.language == 'spanish'):
-                    syn_count = synsenfeats.no_synonyms(target_word, self.language)
-                    sense_count = synsenfeats.no_senses(target_word, self.language)
-    
-                    if self.normaliseSynsenFeats: # Normalisation
-                        row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
-                    else:
-                        row_dict.update({'syn_count': syn_count, 'sense_count': sense_count})
-    
-                # Need to add these in a loop, since I don't know how many there will be:
-                for ngram, count in char_ngrams.items():
-                    row_dict['char_ngrams__' + ngram] = count
-
-            result.append(row_dict)
-
-        return result
-
-
-class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
+class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
     """
     Transformer to extract word features from dataframe of target words and
     spacy docs
 
     """
 
-    def __init__(self, language, crosslingual=False):
+    def __init__(self, language, ablate=None):
         """
         Define basic properties
 
@@ -228,8 +91,15 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             language(str): language of input data
         """
         self.language = language
-        self.crosslingual = crosslingual
 
+        if (self.language == 'english'):
+            self.u_prob = file_io.read_file('data/external/english_u_prob.csv') #should be in data/external
+
+        if (self.language == 'spanish'):
+            self.u_prob = file_io.read_file('data/external/spanish_u_prob.csv')
+
+        #if (self.language == 'german'):
+         #   self.u_prob = file_io.read_file('data/external/german_u_prob.csv')
         # Loading the spacy vocab for tokenisation.
         if self.language == "english":
             self.nlp = spacy.load('en_core_web_lg')
@@ -240,18 +110,22 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
         elif self.language == "french":
             self.nlp = spacy.load('fr_core_news_md')
 
+        self.ablate = ablate
+
+        # load pyphen stuff here #TODO
+
         """Build a Frequency Index reference for spanish language"""
-        if self.language == 'spanish':
+        """if self.language == 'spanish':
             self.esp_freq_index = {}
             with open("data/external/spanish_subtitle_words_frequency_indexes.txt", "r", encoding="utf-8") as f:
                 for line in f.readlines():
                     wd = line.split(",")[0]
                     FI = int(line.split(",")[1])
                     self.esp_freq_index[wd] = FI
+        """
 
     def fit(self, X, *_):
         return self
-
 
     def get_spacy_tokens(self, spacy_sentence, spacy_target_word):
         """
@@ -281,6 +155,165 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
         return spacy_token_list
 
 
+    def transform(self, X, *_):
+
+        """Extracts features from a given target word and context.
+
+        Args:
+            X (DataFrame): Columns of target words and spacy docs
+
+        Returns:
+            result (list[dict]): List of row dictionaries containing the values
+            of the extracted features for each row.
+        """
+
+        result = []
+
+        """ Dataset level Statistics """
+        if (self.language == 'english' or self.language == 'spanish'):
+            self.avg_sense_count = np.mean([syn_and_sense_features.no_synonyms(target_word, self.language) for target_word in X.target_word])
+            self.avg_syn_count = np.mean([syn_and_sense_features.no_senses(target_word, self.language) for target_word in X.target_word])
+
+        # self._avg_target_phrase_len = np.mean([len(x) for x in X["spacy"]])
+
+        """ """
+        for ix, row in X.iterrows():
+
+            """ Selecting """
+            spacy_sent = row["spacy"]
+            target_word = row["target_word"]
+            target_sent = row["sentence"]
+            spacy_tokens = self.get_spacy_tokens(spacy_sent, target_word)
+            language = row['language']
+
+            """ Feature Extraction """
+            char_tri_sum, char_tri_avg = char_trigram_features.trigram_stats(target_word, language)
+            rare_trigram_count = char_trigram_features.rare_trigram_count(target_word, language)
+            is_stopword = stopwords.is_stop(target_word,language)
+            #num_pronunciations = phonetic_features.num_pronunciations(target_word, language=language)
+            rare_word_count = frequency_features.rare_word_count(target_word, language)
+
+            row_dict = {
+                    'char_tri_sum': char_tri_sum,
+                    'char_tri_avg': char_tri_avg,
+                    'rare_trigram_count': rare_trigram_count,
+                    'is_stop':is_stopword,
+                    #'num_pronunciations':  num_pronunciations,
+                    'rare_word_count': rare_word_count,
+                    }
+
+            """if(language == 'english' or language == 'spanish'):
+                unigram_prob = probability_features.get_unigram_prob(target_word, language, self.u_prob) #also german
+                row_dict['unigram_prob'] = unigram_prob
+                syn_count = syn_and_sense_features.no_synonyms(target_word, language)
+                sense_count = syn_and_sense_features.no_senses(target_word, language)
+                row_dict.update({'syn_count': syn_count/self.avg_syn_count, 'sense_count': sense_count/self.avg_sense_count})
+                word_vec = word_emb_features.get_word_emb(spacy_tokens, language)
+                for i in range(word_vec.shape[0]):
+                    row_dict['vec_' + str(i)] = word_vec[i] #word embedding
+
+            # Spanish Frequency Index feature
+            if language == 'spanish':
+                esp_freq_index_features = frequency_index_features.frequency_index(spacy_tokens, self.esp_freq_index)
+                row_dict.update(esp_freq_index_features)
+            """
+            if self.ablate:
+                for key in self.ablate:
+                    if key in row_dict:
+                        del row_dict[key]
+
+            row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
+
+            result.append(row_dict)
+
+        return result
+
+
+class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
+    """
+    Transformer to extract crosslingual features
+
+    """
+
+    def __init__(self, language=None, ablate=None):
+        """
+        Define basic properties
+
+        Args:
+            language(str): language of input data
+        """
+        if language == 'english':
+            self.spacy_models = {'english': spacy.load('en_core_web_lg')}
+            self.hyph_dictionaries = {'english': pyphen.Pyphen(lang='en')}
+            self.unigram_prob_dict = {'english': file_io.read_file('data/external/english_u_prob.csv')}
+
+        elif language == 'spanish':
+            self.spacy_models = {'spanish': spacy.load('es_core_news_md')}
+            self.hyph_dictionaries = {'spanish': pyphen.Pyphen(lang='es')}
+            self.unigram_prob_dict = {'spanish': file_io.read_file('data/external/spanish_u_prob.csv')}
+
+        elif language == 'german':
+            self.spacy_models = {'german': spacy.load('de_core_news_sm')}
+            self.hyph_dictionaries = {'german': pyphen.Pyphen(lang='de')}
+            self.unigram_prob_dict = {'german': file_io.read_file('data/external/german_u_prob.csv')}
+
+        elif language == 'french':
+            self.spacy_models = {'french': spacy.load('fr_core_news_md')}
+            self.hyph_dictionaries = {'french': pyphen.Pyphen(lang='fr')}
+            self.unigram_prob_dict = {'french': file_io.read_file('data/external/french_u_prob.csv')}
+
+        else:
+            self.spacy_models = {
+                'english': spacy.load('en_core_web_lg'),
+                'spanish': spacy.load("es_core_news_md"),
+                'german': spacy.load('de_core_news_sm'),
+                'french': spacy.load('fr_core_news_md')
+            }
+
+            self.hyph_dictionaries = {
+                    'english': pyphen.Pyphen(lang='en'),
+                    'spanish': pyphen.Pyphen(lang='es'),
+                    'german': pyphen.Pyphen(lang='de'),
+                    'french': pyphen.Pyphen(lang='fr')
+            }
+
+            self.unigram_prob_dict = {
+                    'english' : file_io.read_file('data/external/english_u_prob.csv'),
+                    'spanish' : file_io.read_file('data/external/spanish_u_prob.csv'),
+                    'german' : file_io.read_file('data/external/german_u_prob.csv'),
+                    'french': file_io.read_file('data/external/french_u_prob.csv')
+            }
+        self.ablate = ablate
+
+    def fit(self, X, *_):
+        return self
+
+    def get_spacy_tokens(self, spacy_sentence, target_word, spacy_model):
+        """
+        A function to locate the target phrase spacy tokens in a spacy doc of
+        a whole sentence.
+
+        Args:
+            spacy_sentence: spacy doc for the context sentence
+            spacy_target_word: spacy doc for the target word/phrase only
+
+        Returns:
+            spacy_token_list: a list of the spacy tokens for the target phrase,
+                              using the information from the context sentence.
+
+        """
+        # Create the tokeniser
+        tokenizer = Tokenizer(spacy_model.vocab)
+
+        spacy_token_list = []
+
+        for target in tokenizer(target_word):
+            for wd in spacy_sentence:
+                if target.text == wd.text:
+                    spacy_token_list.append(wd)
+                    break
+
+        return spacy_token_list
 
     def transform(self, X, *_):
 
@@ -290,117 +323,82 @@ class Spacy_Feature_Extractor(BaseEstimator, TransformerMixin):
             X (DataFrame): Columns of target words and spacy docs
 
         Returns:
-            result (list[dict]): List of row dictionaries containing the values of the extracted features for each row.
-
-        This tranformer should always be followed by a DictionaryVectorizer in any pipeline which uses it.
+            result (list[dict]): List of row dictionaries containing the values
+            of the extracted features for each row.
         """
+
 
         result = []
 
-        self._avg_target_phrase_len = np.mean([len(x) for x in X["spacy"]])
+        """ Dataset level Statistics """
+        avg_target_phrase_len = np.mean([len(x) for x in X["spacy"]])
 
+        """ """
         for ix, row in X.iterrows():
 
-            # Reference the spacy doc and the target word separately
+            """ Selecting """
             spacy_sent = row["spacy"]
             target_word = row["target_word"]
-            sent = row["sentence"]
+            target_sent = row["sentence"]
+            language = row["language"]
+            spacy_tokens = self.get_spacy_tokens(spacy_sent,
+                                                 target_word,
+                                                 self.spacy_models[language])
 
-            # Look up the spacy tokens of the target word.
-            spacy_tokens = self.get_spacy_tokens(spacy_sent, target_word)
-
-            # Extract features
-            is_nounphrase = noun_feats.is_noun_phrase(spacy_sent, target_word)
-            len_tokens_norm = len(spacy_tokens)/self._avg_target_phrase_len
-            hypernym_counts = hyper_feats.hypernym_count(target_word, self.language)
+            """ Feature Extraction """
+            is_nounphrase = noun_phrase_features.is_noun_phrase(spacy_sent, target_word)
+            len_tokens_norm = len(spacy_tokens)/avg_target_phrase_len
+            hypernym_counts = hypernym_features.hypernym_count(target_word, language)
+            len_chars_norm = length_features.character_length(target_word, language=language)
+            len_tokens = length_features.token_length(target_word)
+            len_syllables = phonetic_features.num_syllables(target_word, language, self.hyph_dictionaries[language])
+            consonant_freq = phonetic_features.consonant_frequency(target_word)
+            gr_or_lat = affix_features.greek_or_latin(target_word)
+            is_capitalised = morphological_features.is_capitalised(target_word)
+            num_complex_punct = morphological_features.num_complex_punct(target_word)
+            averaged_chars_per_word = length_features.averaged_chars_per_word(target_word, language)
+            sent_length = length_features.token_length(target_sent)
 
             row_dict = {
-                    'len_tokens_norm': len_tokens_norm,
-                    'hypernym_count': hypernym_counts,
-                    'is_nounphrase': is_nounphrase
-                    }
+                'is_nounphrase': is_nounphrase,
+                'len_tokens_norm': len_tokens_norm,
+                'hypernym_count': hypernym_counts,
+                'len_chars_norm': len_chars_norm,
+                'len_tokens': len_tokens,
+                'consonant_freq': consonant_freq,
+                'gr_or_lat': gr_or_lat,
+                'is_capitalised': is_capitalised,
+                'num_complex_punct': num_complex_punct,
+                'averaged_chars_per_word': averaged_chars_per_word,
+                'sent_length' : sent_length,
+                'unigram_prob': probability_features.get_unigram_prob(target_word, language, self.unigram_prob_dict[language])
 
-            # iob tags
-            iob_tags = iobfeats.iob_tags(spacy_tokens)
-            row_dict.update(iob_tags)
+            }
 
-            # Bag-of-Lemmas Feature
-            lemma_features = lemmafeats.lemmas(spacy_tokens)
-            row_dict.update(lemma_features)
+            if self.ablate:
+                for key in self.ablate:
+                    if key in row_dict:
+                        del row_dict[key]
 
-            # Bag-of-shapes feature (1 word shape per word in target phrase)
-            shape_features = morphfeats.word_shape(spacy_tokens)
-            row_dict.update(shape_features)
+            long_feat_dict = {
+                'char_n_gram_feats': NGram_char_features.getAllCharNGrams(target_word, 6),
+                'sent_n_gram_feats': sentence_features.getAllSentNGrams(target_sent, 3),
+                'iob_tags': iob_features.iob_tags(spacy_tokens),
+                'lemma_feats': lemma_features.lemmas(spacy_tokens),
+                'bag_of_shapes': morphological_features.word_shape(spacy_tokens),
+                'pos_tag_counts': syntactic_features.get_pos_counts(spacy_tokens),
+                'NER_tag_counts': syntactic_features.get_ne_counts(spacy_tokens)
+            }
 
-            # Part-of-speech tag features
-            pos_features = synfeats.get_pos_counts(spacy_tokens)
-            row_dict.update(pos_features)
+            if self.ablate:
+                for key in self.ablate:
+                    if key in long_feat_dict:
+                        del long_feat_dict[key]
 
-            # Named-Entity tag features
-            ne_features = synfeats.get_ne_counts(spacy_tokens)
-            row_dict.update(ne_features)
+            for feat, value_dict in long_feat_dict.items():
+                row_dict.update(value_dict.items())
 
-            #word embedding
-            if (self.language == 'english' or self.language == 'spanish'): #only for now
-
-                word_vec = wordembfeats.get_word_emb(spacy_tokens, self.language)
-                for i in range(word_vec.shape[0]):
-                    row_dict['vec_' + str(i)] = word_vec[i]
-
-            # Spanish Frequency Index feature
-            if self.language == 'spanish':
-                esp_freq_index_features = freqixfeats.frequency_index(spacy_tokens, self.esp_freq_index)
-                row_dict.update(esp_freq_index_features)
-
-            result.append(row_dict)
-
-        return result
-
-
-class Sentence_Feature_Extractor(BaseEstimator, TransformerMixin):
-    """
-    Transformer to extract sentence features from column of sentences
-    """
-
-    def __init__(self, language, crosslingual=False, maxSentNGram = 3):
-        """
-        Define basic properties
-
-        Args:
-            language(str): language of input data
-        """
-        self.language = language
-        self.crosslingual = crosslingual
-        self.maxSentNGram = maxSentNGram
-
-    def fit(self, X, *_):
-        return self
-
-    def transform(self, X, *_):
-
-        """Extracts features from a given target sentence.
-
-        Args:
-            X (Series): Column of target sentencess
-
-        Returns:
-            result (list[dict]): List of row dictionaries containing the values of the extracted features for each row.
-
-        This tranformer should always be followed by a DictionaryVectorizer in any pipeline which uses it.
-        """
-
-        result = []
-        for target_sent in X:
-            sent_length = lenfeats.token_length(target_sent)
-            sent_NGrams = sentfeats.getAllSentNGrams(target_sent, self.maxSentNGram)
-
-            # dictionary to store the features in, vectorize this with DictionaryVectorizer
-            row_dict = {
-                    'sent_length' : sent_length,
-                    }
-
-            for ngram, count in sent_NGrams.items():
-                row_dict['sent_ngrams__' + ngram] = count
+            row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 
             result.append(row_dict)
 

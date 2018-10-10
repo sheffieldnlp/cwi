@@ -1,3 +1,8 @@
+"""
+
+This module contains file input/output operations.
+
+"""
 import csv
 
 def read_file(file_name):

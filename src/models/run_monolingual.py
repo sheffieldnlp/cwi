@@ -12,6 +12,7 @@ from src.data.dataset import Dataset
 from src.models.monolingual import MonolingualCWI
 from src.models.evaluation import report_binary_score
 from collections import Counter
+from src.features import file_io
 
 
 datasets_per_language = {"english": ["News", "WikiNews", "Wikipedia"],
@@ -20,7 +21,7 @@ datasets_per_language = {"english": ["News", "WikiNews", "Wikipedia"],
                          "french": ["French"]}
 
 
-def run_model(language, dataset_name, evaluation_split, detailed_report):
+def run_model(language, dataset_name, evaluation_split, detailed_report, ablate):
     """Trains and tests the CWI model for a particular dataset of a particular language. Reports results.
 
     Args:
@@ -30,16 +31,25 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
         detailed_report: Whether to display a detailed report or just overall score.
 
     """
-    print("\nModel for {} - {}.".format(language, dataset_name))
+    score_only = True if ablate else False
 
     data = Dataset(language, dataset_name)
-
     #The code below is used for creating unigram probability csv files
 
-    # if (language == 'spanish'):
-    #     corpus_words = nltk.corpus.cess_esp.words()
-    #     unigram_counts = Counter(corpus_words)
-    #     total_words = len(corpus_words)
+        #corp = nltk.corpus.ConllCorpusReader('.', 'tiger_release_aug07.corrected.16012013.conll09',
+                                    # ['ignore', 'words', 'ignore', 'ignore', 'ignore'],
+                                     #encoding='utf-8')
+    # filename = 'europarl-v7.fr-en.fr'
+    # file = open(filename, mode='rt', encoding='utf-8')
+    # corpus_words = []
+    # for line in file:
+    #     #print(line)
+    #     corpus_words += line.strip(',').strip('.').split()
+    #     #print(corpus_words)
+
+    # #corpus_words = corp.words()
+    # unigram_counts = Counter(corpus_words)
+    # total_words = len(corpus_words)
 
     # def calc_unigram_prob(unigram_counts, total_words):
     #     u_prob = {} #defaultdict
@@ -55,26 +65,30 @@ def run_model(language, dataset_name, evaluation_split, detailed_report):
 
     # u_prob = calc_unigram_prob(unigram_counts, total_words)
     # print('saving file')
-    # save_to_file(u_prob, 'data/external/spanish_u_prob.csv')
-    # kdfjei
+    # save_to_file(u_prob, 'data/external/french_u_prob.csv')
+    # hgiuyo
 
-    baseline = MonolingualCWI(language)
+    baseline = MonolingualCWI(language, ablate)
 
     baseline.train(data.train_set())
 
+
     if evaluation_split in ["dev", "both"]:
-        print("\nResults on Development Data")
+        if not score_only:
+            print("\nResults on Development Data")
         predictions_dev = baseline.predict(data.dev_set())
         gold_labels_dev = data.dev_set()['gold_label']
-        print(report_binary_score(gold_labels_dev, predictions_dev, detailed_report))
+        print(report_binary_score(gold_labels_dev, predictions_dev, detailed_report, score_only))
+
 
     if evaluation_split in ["test", "both"]:
-        print("\nResults on Test Data")
+        if not score_only:
+            print("\nResults on Test Data")
         predictions_test = baseline.predict(data.test_set())
         gold_labels_test = data.test_set()['gold_label']
-        print(report_binary_score(gold_labels_test, predictions_test, detailed_report))
-
-    print()
+        print(report_binary_score(gold_labels_test, predictions_test, detailed_report, score_only))
+    if not score_only:
+        print()
 
 
 if __name__ == '__main__':
@@ -85,9 +99,45 @@ if __name__ == '__main__':
                         help="the split of the data to use for evaluating performance")
     parser.add_argument('-d', '--detailed_report', action='store_true',
                         help="to present a detailed performance report per label.")
+    parser.add_argument('-a', '--ablate', help='Runs feature ablation', action='store_true')
     args = parser.parse_args()
 
     datasets = datasets_per_language[args.language]
 
     for dataset_name in datasets:
-        run_model(args.language, dataset_name, args.eval_split, args.detailed_report)
+        print("\nModel for {} - {}.".format(args.language, dataset_name))
+
+        if not args.ablate:
+            run_model(args.language, dataset_name, args.eval_split, args.detailed_report, args.ablate)
+        else:
+            print('Feature ablation scores:')
+            all_feats =[
+                'char_tri_sum',
+                'char_tri_avg',
+                'rare_trigram_count',
+                'is_stop',
+                'rare_word_count',
+                'is_nounphrase',
+                'len_tokens_norm',
+                'hypernym_count',
+                'len_chars_norm',
+                'len_tokens',
+                'consonant_freq',
+                'gr_or_lat',
+                'is_capitalised',
+                'num_complex_punct',
+                'averaged_chars_per_word',
+                'sent_length',
+                'unigram_prob',
+                'char_n_gram_feats',
+                'sent_n_gram_feats',
+                'iob_tags',
+                'lemma_feats',
+                'bag_of_shapes',
+                'pos_tag_counts',
+                'NER_tag_counts',
+                ]
+
+            for feat in all_feats:
+                ablate = [feat]
+                run_model(args.language, dataset_name, args.eval_split, args.detailed_report, ablate=ablate)

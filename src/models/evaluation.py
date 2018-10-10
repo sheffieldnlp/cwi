@@ -6,7 +6,7 @@ This module contains functions to evaluate the performance of a CWI model.
 from sklearn import metrics
 
 
-def report_binary_score(gold_labels, predicted_labels, detailed=True):
+def report_binary_score(gold_labels, predicted_labels, detailed=True, write_to_file=False):
     """Generates a report for the binary classification task.
 
     The overall performance is measured using macro-F1 score. It is also possible to get label-specific scores.
@@ -24,12 +24,18 @@ def report_binary_score(gold_labels, predicted_labels, detailed=True):
     report_str = ""
 
     macro_F1 = metrics.f1_score(gold_labels, predicted_labels, average='macro')
-    report_str += "macro-F1: {:.3f}".format(macro_F1)
-    if detailed:
-        scores = metrics.precision_recall_fscore_support(gold_labels, predicted_labels)
-        report_str += "\n{:^10}{:^10}{:^10}{:^10}{:^10}".format("Label", "Precision", "Recall", "F1", "Support")
-        report_str += '\n' + '-' * 50
-        report_str += "\n{:^10}{:^10.2f}{:^10.2f}{:^10.2f}{:^10}".format(0, scores[0][0], scores[1][0], scores[2][0], scores[3][0])
-        report_str += "\n{:^10}{:^10.2f}{:^10.2f}{:^10.2f}{:^10}".format(1, scores[0][1], scores[1][1], scores[2][1], scores[3][1])
 
-    return report_str
+    if write_to_file is True:
+        report_str +="{:.3f}".format(macro_F1)
+        return report_str
+
+    else:
+        report_str += "macro-F1: {:.3f}".format(macro_F1)
+        if detailed:
+            scores = metrics.precision_recall_fscore_support(gold_labels, predicted_labels)
+            report_str += "\n{:^10}{:^10}{:^10}{:^10}{:^10}".format("Label", "Precision", "Recall", "F1", "Support")
+            report_str += '\n' + '-' * 50
+            report_str += "\n{:^10}{:^10.2f}{:^10.2f}{:^10.2f}{:^10}".format(0, scores[0][0], scores[1][0], scores[2][0], scores[3][0])
+            report_str += "\n{:^10}{:^10.2f}{:^10.2f}{:^10.2f}{:^10}".format(1, scores[0][1], scores[1][1], scores[2][1], scores[3][1])
+
+        return report_str

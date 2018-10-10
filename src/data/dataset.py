@@ -62,7 +62,10 @@ class Dataset(object):
                 self._trainset = None
             else:
                 self._trainset = pd.concat([trainset_raw, trainset_spacy], axis=1)
-            
+
+                self._trainset['language'] = self._language
+                self._trainset['dataset_name'] = self._dataset_name
+
         return self._trainset
 
     def dev_set(self):
@@ -76,6 +79,9 @@ class Dataset(object):
             else:
                 self._devset = pd.concat([devset_raw, devset_spacy], axis=1)
 
+                self._devset['language'] = self._language
+                self._devset['dataset_name'] = self._dataset_name
+
         return self._devset
 
     def test_set(self):
@@ -84,6 +90,9 @@ class Dataset(object):
             testset_raw = self.read_dataset(self._testset_path)
             testset_spacy = self.read_spacy_pickle(self._testset_spacy_path)
             self._testset = pd.concat([testset_raw, testset_spacy], axis=1)
+
+            self._testset['language'] = self._language
+            self._testset['dataset_name'] = self._dataset_name
 
         return self._testset
 

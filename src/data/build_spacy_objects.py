@@ -40,11 +40,18 @@ def build(infile_path, nlp):
 
 
 if __name__ == '__main__':
-
+    #TODO write this stuff in the readme, makedir if dir is missing.
     language = sys.argv[1]
     save_dir = 'data/interim/' + language
     data_path = 'data/raw/' + language
     file_paths = os.listdir(data_path)
+
+    # Make directory for language
+    try:
+        print ('making directory')
+        os.mkdir(save_dir)
+    except:
+        pass
 
     if language == "english":
         nlp = spacy.load('en_core_web_lg')

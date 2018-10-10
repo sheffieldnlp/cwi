@@ -31,7 +31,7 @@ def consonant_frequency(target_word):
     return freq
 
 
-def num_syllables(target_word, language):
+def num_syllables(target_word, language, hyph_dictionary):
     """
     Compute the number syllables in the target word
 
@@ -45,16 +45,6 @@ def num_syllables(target_word, language):
     Raises:
         ValueError
     """
-
-    if language == 'english':
-        hyph_dictionary = pyphen.Pyphen(lang='en')
-    elif language == 'spanish':
-        hyph_dictionary = pyphen.Pyphen(lang='es')
-    elif language == 'german':
-        hyph_dictionary = pyphen.Pyphen(lang='de')
-
-    else:
-        raise ValueError("Language specified ({}) not supported.".format(language))
 
     num_syllables = 0
 
@@ -85,7 +75,6 @@ def num_pronunciations(target_word, language): # ALison
             num_pronun += 1
             if token.lower() in CMUdic.keys():
                 num_pronun += len(CMUdic[token.lower()]) - 1
-
 
     else:
         #raise ValueError("Language specified ({}) not supported.".format(language))

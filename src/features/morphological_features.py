@@ -41,7 +41,7 @@ def num_complex_punct(target_word):  # Alison
         target_word (str): word or phrase candidate
 
     Returns:
-        int - the number of complex pronunications
+        int - the number of complex punctuations
 
     """
     num_punct = sum(map(target_word.lower().count, "-,;"))
