@@ -382,7 +382,7 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
 
             long_feat_dict = {
                 'char_n_gram_feats': NGram_char_features.getAllCharNGrams(target_word, 6),
-                'sent_n_gram_feats': sentence_features.getAllSentNGrams(target_sent, 3),
+                #'sent_n_gram_feats': sentence_features.getAllSentNGrams(target_sent, 3),
                 'iob_tags': iob_features.iob_tags(spacy_tokens),
                 'lemma_feats': lemma_features.lemmas(spacy_tokens),
                 'bag_of_shapes': morphological_features.word_shape(spacy_tokens),

@@ -130,7 +130,7 @@ if __name__ == '__main__':
                 'sent_length',
                 'unigram_prob',
                 'char_n_gram_feats',
-                'sent_n_gram_feats',
+                #'sent_n_gram_feats',
                 'iob_tags',
                 'lemma_feats',
                 'bag_of_shapes',
