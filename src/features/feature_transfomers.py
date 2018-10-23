@@ -1,17 +1,13 @@
 """
 Feature Transformers
-
 This module will contain the feature transformation classes that will be used in
 our cwi model. This format allows us to extract and vectorize features at different
 levels (word, subword, sentence) and of different types (word features, bag of words etc)
 simultaneously. Please see the links below for more information on writing your own transformers.
-
 Adapted from:
-
 https://opendevincode.wordpress.com/2015/08/01/building-a-custom-python-scikit-learn-transformer-for-machine-learning/
 and http://michelleful.github.io/code-blog/2015/06/20/pipelines/
 and http://scikit-learn.org/stable/auto_examples/hetero_feature_union.html#sphx-glr-auto-examples-hetero-feature-union-py
-
 """
 
 import numpy as np
@@ -51,13 +47,11 @@ from src.features import file_io
 class Selector(BaseEstimator, TransformerMixin):
     """
     Transformer to select a column from a dataframe
-
     """
 
     def __init__(self, key):
         """
         Defines the column to be extracted from dataframe
-
         Args:
             key(str): Dataframe column name
         """
@@ -70,7 +64,6 @@ class Selector(BaseEstimator, TransformerMixin):
     def transform(self, df):
         """
         Extracts the column from dataframe
-
         Args:
             df(DataFrame): input dataframe from which column is extracted
         """
@@ -80,13 +73,11 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
     """
     Transformer to extract word features from dataframe of target words and
     spacy docs
-
     """
 
     def __init__(self, language, ablate=None):
         """
         Define basic properties
-
         Args:
             language(str): language of input data
         """
@@ -131,15 +122,12 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
         """
         A function to locate the target phrase spacy tokens in a spacy doc of
         a whole sentence.
-
         Args:
             spacy_sentence: spacy doc for the context sentence
             spacy_target_word: spacy doc for the target word/phrase only
-
         Returns:
             spacy_token_list: a list of the spacy tokens for the target phrase,
                               using the information from the context sentence.
-
         """
         # Create the tokeniser
         tokenizer = Tokenizer(self.nlp.vocab)
@@ -158,10 +146,8 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
     def transform(self, X, *_):
 
         """Extracts features from a given target word and context.
-
         Args:
             X (DataFrame): Columns of target words and spacy docs
-
         Returns:
             result (list[dict]): List of row dictionaries containing the values
             of the extracted features for each row.
@@ -211,7 +197,6 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 word_vec = word_emb_features.get_word_emb(spacy_tokens, language)
                 for i in range(word_vec.shape[0]):
                     row_dict['vec_' + str(i)] = word_vec[i] #word embedding
-
             # Spanish Frequency Index feature
             if language == 'spanish':
                 esp_freq_index_features = frequency_index_features.frequency_index(spacy_tokens, self.esp_freq_index)
@@ -232,13 +217,11 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
 class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
     """
     Transformer to extract crosslingual features
-
     """
 
     def __init__(self, language=None, ablate=None):
         """
         Define basic properties
-
         Args:
             language(str): language of input data
         """
@@ -276,15 +259,13 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'german': pyphen.Pyphen(lang='de'),
                     'french': pyphen.Pyphen(lang='fr')
             }
-            
+
             self.unigram_prob_dict = {
                     'english' : file_io.read_file('data/external/english_u_prob.csv'),
                     'spanish' : file_io.read_file('data/external/spanish_u_prob.csv'),
                     'german' : file_io.read_file('data/external/german_u_prob.csv'),
                     'french': file_io.read_file('data/external/french_u_prob.csv')
-           }
-            
-            
+            }
         self.ablate = ablate
 
     def fit(self, X, *_):
@@ -292,23 +273,14 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
 
     def get_spacy_tokens(self, spacy_sentence, target_word, spacy_model):
         """
-        A function to locate the target      }
-
-#            self.unigram_prob_dict = {
-#                    'english' : file_io.read_file('data/external/english_u_prob.csv'),
-#                    'spanish' : file_io.read_file('data/external/spanish_u_prob.csv'),
-#                    'german' : file_io.read_file('data/external/german_u_prob.csv'),
-#    phrase spacy tokens in a spacy doc of
+        A function to locate the target phrase spacy tokens in a spacy doc of
         a whole sentence.
-
         Args:
             spacy_sentence: spacy doc for the context sentence
             spacy_target_word: spacy doc for the target word/phrase only
-
         Returns:
             spacy_token_list: a list of the spacy tokens for the target phrase,
                               using the information from the context sentence.
-
         """
         # Create the tokeniser
         tokenizer = Tokenizer(spacy_model.vocab)
@@ -326,10 +298,8 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
     def transform(self, X, *_):
 
         """Extracts features from a given target word and context.
-
         Args:
             X (DataFrame): Columns of target words and spacy docs
-
         Returns:
             result (list[dict]): List of row dictionaries containing the values
             of the extracted features for each row.
@@ -356,29 +326,29 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
             """ Feature Extraction """
             is_nounphrase = noun_phrase_features.is_noun_phrase(spacy_sent, target_word)
             len_tokens_norm = len(spacy_tokens)/avg_target_phrase_len
-##            hypernym_counts = hypernym_features.hypernym_count(target_word, language)  # breaks French
-##            len_chars_norm = length_features.character_length(target_word, language=language)  # breaks French
+            # hypernym_counts = hypernym_features.hypernym_count(target_word, language)  # breaks French
+            # len_chars_norm = length_features.character_length(target_word, language=language)   # breaks French
             len_tokens = length_features.token_length(target_word)
             len_syllables = phonetic_features.num_syllables(target_word, language, self.hyph_dictionaries[language])
             consonant_freq = phonetic_features.consonant_frequency(target_word)
             gr_or_lat = affix_features.greek_or_latin(target_word)
             is_capitalised = morphological_features.is_capitalised(target_word)
             num_complex_punct = morphological_features.num_complex_punct(target_word)
-##            averaged_chars_per_word = length_features.averaged_chars_per_word(target_word, language)  # breaks French
+            # averaged_chars_per_word = length_features.averaged_chars_per_word(target_word, language)  # breaks French
             sent_length = length_features.token_length(target_sent)
 
             row_dict = {
                 'is_nounphrase': is_nounphrase,
                 'len_tokens_norm': len_tokens_norm,
-##               'hypernym_count': hypernym_counts,  # breaks French
-##                'len_chars_norm': len_chars_norm,  # breaks French
-                'len_tokens': len_tokens,
+                # 'hypernym_count': hypernym_counts,   # breaks French
+                # 'len_chars_norm': len_chars_norm,   # breaks French
+                'len_tokens': len_tokens,  
                 'len_syllables':len_syllables,
                 'consonant_freq': consonant_freq,
                 'gr_or_lat': gr_or_lat,
                 'is_capitalised': is_capitalised,
                 'num_complex_punct': num_complex_punct,
-##               'averaged_chars_per_word': averaged_chars_per_word,  # breaks French
+                # 'averaged_chars_per_word': averaged_chars_per_word,   # breaks French
                 'sent_length' : sent_length,
                 'unigram_prob': probability_features.get_unigram_prob(target_word, language, self.unigram_prob_dict[language])
 
@@ -391,11 +361,11 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
 
             long_feat_dict = {
                 'char_n_gram_feats': NGram_char_features.getAllCharNGrams(target_word, 6),
-##                'sent_n_gram_feats': sentence_features.getAllSentNGrams(target_sent, 3),  # breaks French
+                #'sent_n_gram_feats': sentence_features.getAllSentNGrams(target_sent, 3),  # breaks French
                 'iob_tags': iob_features.iob_tags(spacy_tokens),
                 'lemma_feats': lemma_features.lemmas(spacy_tokens),
                 'bag_of_shapes': morphological_features.word_shape(spacy_tokens),
-               'pos_tag_counts': syntactic_features.get_pos_counts(spacy_tokens),
+                'pos_tag_counts': syntactic_features.get_pos_counts(spacy_tokens),
                 'NER_tag_counts': syntactic_features.get_ne_counts(spacy_tokens)
             }
 
