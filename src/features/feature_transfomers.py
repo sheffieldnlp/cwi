@@ -520,7 +520,6 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                     else:
                         row_dict[feature] = feature_names_to_funcs[feature](feature_params)
 
-
             if self.ablate:
                 for key in self.ablate:
                     if key in row_dict:
