@@ -10,6 +10,7 @@ from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
 from src.features.feature_transfomers import Selector, Monolingual_Feature_Extractor, Crosslingual_Feature_Extractor
+from src.features.save_load_features import save_features, load_features
 
 class CrosslingualCWI(object):
     """
@@ -24,8 +25,35 @@ class CrosslingualCWI(object):
             language (str): The language of the data.
 
         """
+        
+        """ Set this to None or 'All' to just use all available features """
+#        self.features_to_use = None
+        self.features_to_use = [
+                'is_nounphrase',
+                'len_tokens_norm',
+#                'hypernym_count',
+#                'len_chars_norm',
+                'len_syllables',
+                'len_tokens',
+                'consonant_freq',
+                'gr_or_lat',
+                'is_capitalised',
+                'num_complex_punct',
+#                'averaged_chars_per_word',
+                'sent_length',
+                'unigram_prob',
+                'char_n_gram_feats',
+#                'sent_n_gram_feats',
+                'iob_tags',
+                'lemma_feats',
+                'bag_of_shapes',
+                'pos_tag_counts',
+                'NER_tag_counts',
+                ]
+        
         self.model = LogisticRegression(random_state=0)
         self.features_pipeline = self.join_pipelines(language)
+        
 
     def build_pipelines(self, language):
         """
@@ -44,7 +72,7 @@ class CrosslingualCWI(object):
 
         pipe_dict['crosslingual_features'] = Pipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
-            ('extract', Crosslingual_Feature_Extractor()),
+            ('extract', Crosslingual_Feature_Extractor(features_to_use=self.features_to_use)),
             ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
@@ -64,8 +92,14 @@ class CrosslingualCWI(object):
                 In particular, the target words/phrases and their gold labels.
 
         """
-
         X = self.features_pipeline.fit_transform(train_set)
+        
+#        X = load_features('train', self.language, train_set)
+#        # We couldn't find the preloaded features file:
+#        if X == None:
+#            X = self.features_pipeline.fit_transform(train_set)
+#            save_features('train', self.language, train_set, X)
+            
         y = train_set['gold_label']
         self.model.fit(X, y)
 
@@ -80,7 +114,15 @@ class CrosslingualCWI(object):
             numpy array. The predicted label for each target word/phrase.
 
         """
-
+        
         X = self.features_pipeline.transform(test_set)
+        
+#        X = load_features('test', self.language, test_set)
+#        
+#        # We couldn't find the preloaded features file:
+#        if X == None:
+#            X = self.features_pipeline.transform(test_set)
+#            save_features('test', self.language, test_set, X)
 
         return self.model.predict(X)
+    
