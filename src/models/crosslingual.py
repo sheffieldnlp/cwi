@@ -6,11 +6,17 @@
 """
 
 from sklearn.linear_model import LogisticRegression
+#from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
+
 from src.features.feature_transfomers import Selector, Monolingual_Feature_Extractor, Crosslingual_Feature_Extractor
 from src.features.save_load_features import save_features, load_features
+
+#from sklearn.feature_selection import SelectFromModel
+from src.visualization.named_pipeline import NamedPipeline
+from src.visualization.feature_importances import save_model_importances, print_x_importances
 
 class CrosslingualCWI(object):
     """
@@ -52,6 +58,7 @@ class CrosslingualCWI(object):
                 ]
         
         self.model = LogisticRegression(random_state=0)
+#        self.model = RandomForestClassifier()
         self.features_pipeline = self.join_pipelines(language)
         
 
@@ -66,11 +73,12 @@ class CrosslingualCWI(object):
         """
         pipe_dict = {}
 
-        pipe_dict['bag_of_words'] = Pipeline([
+        # Needed to change the type of this so that we can extract feature names.
+        pipe_dict['bag_of_words'] = NamedPipeline([
             ('select', Selector(key="target_word")),
             ('vectorize', CountVectorizer())])
 
-        pipe_dict['crosslingual_features'] = Pipeline([
+        pipe_dict['crosslingual_features'] = NamedPipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
             ('extract', Crosslingual_Feature_Extractor(features_to_use=self.features_to_use)),
             ('vectorize', DictVectorizer())])
@@ -80,7 +88,9 @@ class CrosslingualCWI(object):
     def join_pipelines(self, language):
 
         pipelines = self.build_pipelines(language)
-        feature_union = Pipeline([('join pipelines', FeatureUnion(transformer_list=pipelines))])
+        feature_union = Pipeline([
+                ('join pipelines', FeatureUnion(transformer_list=pipelines))    
+                ])
 
         return feature_union
 
@@ -102,6 +112,11 @@ class CrosslingualCWI(object):
             
         y = train_set['gold_label']
         self.model.fit(X, y)
+        
+        importances_dest = "data/interim/importances.pkl"
+        save_model_importances(self.model, self.features_pipeline, importances_dest)
+        print_x_importances(importances_dest, 25)
+        
 
     def predict(self, test_set):
         """Predicts the label for the given instances.
