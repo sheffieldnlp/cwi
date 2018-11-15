@@ -32,30 +32,15 @@ class CrosslingualCWI(object):
 
         """
         
-        """ Set this to None or 'All' to just use all available features """
-#        self.features_to_use = None
+
         self.features_to_use = [
-                'is_nounphrase',
-                'len_tokens_norm',
-#                'hypernym_count',
-#                'len_chars_norm',
                 'len_syllables',
                 'len_tokens',
-                'consonant_freq',
-                'gr_or_lat',
-                'is_capitalised',
                 'num_complex_punct',
-#                'averaged_chars_per_word',
                 'sent_length',
-                'unigram_prob',
-                'char_n_gram_feats',
-#                'sent_n_gram_feats',
-                'iob_tags',
-                'lemma_feats',
-                'bag_of_shapes',
-                'pos_tag_counts',
-                'NER_tag_counts',
+                'unigram_prob'
                 ]
+
         
         self.model = LogisticRegression(random_state=0)
 #        self.model = RandomForestClassifier()
