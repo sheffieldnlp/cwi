@@ -97,7 +97,7 @@ class Dataset(object):
 
             else:
                  if self._testset is None:
-                    testset_raw = pickle.load( open( "translation_frenchdf.p", "rb" )
+                    testset_raw = pickle.load(open( "translation_frenchdf.p", "rb" ))
                     testset_spacy = self.read_spacy_pickle(self._testset_spacy_path)
                     self._testset = pd.concat([testset_raw, testset_spacy], axis=1)                                                      
                     self._testset['language'] = self._language
