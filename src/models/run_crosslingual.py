@@ -94,7 +94,7 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
             print("\nResults on Test Data")
             
             data.translate = translate
-            predictions_test = cwi_model.predict(data.test_set())          
+            predictions_test = cwi_model.predict(data.test_set())
             gold_labels_test = data.test_set()['gold_label']
             
             print(report_binary_score(gold_labels_test, predictions_test, detailed_report))
