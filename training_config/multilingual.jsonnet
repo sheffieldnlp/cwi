@@ -7,16 +7,16 @@
         "lowercase_tokens": false
       },
       "token_characters": {
-        "type": "characters",
-        "min_padding_length": 5
+        "type": "characters"
       }
     }
   },
-  "train_data_path": "",
-  "validation_data_path": "",
-  "test_data_path": "",
+  "train_data_path": "data/raw/english/News_Train.tsv",
+  "validation_data_path": "data/raw/english/News_Dev.tsv",
+  "test_data_path": "data/raw/english/News_Test.tsv",
+  "evaluate_on_test": true,
   "model": {
-    "type": "multilingual_cwi",
+    "type": "cwi_multilingual",
     "text_field_embedder": {
       "token_embedders": {
         "tokens": {
@@ -49,7 +49,7 @@
         "dropout": 0.2
     },
     "complex_word_feedforward": {
-        "input_dim": 1220,
+        "input_dim": 800,
         "num_layers": 2,
         "hidden_dims": 150,
         "activations": "relu",
@@ -65,15 +65,15 @@
   },
   "iterator": {
     "type": "bucket",
-    "sorting_keys": [["text", "num_tokens"]],
+    "sorting_keys": [["tokens", "num_tokens"]],
     "padding_noise": 0.0,
-    "batch_size": 1
+    "batch_size": 64
   },
   "trainer": {
     "num_epochs": 150,
     "grad_norm": 5.0,
     "patience" : 10,
-    "cuda_device" : 0,
+    "cuda_device" : 1,
     "validation_metric": "+f1",
     "learning_rate_scheduler": {
       "type": "reduce_on_plateau",

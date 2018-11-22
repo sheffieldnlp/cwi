@@ -1,19 +1,18 @@
 from typing import Any, Dict, List, Optional
 
 import torch
-import torch.nn.functional as F
 
 from overrides import overrides
 
 from allennlp.data import Vocabulary
 from allennlp.models.model import Model
 from allennlp.modules import FeedForward
-from allennlp.modules import Seq2SeqEncoder, TimeDistributed, TextFieldEmbedder
+from allennlp.modules import Seq2SeqEncoder, TextFieldEmbedder
 from allennlp.nn import util, InitializerApplicator, RegularizerApplicator
 from allennlp.modules.span_extractors import EndpointSpanExtractor
 from allennlp.training.metrics.f1_measure import F1Measure
 
-
+@Model.register("cwi_multilingual")
 class NeuralMutilingualCWI(Model):
 
     def __init__(self,
@@ -30,13 +29,12 @@ class NeuralMutilingualCWI(Model):
         self._text_field_embedder = text_field_embedder
         self._context_layer = context_layer
 
-        self._complex_word_scorer = torch.nn.Sequential(
-                            TimeDistributed(complex_word_feedforward),
-                            TimeDistributed(torch.nn.Linear(complex_word_feedforward.get_output_dim(), 1)))
+        self._complex_word_scorer = torch.nn.Sequential(complex_word_feedforward,
+                                                        torch.nn.Linear(complex_word_feedforward.get_output_dim(), 1))
 
         self._target_word_extractor = EndpointSpanExtractor(context_layer.get_output_dim(), combination="x,y")
 
-        self._loss = torch.nn.CrossEntropyLoss()
+        self._loss = torch.nn.BCELoss()
         self._metric = F1Measure(1)
 
         if lexical_dropout > 0:
@@ -87,13 +85,12 @@ class NeuralMutilingualCWI(Model):
 
         # Shape: (batch_size)
         complex_word_scores = self._complex_word_scorer(target_word_embeddings).squeeze(-1)
-        complex_word_predictions = F.relu(complex_word_scores)
+        complex_word_predictions = complex_word_scores.sigmoid()
 
-        output_dict = {"scores": complex_word_scores,
-                       "predictions": complex_word_predictions}
+        output_dict = {"predictions": complex_word_predictions}
 
         if gold_label is not None:
-            output_dict["loss"] = self._loss(complex_word_scores, gold_label)
+            output_dict["loss"] = self._loss(complex_word_predictions, gold_label.float())
             self._metric(complex_word_predictions, gold_label)
 
         return output_dict
