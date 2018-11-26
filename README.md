@@ -79,6 +79,10 @@ Cross Lingual Results Testing
 --------------------
 The following results need to be tested for the crosslingual model.
 
+French Test Data
+----------------
+----------------
+
 Below are the command line options for testing for various combinations of Language with French as test data:
 
 | Language Choice Combination |             Command Line Command             |
@@ -90,6 +94,17 @@ Below are the command line options for testing for various combinations of Langu
 |      English and German     |  python src/models/run_crosslingual.py -s EG |
 |      Spanish and German     |  python src/models/run_crosslingual.py -s SG |
 | English, Spanish and German | python src/models/run_crosslingual.py -s ESG |
+
+
+English Test Data
+-----------------
+-----------------
+
+| Language Choice Combination |                  Command Line Command                  |
+|:---------------------------:|:------------------------------------------------------:|
+|         Spanish Only        |  python src/models/run_crosslingual.py -s S -l english |
+|         German Only         |  python src/models/run_crosslingual.py -s G -l english |
+|      Spanish and German     | python src/models/run_crosslingual.py -s SG -l english |
 
 --------
 
