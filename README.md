@@ -78,6 +78,11 @@ Project Organization
 Cross Lingual Results Testing
 --------------------
 The following results need to be tested for the crosslingual model.
+Below are the command line options for testing for various combinations of Language Choice:
+
+English Only 
+------------
+python src/models/run_crosslingual.py -s E
 
 --------
 
