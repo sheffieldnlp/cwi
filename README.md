@@ -106,6 +106,29 @@ English Test Data
 |         German Only         |  python src/models/run_crosslingual.py -s G -l english |
 |      Spanish and German     | python src/models/run_crosslingual.py -s SG -l english |
 
+
+Spanish Test Data
+-----------------
+-----------------
+
+| Language Choice Combination |                  Command Line Command                  |
+|:---------------------------:|:------------------------------------------------------:|
+|         English Only        |  python src/models/run_crosslingual.py -s E -l spanish |
+|         German Only         |  python src/models/run_crosslingual.py -s G -l spanish |
+|      English and German     | python src/models/run_crosslingual.py -s EG -l spanish |
+
+
+German Test Data
+-----------------
+-----------------
+
+| Language Choice Combination |                  Command Line Command                  |
+|:---------------------------:|:------------------------------------------------------:|
+|         English Only        |  python src/models/run_crosslingual.py -s E -l german |
+|         Spanish Only         |  python src/models/run_crosslingual.py -s S -l german |
+|      English and Spanish     | python src/models/run_crosslingual.py -s ES -l german |
+
+
 --------
 
 
