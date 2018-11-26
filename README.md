@@ -75,6 +75,12 @@ Project Organization
     └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
 
 
+Cross Lingual Results Testing
+--------------------
+The following results need to be tested for the crosslingual model.
+
 --------
+
+
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
