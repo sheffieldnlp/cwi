@@ -129,6 +129,21 @@ German Test Data
 |      English and Spanish     | python src/models/run_crosslingual.py -s ES -l german |
 
 
+
+
+Translation Baseline
+---------------------
+For Translating the French Test Data to English, please use the following command
+
+- python src/models/run_crosslingual.py -t T
+
+For using any of the above language combinations with French as test data, use the following command line command.
+
+In the following command line example, we use english and spanish as training data for the crosslingual model and translate the French test data to english when testing. 
+- python src/models/run_crosslingual.py -s ES -t T
+
+Similarly we can do this for other language choices mentioned above. 
+
 --------
 
 
