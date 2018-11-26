@@ -78,7 +78,8 @@ Project Organization
 Cross Lingual Results Testing
 --------------------
 The following results need to be tested for the crosslingual model.
-Below are the command line options for testing for various combinations of Language Choice:
+
+Below are the command line options for testing for various combinations of Language with French as test data:
 
 | Language Choice Combination |             Command Line Command             |
 |:---------------------------:|:--------------------------------------------:|
