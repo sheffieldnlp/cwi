@@ -80,9 +80,15 @@ Cross Lingual Results Testing
 The following results need to be tested for the crosslingual model.
 Below are the command line options for testing for various combinations of Language Choice:
 
-English Only 
-------------
-python src/models/run_crosslingual.py -s E
+| Language Choice Combination |             Command Line Command             |
+|:---------------------------:|:--------------------------------------------:|
+|         English Only        |  python src/models/run_crosslingual.py -s E  |
+|         Spanish Only        |  python src/models/run_crosslingual.py -s S  |
+|         German Only         |  python src/models/run_crosslingual.py -s G  |
+|     English and Spanish     |  python src/models/run_crosslingual.py -s ES |
+|      English and German     |  python src/models/run_crosslingual.py -s EG |
+|      Spanish and German     |  python src/models/run_crosslingual.py -s SG |
+| English, Spanish and German | python src/models/run_crosslingual.py -s ESG |
 
 --------
 
