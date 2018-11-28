@@ -59,9 +59,10 @@ class CrosslingualCWI(object):
         pipe_dict = {}
 
         # Needed to change the type of this so that we can extract feature names.
-        pipe_dict['bag_of_words'] = NamedPipeline([
-            ('select', Selector(key="target_word")),
-            ('vectorize', CountVectorizer())])
+        if 'bag_of_words' in self.features_to_use:
+            pipe_dict['bag_of_words'] = NamedPipeline([
+                ('select', Selector(key="target_word")),
+                ('vectorize', CountVectorizer())])
 
         pipe_dict['crosslingual_features'] = NamedPipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
