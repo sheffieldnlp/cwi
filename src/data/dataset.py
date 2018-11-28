@@ -87,21 +87,18 @@ class Dataset(object):
 
     def test_set(self):
         """list. Getter method for the test set. """
-        if self.translate == 'F':
-            if self._testset is None:  # loads the data to memory once and when requested.
+        
+        if self._testset is None:  # loads the data to memory once and when requested.
+            
+            if self.translate == 'F':
                 testset_raw = self.read_dataset(self._testset_path)
-                testset_spacy = self.read_spacy_pickle(self._testset_spacy_path)
-                self._testset = pd.concat([testset_raw, testset_spacy], axis=1)
-                self._testset['language'] = self._language
-                self._testset['dataset_name'] = self._dataset_name
-
-        else:
-            if self._testset is None:
+            else:
                 testset_raw = pickle.load(open( "data/processed/translated_frenchdf.p", "rb" ))
-                testset_spacy = self.read_spacy_pickle(self._testset_spacy_path)
-                self._testset = pd.concat([testset_raw, testset_spacy], axis=1)                                                      
-                self._testset['language'] = self._language
-                self._testset['dataset_name'] = self._dataset_name
+                
+            testset_spacy = self.read_spacy_pickle(self._testset_spacy_path)
+            self._testset = pd.concat([testset_raw, testset_spacy], axis=1)
+            self._testset['language'] = self._language
+            self._testset['dataset_name'] = self._dataset_name
 
         return self._testset
 

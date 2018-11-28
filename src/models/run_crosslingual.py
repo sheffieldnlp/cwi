@@ -44,7 +44,8 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
         train_data = pd.concat(train_data)
     else:
         if selective_testing == 'ES':
-            train_data = pd.concat([Dataset('english','News').train_set(),Dataset('english','WikiNews').train_set(),
+            train_data = pd.concat([Dataset('english','News').train_set(),
+                                    Dataset('english','WikiNews').train_set(),
                                     Dataset('english','Wikipedia').train_set(),
                                     Dataset('spanish','Spanish').train_set()])            
         elif selective_testing == 'EG':
