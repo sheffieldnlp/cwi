@@ -81,6 +81,9 @@ target/
 # Spacy Object Pickle Files
 *spacy-objs.pkl
 
+# Importances File
+*importances.pkl
+
 # Desktop.ini files
 *desktop.ini
 .python-version

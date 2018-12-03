@@ -5,7 +5,7 @@ This module contains functions to extract length-based features from a target wo
 """
 
 
-def character_length(target_word, normalised=True, language='en'):
+def character_length(target_word, language, normalised=True,):
     """Computes the (normalised) number of characters in the target word.
 
     Args:
@@ -45,6 +45,10 @@ def token_length(target_word):
     """
 
     return len(target_word.split(' '))  # TODO: Maybe use a proper tokenizer.
+
+def token_length_norm(spacy_tokens, avg_target_phrase_len):
+    result = len(spacy_tokens)/avg_target_phrase_len
+    return result
 
 
 def averaged_chars_per_word(target_word, language): # Alison

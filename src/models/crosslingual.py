@@ -6,10 +6,17 @@
 """
 
 from sklearn.linear_model import LogisticRegression
+#from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
+
 from src.features.feature_transfomers import Selector, Monolingual_Feature_Extractor, Crosslingual_Feature_Extractor
+from src.features.save_load_features import save_features, load_features
+
+#from sklearn.feature_selection import SelectFromModel
+from src.visualization.named_pipeline import NamedPipeline
+from src.visualization.feature_importances import save_model_importances, print_x_importances
 
 class CrosslingualCWI(object):
     """
@@ -24,8 +31,21 @@ class CrosslingualCWI(object):
             language (str): The language of the data.
 
         """
+        
+
+        self.features_to_use = [
+                'len_syllables',
+                'len_tokens',
+                'num_complex_punct',
+                'sent_length',
+                'unigram_prob'
+                ]
+
+        
         self.model = LogisticRegression(random_state=0)
+#        self.model = RandomForestClassifier()
         self.features_pipeline = self.join_pipelines(language)
+        
 
     def build_pipelines(self, language):
         """
@@ -38,13 +58,15 @@ class CrosslingualCWI(object):
         """
         pipe_dict = {}
 
-        pipe_dict['bag_of_words'] = Pipeline([
-            ('select', Selector(key="target_word")),
-            ('vectorize', CountVectorizer())])
+        # Needed to change the type of this so that we can extract feature names.
+        if 'bag_of_words' in self.features_to_use:
+            pipe_dict['bag_of_words'] = NamedPipeline([
+                ('select', Selector(key="target_word")),
+                ('vectorize', CountVectorizer())])
 
-        pipe_dict['crosslingual_features'] = Pipeline([
+        pipe_dict['crosslingual_features'] = NamedPipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
-            ('extract', Crosslingual_Feature_Extractor()),
+            ('extract', Crosslingual_Feature_Extractor(features_to_use=self.features_to_use)),
             ('vectorize', DictVectorizer())])
 
         return list(pipe_dict.items())
@@ -52,7 +74,9 @@ class CrosslingualCWI(object):
     def join_pipelines(self, language):
 
         pipelines = self.build_pipelines(language)
-        feature_union = Pipeline([('join pipelines', FeatureUnion(transformer_list=pipelines))])
+        feature_union = Pipeline([
+                ('join pipelines', FeatureUnion(transformer_list=pipelines))    
+                ])
 
         return feature_union
 
@@ -64,10 +88,21 @@ class CrosslingualCWI(object):
                 In particular, the target words/phrases and their gold labels.
 
         """
-
         X = self.features_pipeline.fit_transform(train_set)
+        
+#        X = load_features('train', self.language, train_set)
+#        # We couldn't find the preloaded features file:
+#        if X == None:
+#            X = self.features_pipeline.fit_transform(train_set)
+#            save_features('train', self.language, train_set, X)
+            
         y = train_set['gold_label']
         self.model.fit(X, y)
+        
+        importances_dest = "data/interim/importances.pkl"
+        save_model_importances(self.model, self.features_pipeline, importances_dest)
+        print_x_importances(importances_dest, 25)
+        
 
     def predict(self, test_set):
         """Predicts the label for the given instances.
@@ -80,7 +115,15 @@ class CrosslingualCWI(object):
             numpy array. The predicted label for each target word/phrase.
 
         """
-
+        
         X = self.features_pipeline.transform(test_set)
+        
+#        X = load_features('test', self.language, test_set)
+#        
+#        # We couldn't find the preloaded features file:
+#        if X == None:
+#            X = self.features_pipeline.transform(test_set)
+#            save_features('test', self.language, test_set, X)
 
         return self.model.predict(X)
+    

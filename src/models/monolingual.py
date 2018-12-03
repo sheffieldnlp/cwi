@@ -28,6 +28,7 @@ class MonolingualCWI(object):
         self.model = LogisticRegression(random_state=0)
         self.ablate = ablate
         self.features_pipeline = self.join_pipelines(language)
+        
     def build_pipelines(self, language):
         """
         Builds all feature pipelines

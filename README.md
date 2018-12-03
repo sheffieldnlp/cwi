@@ -75,6 +75,77 @@ Project Organization
     └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
 
 
+Cross Lingual Results Testing
+--------------------
+The following results need to be tested for the crosslingual model.
+
+French Test Data
+----------------
+----------------
+
+Below are the command line options for testing for various combinations of Language with French as test data:
+
+| Language Choice Combination |             Command Line Command             |
+|:---------------------------:|:--------------------------------------------:|
+|         English Only        |  python src/models/run_crosslingual.py -s E  |
+|         Spanish Only        |  python src/models/run_crosslingual.py -s S  |
+|         German Only         |  python src/models/run_crosslingual.py -s G  |
+|     English and Spanish     |  python src/models/run_crosslingual.py -s ES |
+|      English and German     |  python src/models/run_crosslingual.py -s EG |
+|      Spanish and German     |  python src/models/run_crosslingual.py -s SG |
+| English, Spanish and German | python src/models/run_crosslingual.py -s ESG |
+
+
+English Test Data
+-----------------
+-----------------
+
+| Language Choice Combination |                  Command Line Command                  |
+|:---------------------------:|:------------------------------------------------------:|
+|         Spanish Only        |  python src/models/run_crosslingual.py -s S -l english |
+|         German Only         |  python src/models/run_crosslingual.py -s G -l english |
+|      Spanish and German     | python src/models/run_crosslingual.py -s SG -l english |
+
+
+Spanish Test Data
+-----------------
+-----------------
+
+| Language Choice Combination |                  Command Line Command                  |
+|:---------------------------:|:------------------------------------------------------:|
+|         English Only        |  python src/models/run_crosslingual.py -s E -l spanish |
+|         German Only         |  python src/models/run_crosslingual.py -s G -l spanish |
+|      English and German     | python src/models/run_crosslingual.py -s EG -l spanish |
+
+
+German Test Data
+-----------------
+-----------------
+
+| Language Choice Combination |                  Command Line Command                  |
+|:---------------------------:|:------------------------------------------------------:|
+|         English Only        |  python src/models/run_crosslingual.py -s E -l german |
+|         Spanish Only         |  python src/models/run_crosslingual.py -s S -l german |
+|      English and Spanish     | python src/models/run_crosslingual.py -s ES -l german |
+
+
+
+
+Translation Baseline
+---------------------
+For Translating the French Test Data to English, please use the following command
+
+- python src/models/run_crosslingual.py -t T
+
+For using any of the above language combinations with French as test data, use the following command line command.
+
+In the following command line example, we use english and spanish as training data for the crosslingual model and translate the French test data to english when testing. 
+- python src/models/run_crosslingual.py -s ES -t T
+
+Similarly we can do this for other language choices mentioned above. 
+
 --------
+
+
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
