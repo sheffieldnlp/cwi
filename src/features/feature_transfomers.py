@@ -222,6 +222,10 @@ class Monolingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                     if key in row_dict:
                         del row_dict[key]
 
+            # Doing some preprocessing to make it easier to extract the names
+            # of functions:
+            row_dict = {"|__|" + k + "|__|":v for k,v in row_dict.items()}
+            
             row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 
             result.append(row_dict)
@@ -257,7 +261,7 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 'gr_or_lat': ['affix'],
                 'is_capitalised': None,
                 'num_complex_punct': None,
-                'averaged_chars_per_word': None,
+                'avg_chars_p_word': None,
                 'sent_length': None,
                 'unigram_prob': ['unigram_probs'],
                 'char_n_gram_feats': None,
@@ -435,7 +439,7 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 'gr_or_lat': affix_features.greek_or_latin,
                 'is_capitalised': morphological_features.is_capitalised,
                 'num_complex_punct': morphological_features.num_complex_punct,
-                'averaged_chars_per_word': length_features.averaged_chars_per_word,
+                'avg_chars_p_word': length_features.averaged_chars_per_word,
                 'sent_length' : length_features.token_length,
                 'unigram_prob': probability_features.get_unigram_prob,
                 
@@ -475,7 +479,7 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                     'gr_or_lat': (target_word, self.affixes),
                     'is_capitalised': (target_word),
                     'num_complex_punct': (target_word),
-                    'averaged_chars_per_word': (target_word, language),
+                    'avg_chars_p_word': (target_word, language),
                     'sent_length' : (target_sent),
                     'unigram_prob': (target_word, language, self.unigram_prob_dict[language]),
                     
@@ -509,12 +513,17 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 feature_params = func_params[feature]
                     
                 if feature in long_features:
+                    
+                    
                     if isinstance(feature_params, tuple):
                         row_result = feature_names_to_funcs[feature](*feature_params).items()
                     else:
                         row_result = feature_names_to_funcs[feature](feature_params).items()
+                         
+                    
                     row_dict.update(row_result)
                 else:
+                    
                     if isinstance(feature_params, tuple):
                         row_dict[feature] = feature_names_to_funcs[feature](*feature_params)
                     else:
@@ -524,6 +533,8 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
                 for key in self.ablate:
                     if key in row_dict:
                         del row_dict[key]
+                        
+            row_dict = {"|__|" + k + "|__|":v for k,v in row_dict.items()}
 
             row_dict = OrderedDict(sorted(row_dict.items(), key=lambda t: t[0]))
 

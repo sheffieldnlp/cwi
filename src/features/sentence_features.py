@@ -42,6 +42,7 @@ def getSentNGrams(norm_tokens, N):
         tokens_to_process.append("__END__")
         
     result = ['+'.join(tokens_to_process[i:i+N]) for i in range(len(tokens_to_process) - N + 1)]
+    result = [str(N)+"-Gram|__|"+x for x in result]
 
     return result
 

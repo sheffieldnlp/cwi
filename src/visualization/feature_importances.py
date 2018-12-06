@@ -50,8 +50,17 @@ def get_formatted_str(li):
     rank = 1
     for item in li:
         name = str(item[0])
+        source = name.split(sep="__")[0]
+        featandspecific = name.split(sep="|__|")
+        if source == "bow":
+            featname = "Bag"
+            specific = '\"{}\"'.format(name.split(sep="__")[1])
+        else:
+            featname = featandspecific[1]
+            specific = '\"{}\"'.format(featandspecific[2])
+        
         coef = str(item[1])
-        append = "{:>4}: {:>40}\t{:>12}\n".format(rank, name, coef)
+        append = "{:>4}: {:<10}{:>20}{:>24}\t{:>12}\n".format(rank, source, featname, specific, coef)
         result += append
         rank += 1
     return result

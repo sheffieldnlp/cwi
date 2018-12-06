@@ -16,7 +16,7 @@ def get_pos_counts(target_word_spacy_tokens):
     Returns:
         Counter of pos tags of the phrase and their respective counts
     """
-    pos = Counter([token.pos_ for token in target_word_spacy_tokens])
+    pos = Counter(["POS|__|" + str(token.pos_) for token in target_word_spacy_tokens])
     return pos
 
 def get_ne_counts(target_word_spacy_tokens):
@@ -29,7 +29,7 @@ def get_ne_counts(target_word_spacy_tokens):
     Returns:
         Counter of NE tags of the phrase and their respective counts
     """
-    ents = Counter([token.ent_type_ for token in target_word_spacy_tokens])
+    ents = Counter(["NE|__|" + str(token.ent_type_) for token in target_word_spacy_tokens])
     return ents
 
     

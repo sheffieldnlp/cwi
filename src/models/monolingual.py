@@ -42,16 +42,16 @@ class MonolingualCWI(object):
         """
         pipe_dict = {}
 
-        pipe_dict['bag_of_words'] = NamedPipeline([
+        pipe_dict['bow'] = NamedPipeline([
             ('select', Selector(key="target_word")),
             ('vectorize', CountVectorizer())])
 
-        pipe_dict['monolingual_features'] = NamedPipeline([
+        pipe_dict['mono_feats'] = NamedPipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
             ('extract', Monolingual_Feature_Extractor(language, self.ablate)),
             ('vectorize', DictVectorizer())])
 
-        pipe_dict['crosslingual_features'] = NamedPipeline([
+        pipe_dict['cross_feats'] = NamedPipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
             ('extract', Crosslingual_Feature_Extractor(language, self.ablate)),
             ('vectorize', DictVectorizer())])
@@ -80,7 +80,7 @@ class MonolingualCWI(object):
         
         importances_dest = "data/interim/importances_mono.pkl"
         save_model_importances(self.model, self.features_pipeline, importances_dest)
-        print_x_importances(importances_dest, 25)
+        print_x_importances(importances_dest, 100)
 
     def predict(self, test_set):
         """Predicts the label for the given instances.
