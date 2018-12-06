@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 import torch
 
 from overrides import overrides
+from sklearn import metrics
 
 from allennlp.data import Vocabulary
 from allennlp.models.model import Model
@@ -34,8 +35,7 @@ class NeuralMutilingualCWI(Model):
 
         self._target_word_extractor = EndpointSpanExtractor(context_layer.get_output_dim(), combination="x,y")
 
-        self._loss = torch.nn.BCELoss()
-        self._metric = F1Measure(1)
+        self._loss = torch.nn.BCEWithLogitsLoss()
 
         if lexical_dropout > 0:
             self._lexical_dropout = torch.nn.Dropout(p=lexical_dropout)
@@ -83,14 +83,19 @@ class NeuralMutilingualCWI(Model):
         # Shape: (batch_size, 2 * encoding_dim)
         target_word_embeddings = self._target_word_extractor(contextualized_embeddings, target_word)
 
-        # Shape: (batch_size)
-        complex_word_scores = self._complex_word_scorer(target_word_embeddings).squeeze(-1)
-        complex_word_predictions = complex_word_scores.sigmoid()
+        # Shape: (batch_size, 1)
+        complex_word_logits = self._complex_word_scorer(target_word_embeddings)
 
-        output_dict = {"predictions": complex_word_predictions}
+        complex_word_predictions = complex_word_logits > 0.5
+
+        output_dict = {"logits": complex_word_logits,
+                       "predictions": complex_word_predictions}
 
         if gold_label is not None:
-            output_dict["loss"] = self._loss(complex_word_predictions, gold_label.float())
+            output_dict["loss"] = self._loss(complex_word_logits, gold_label.unsqueeze(-1).float())
+
+            macro_F1 = metrics.f1_score(gold_label, complex_word_predictions, average='macro')
+
             self._metric(complex_word_predictions, gold_label)
 
         return output_dict
