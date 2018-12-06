@@ -1,37 +1,43 @@
 ﻿TrainLang,TestLang,Datasource,Test,Dev
-DE,DE,N/A,0.727,0.6
-DE,EN,News,0.67,0.6
-DE,EN,WikiNews,0.623,0.6
-DE,EN,Wikipedia,0.626,0.6
-DE,ES,N/A,0.726,0.6
-DE,FR,N/A,0.758,0.6
-"DE, EN",DE,N/A,0.732,0.6
-"DE, EN",EN,News,0.671,0.6
-"DE, EN",EN,WikiNews,0.64,0.6
-"DE, EN",EN,Wikipedia,0.67,0.6
-"DE, EN",ES,N/A,0.708,0.6
-"DE, EN",FR,N/A,0.705,0.6
-"DE, EN, ES",DE,N/A,0.723,0.6
-"DE, EN, ES",EN,News,0.671,0.6
-"DE, EN, ES",EN,WikiNews,0.618,0.6
-"DE, EN, ES",EN,Wikipedia,0.628,0.6
-"DE, EN, ES",ES,N/A,0.708,0.6
-"DE, EN, ES",FR,N/A,0.731,0.6
-EN,DE,N/A,0.73,0.6
-EN,EN,News,0.684,0.6
-EN,EN,WikiNews,0.658,0.6
-EN,EN,Wikipedia,0.677,0.6
-EN,ES,N/A,0.691,0.6
-EN,FR,N/A,0.692,0.6
-"EN, ES",DE,N/A,0.734,0.6
-"EN, ES",EN,News,0.671,0.6
-"EN, ES",EN,WikiNews,0.624,0.6
-"EN, ES",EN,Wikipedia,0.631,0.6
-"EN, ES",ES,N/A,0.708,0.6
-"EN, ES",FR,N/A,0.734,0.6
-ES,DE,N/A,0.726,0.6
-ES,EN,News,0.672,0.6
-ES,EN,WikiNews,0.616,0.6
-ES,EN,Wikipedia,0.631,0.6
-ES,ES,N/A,0.727,0.6
-ES,FR,N/A,0.755,0.6
+DE,EN,WikiNews,0.623,0.636
+"DE, ES",EN,WikiNews,0.618,0.637
+ES,EN,WikiNews,0.616,0.638
+DE,EN,Wikipedia,0.626,0.644
+"DE, ES",EN,Wikipedia,0.628,0.644
+ES,EN,Wikipedia,0.631,0.652
+DE,EN,News,0.67,0.656
+"DE, ES",EN,News,0.671,0.656
+ES,EN,News,0.672,0.659
+EN,ES,N/A,0.691,0.7
+"DE, EN",ES,N/A,0.708,0.713
+DE,ES,N/A,0.726,0.741
+"DE, ES",ES,N/A,0.727,0.741
+EN,DE,N/A,0.73,0.76
+ES,DE,N/A,0.726,0.774
+"DE, ES",DE,N/A,0.722,0.779
+"EN, ES",DE,N/A,0.734,0.783
+DE,FR,N/A,0.758,N/A
+"DE, EN",FR,N/A,0.705,N/A
+"DE, EN, ES",FR,N/A,0.731,N/A
+"DE, ES",FR,N/A,0.757,N/A
+EN,FR,N/A,0.692,N/A
+"EN, ES",FR,N/A,0.734,N/A
+ES,FR,N/A,0.755,N/A
+DE,DE,N/A,0.727,0.778
+"DE, EN",DE,N/A,0.732,0.765
+"DE, EN",EN,News,0.671,0.658
+"DE, EN",EN,WikiNews,0.64,0.668
+"DE, EN",EN,Wikipedia,0.67,0.695
+"DE, EN, ES",DE,N/A,0.723,0.783
+"DE, EN, ES",EN,News,0.671,0.656
+"DE, EN, ES",EN,WikiNews,0.618,0.637
+"DE, EN, ES",EN,Wikipedia,0.628,0.644
+"DE, EN, ES",ES,N/A,0.708,0.713
+EN,EN,News,0.684,0.661
+EN,EN,WikiNews,0.658,0.679
+EN,EN,Wikipedia,0.677,0.692
+"EN, ES",EN,News,0.671,0.653
+"EN, ES",EN,WikiNews,0.624,0.649
+"EN, ES",EN,Wikipedia,0.631,0.641
+"EN, ES",ES,N/A,0.708,0.737
+ES,ES,N/A,0.727,0.743
