@@ -31,6 +31,8 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
 
     # collect the training data for all the languages but one
     train_data = []
+    
+    
     if selective_testing == 'ESG':
         for language, datasets_names in datasets_per_language.items():
             if language != test_language:
@@ -43,28 +45,44 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
                         train_data.append(lang_train_set)
         train_data = pd.concat(train_data)
     else:
-        if selective_testing == 'ES':
-            train_data = pd.concat([Dataset('english','News').train_set(),
+        train_data = pd.DataFrame()
+        if 'E' in selective_testing:
+            train_data = pd.concat([train_data,
+                                    Dataset('english','News').train_set(),
                                     Dataset('english','WikiNews').train_set(),
-                                    Dataset('english','Wikipedia').train_set(),
-                                    Dataset('spanish','Spanish').train_set()])            
-        elif selective_testing == 'EG':
-            train_data = pd.concat([Dataset('english','News').train_set(),
-                                    Dataset('english','WikiNews').train_set()
-                                    ,Dataset('english','Wikipedia').train_set(),
+                                    Dataset('english','Wikipedia').train_set()])
+        
+        if 'S' in selective_testing:
+            train_data = pd.concat([train_data,
+                                    Dataset('spanish','Spanish').train_set()])
+        
+        if 'G' in selective_testing:
+            train_data = pd.concat([train_data,
                                     Dataset('german','German').train_set()])
-        elif selective_testing == 'E':
-            train_data = pd.concat([Dataset('english','News').train_set(),
-                                    Dataset('english','WikiNews').train_set()
-                                    ,Dataset('english','Wikipedia').train_set()])
-        elif selective_testing == 'G':
-            train_data = pd.concat([Dataset('german','German').train_set()])
- 
-        elif selective_testing == 'S':
-            train_data = pd.concat([Dataset('spanish','Spanish').train_set()])
-        else:
-            train_data = pd.concat([Dataset('spanish','Spanish').train_set(),
-                                    Dataset('german','German').train_set()])
+            
+        
+#        if selective_testing == 'ES':
+#            train_data = pd.concat([Dataset('english','News').train_set(),
+#                                    Dataset('english','WikiNews').train_set(),
+#                                    Dataset('english','Wikipedia').train_set(),
+#                                    Dataset('spanish','Spanish').train_set()])            
+#        elif selective_testing == 'EG':
+#            train_data = pd.concat([Dataset('english','News').train_set(),
+#                                    Dataset('english','WikiNews').train_set()
+#                                    ,Dataset('english','Wikipedia').train_set(),
+#                                    Dataset('german','German').train_set()])
+#        elif selective_testing == 'E':
+#            train_data = pd.concat([Dataset('english','News').train_set(),
+#                                    Dataset('english','WikiNews').train_set()
+#                                    ,Dataset('english','Wikipedia').train_set()])
+#        elif selective_testing == 'G':
+#            train_data = pd.concat([Dataset('german','German').train_set()])
+# 
+#        elif selective_testing == 'S':
+#            train_data = pd.concat([Dataset('spanish','Spanish').train_set()])
+#        else:
+#            train_data = pd.concat([Dataset('spanish','Spanish').train_set(),
+#                                    Dataset('german','German').train_set()])
 
             
             
@@ -87,9 +105,13 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
 
         if evaluation_split in ["dev", "both"]:
             print("\nResults on Development Data")
-            predictions_dev = cwi_model.predict(data.dev_set())
-            gold_labels_dev = data.dev_set()['gold_label']
-            print(report_binary_score(gold_labels_dev, predictions_dev, detailed_report))
+            
+            if test_language == 'french':
+                print("\nNo Dev Data for French, skipping...")
+            else:
+                predictions_dev = cwi_model.predict(data.dev_set())
+                gold_labels_dev = data.dev_set()['gold_label']
+                print(report_binary_score(gold_labels_dev, predictions_dev, detailed_report))
 
         if evaluation_split in ["test", "both"]:
             print("\nResults on Test Data")
@@ -105,7 +127,7 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Trains the model in all languages but one, and tests on the left out language.")
-    parser.add_argument('-s','--selective_testing',choices=['ES','EG','SG','ESG','S','G','E'],default='ESG',
+    parser.add_argument('-s','--selective_testing',choices=['ES','SE','EG','GE','SG','GS','ESG','S','G','E'],default='ESG',
                         help='Combination of languages to train the Cross Lingual Model On')
     parser.add_argument('-t','--translate',choices=['T','F'],default='F',
                         help='Combination of languages to train the Cross Lingual Model On')

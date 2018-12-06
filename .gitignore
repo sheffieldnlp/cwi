@@ -84,6 +84,9 @@ target/
 # Importances File
 *importances.pkl
 
+# Graphs
+*.png
+
 # Desktop.ini files
 *desktop.ini
 .python-version

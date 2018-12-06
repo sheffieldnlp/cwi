@@ -11,6 +11,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import Pipeline, FeatureUnion
 from src.features.feature_transfomers import Selector, Monolingual_Feature_Extractor, Crosslingual_Feature_Extractor
 
+from src.visualization.feature_importances import save_model_importances, print_x_importances
+from src.visualization.named_pipeline import NamedPipeline
 
 class MonolingualCWI(object):
     """
@@ -40,16 +42,16 @@ class MonolingualCWI(object):
         """
         pipe_dict = {}
 
-        pipe_dict['bag_of_words'] = Pipeline([
+        pipe_dict['bag_of_words'] = NamedPipeline([
             ('select', Selector(key="target_word")),
             ('vectorize', CountVectorizer())])
 
-        pipe_dict['monolingual_features'] = Pipeline([
+        pipe_dict['monolingual_features'] = NamedPipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
             ('extract', Monolingual_Feature_Extractor(language, self.ablate)),
             ('vectorize', DictVectorizer())])
 
-        pipe_dict['crosslingual_features'] = Pipeline([
+        pipe_dict['crosslingual_features'] = NamedPipeline([
             ('select', Selector(key=["target_word", "spacy", "sentence", 'language', 'dataset_name'])),
             ('extract', Crosslingual_Feature_Extractor(language, self.ablate)),
             ('vectorize', DictVectorizer())])
@@ -75,6 +77,10 @@ class MonolingualCWI(object):
         X = self.features_pipeline.fit_transform(train_set)
         y = train_set['gold_label']
         self.model.fit(X, y)
+        
+        importances_dest = "data/interim/importances_mono.pkl"
+        save_model_importances(self.model, self.features_pipeline, importances_dest)
+        print_x_importances(importances_dest, 25)
 
     def predict(self, test_set):
         """Predicts the label for the given instances.
