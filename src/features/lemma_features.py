@@ -21,8 +21,8 @@ def lemmas(target_word_spacy_tokens, normalised=True):
     for token in target_word_spacy_tokens:
 
         if normalised == True:
-            lemmas["LEMMA_" + token.lemma_] += (1 / len(target_word_spacy_tokens))
+            lemmas["LEMMA|__|" + token.lemma_] += (1 / len(target_word_spacy_tokens))
         else:
-            lemmas["LEMMA_" + token.lemma_] += 1
+            lemmas["LEMMA|__|" + token.lemma_] += 1
 
     return lemmas

@@ -18,7 +18,7 @@ def word_shape(target_word_spacy_tokens):
     """
     shapes = Counter()
     for token in target_word_spacy_tokens:
-        shapes["SHAPE_" + token.shape_] += 1
+        shapes["SHAPE|__|" + token.shape_] += 1
 
     return shapes
 

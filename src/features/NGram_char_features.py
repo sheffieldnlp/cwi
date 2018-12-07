@@ -27,11 +27,11 @@ def countCharacterNgrams(target, N):
 
 def getNGramsPrefixesSuffixes(token, index, N):
     if index == 0:
-        result = ["PREFIX__" + token[ index : index + N ], token[ index : index + N ]]
+        result = ["PREFIX|__|" + token[ index : index + N ], "AFFIX|__|"+token[ index : index + N ]]
     elif index == len(token) - N:
-        result = ["SUFFIX__" + token[ index : index + N ], token[ index : index + N ]]
+        result = ["SUFFIX|__|" + token[ index : index + N ], "AFFIX|__|"+token[ index : index + N ]]
     else:
-        result = [token[ index : index + N ]]
+        result = ["AFFIX|__|"+ token[ index : index + N ]]
     return result
 
 def getCharacterNgrams(token, N):
