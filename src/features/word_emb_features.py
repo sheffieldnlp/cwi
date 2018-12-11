@@ -1,7 +1,7 @@
 """ Spacy-based features.
 
 This module contains functions to extract the word embeddings from a target phrase
-Author: Sanjana Khot
+Author: NAME
 
 """
 import numpy as np

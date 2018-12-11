@@ -46,7 +46,7 @@ def trigram_stats(target_word, language):
     return fr_sum, average
 
 
-def rare_trigram_count(target_word, language):  # Alison
+def rare_trigram_count(target_word, language):  # NAME
     """Counts character trigrams in the target word that are rare (ie occuring less 
     than a threshold number of times) in external corpora of frequent words.
     Args:
@@ -81,3 +81,5 @@ def rare_trigram_count(target_word, language):  # Alison
     
     return rare_trigram_count
 
+if __name__ == '__main__':
+    print(trigram_stats("Telephone", "english"))

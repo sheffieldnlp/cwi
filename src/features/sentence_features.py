@@ -2,7 +2,7 @@
 """
 Created on Tue Jul  3 19:40:37 2018
 
-@author: pmfin
+@author: NAME
 """
 
 from src.features import word_normalization as wn
@@ -48,5 +48,5 @@ def getSentNGrams(norm_tokens, N):
 
     
 if __name__ == '__main__':
-    sent = "What is going on in this place? How did I get here? Why are there so many clowns?"
+    sent = "What is going on in this place?"
     print(getAllSentNGrams(sent, 3))

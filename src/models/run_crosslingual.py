@@ -32,7 +32,6 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
     # collect the training data for all the languages but one
     train_data = []
     
-    
     if selective_testing == 'ESG':
         for language, datasets_names in datasets_per_language.items():
             if language != test_language:
@@ -59,34 +58,6 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
         if 'G' in selective_testing:
             train_data = pd.concat([train_data,
                                     Dataset('german','German').train_set()])
-            
-        
-#        if selective_testing == 'ES':
-#            train_data = pd.concat([Dataset('english','News').train_set(),
-#                                    Dataset('english','WikiNews').train_set(),
-#                                    Dataset('english','Wikipedia').train_set(),
-#                                    Dataset('spanish','Spanish').train_set()])            
-#        elif selective_testing == 'EG':
-#            train_data = pd.concat([Dataset('english','News').train_set(),
-#                                    Dataset('english','WikiNews').train_set()
-#                                    ,Dataset('english','Wikipedia').train_set(),
-#                                    Dataset('german','German').train_set()])
-#        elif selective_testing == 'E':
-#            train_data = pd.concat([Dataset('english','News').train_set(),
-#                                    Dataset('english','WikiNews').train_set()
-#                                    ,Dataset('english','Wikipedia').train_set()])
-#        elif selective_testing == 'G':
-#            train_data = pd.concat([Dataset('german','German').train_set()])
-# 
-#        elif selective_testing == 'S':
-#            train_data = pd.concat([Dataset('spanish','Spanish').train_set()])
-#        else:
-#            train_data = pd.concat([Dataset('spanish','Spanish').train_set(),
-#                                    Dataset('german','German').train_set()])
-
-            
-            
-           
             
 
 

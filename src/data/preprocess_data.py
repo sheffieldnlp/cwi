@@ -2,7 +2,7 @@
 """
 Created on Thu Jul 26 13:47:02 2018
 
-@author: pmfin
+@author: NAME
 """
 
 from pathlib import Path

@@ -51,7 +51,7 @@ def token_length_norm(spacy_tokens, avg_target_phrase_len):
     return result
 
 
-def averaged_chars_per_word(target_word, language): # Alison
+def averaged_chars_per_word(target_word, language): # NAME
     """Computes the averaged number of characters per token in target word.
 
     Args:
@@ -61,7 +61,7 @@ def averaged_chars_per_word(target_word, language): # Alison
     Returns:
         int. Averaged number of characters per word in phrase
     """
-    # from Fernando's baseline:
+    # from NAME's baseline:
     len_chars_norm = character_length(target_word, language = language)
     len_tokens = token_length(target_word)
         

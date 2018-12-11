@@ -2,7 +2,7 @@
 """
 Created on Mon Jul  2 17:54:45 2018
 
-@author: pmfin
+@author: NAME
 """
 
 from collections import Counter

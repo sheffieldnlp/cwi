@@ -2,7 +2,7 @@
 Unigram probability features.
 
 This module contains functions to extract probability features from a target word or phrase
-Author: Sanjana Khot
+Author: NAME
 
 """
 from collections import Counter

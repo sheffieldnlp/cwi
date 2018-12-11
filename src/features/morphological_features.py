@@ -34,7 +34,7 @@ def is_capitalised(target_word):
     return target_word[0].isupper()
 
 
-def num_complex_punct(target_word):  # Alison
+def num_complex_punct(target_word):  # NAME
     """Compute the  number of "complex" punctuation symbols in phrase
 
     Args:

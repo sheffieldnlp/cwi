@@ -2,7 +2,7 @@
 """
 Created on Wed Oct 10 18:45:33 2018
 
-@author: pmfin
+@author: NAME
 """
 from pathlib import Path
 import pickle

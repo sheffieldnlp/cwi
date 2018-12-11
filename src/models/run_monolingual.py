@@ -66,7 +66,6 @@ def run_model(language, dataset_name, evaluation_split, detailed_report, ablate)
     # u_prob = calc_unigram_prob(unigram_counts, total_words)
     # print('saving file')
     # save_to_file(u_prob, 'data/external/french_u_prob.csv')
-    # hgiuyo
 
     baseline = MonolingualCWI(language, ablate)
 

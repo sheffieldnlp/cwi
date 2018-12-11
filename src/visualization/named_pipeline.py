@@ -2,7 +2,7 @@
 """
 Created on Fri Nov  2 19:26:45 2018
 
-@author: pmfin
+@author: NAME
 """
 from sklearn.pipeline import Pipeline
 

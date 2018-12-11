@@ -25,8 +25,8 @@ def consonant_frequency(target_word):
         float - the frequency of consonants
     """
 
-    consonants = set("aeiou")  # feralvam: these are actually vowels, not consonants
-    freq = len([letter for letter in target_word if letter not in consonants]) / len(target_word)
+    vowels = set("aeiou")
+    freq = len([letter for letter in target_word if letter not in vowels]) / len(target_word)
 
     return freq
 
@@ -56,7 +56,7 @@ def num_syllables(target_word, language, hyph_dictionary):
 
 
 
-def num_pronunciations(target_word, language): # ALison
+def num_pronunciations(target_word, language): # NAME
     """
     Computes the number of pronunications of tokens in the target word (English)
 

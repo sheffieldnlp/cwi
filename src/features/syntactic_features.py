@@ -2,7 +2,7 @@
 Syntactic features.
 
 This module contains functions to extract features concerning syntax (POS, NER) from a target word or phrase
-Author: Sanjana Khot
+Author: NAME
 
 """
 from collections import Counter
