@@ -83,6 +83,7 @@ target/
 
 # Importances File
 *importances.pkl
+*mono.pkl
 
 # Graphs
 *.png

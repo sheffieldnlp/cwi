@@ -2,7 +2,7 @@
 """
 Created on Tue Jul  3 19:56:01 2018
 
-@author: pmfin
+@author: NAME
 """
 
 import string

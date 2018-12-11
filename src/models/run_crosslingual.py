@@ -32,7 +32,6 @@ def run_model(selective_testing,translate,test_language, evaluation_split, detai
     # collect the training data for all the languages but one
     train_data = []
     
-    
     if selective_testing == 'ESG':
         for language, datasets_names in datasets_per_language.items():
             if language != test_language:

@@ -25,8 +25,8 @@ def consonant_frequency(target_word):
         float - the frequency of consonants
     """
 
-    consonants = set("aeiou")  # feralvam: these are actually vowels, not consonants
-    freq = len([letter for letter in target_word if letter not in consonants]) / len(target_word)
+    vowels = set("aeiou")
+    freq = len([letter for letter in target_word if letter not in vowels]) / len(target_word)
 
     return freq
 

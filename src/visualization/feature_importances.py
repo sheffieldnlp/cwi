@@ -10,7 +10,9 @@ from operator import itemgetter
 
 def save_model_importances(model, feature_pipeline, dest):
     
-    coefs = model.coef_ 
+    coefs = model.coef_
+    class_map = model.classes_
+    
     feature_names = feature_pipeline.named_steps['join pipelines'].get_feature_names()
 
     feat_coef_dict = {}
@@ -18,7 +20,7 @@ def save_model_importances(model, feature_pipeline, dest):
         feat_coef_dict[feature] = coef
         
     with open(dest, 'wb') as f:
-        pickle.dump(feat_coef_dict, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump((feat_coef_dict, class_map), f, pickle.HIGHEST_PROTOCOL)
         
     return None
 
@@ -26,9 +28,11 @@ def save_model_importances(model, feature_pipeline, dest):
 def load_model_importances(dest):
     
     with open(dest, 'rb') as f:
-        result = pickle.load(f)
+        important_tup = pickle.load(f)
+        importances = important_tup[0]
+        class_map = important_tup[1]
         
-    return result
+    return importances, class_map
 
 def highest_x_importances(feat_coef_dict, top_x):
     sorted_dict = sorted(feat_coef_dict.items(), key=itemgetter(1), reverse=True)
@@ -38,11 +42,27 @@ def highest_x_importances(feat_coef_dict, top_x):
     return ordered_high, ordered_low
 
 def print_x_importances(dest, top_x):
-    importances = load_model_importances(dest)
+    importances, class_map = load_model_importances(dest)
     high, low = highest_x_importances(importances, top_x)
     high_str = get_formatted_str(high)
     low_str = get_formatted_str(low)
     printable_list = "Highest Coefficients:\n{}\nLowest Coefficients:\n{}".format(high_str, low_str)
+    class_map_str = ""
+    first_coef = False
+    for gold_label in class_map:
+        if first_coef == False:
+            coef_text = "(Positive Coefficients)"
+            first_coef = True
+        else:
+            coef_text = "(Negative Coefficients)"
+            
+        if gold_label == 0:
+            annotation = "Non-complex\t" + coef_text
+        else:
+            annotation = "Complex\t" + coef_text
+        class_map_str += "\n{} - {}".format(str(gold_label), annotation)
+    
+    print("Class Map: {}\n".format(class_map_str))
     print(printable_list)
     
 def get_formatted_str(li):
@@ -60,7 +80,7 @@ def get_formatted_str(li):
             specific = '\"{}\"'.format(featandspecific[2])
         
         coef = str(item[1])
-        append = "{:>4}: {:<10}{:>20}{:>24}\t{:>12}\n".format(rank, source, featname, specific, coef)
+        append = "{:>4}: {:>11}{:>20}{:>24}\t{:>12}\n".format(rank, source, featname, specific, coef)
         result += append
         rank += 1
     return result

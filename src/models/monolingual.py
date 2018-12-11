@@ -28,6 +28,7 @@ class MonolingualCWI(object):
 
         """
         self.model = LogisticRegression(random_state=0)
+        self.language = language
         self.ablate = ablate
         self.features_pipeline = self.join_pipelines(language)
         
@@ -78,9 +79,10 @@ class MonolingualCWI(object):
         y = train_set['gold_label']
         self.model.fit(X, y)
         
-        importances_dest = "data/interim/importances_mono.pkl"
+        importances_dest = "data/interim/"+ self.language + "_importances_mono.pkl"
         save_model_importances(self.model, self.features_pipeline, importances_dest)
         print_x_importances(importances_dest, 100)
+        
 
     def predict(self, test_set):
         """Predicts the label for the given instances.

@@ -81,3 +81,5 @@ def rare_trigram_count(target_word, language):  # Alison
     
     return rare_trigram_count
 
+if __name__ == '__main__':
+    print(trigram_stats("Telephone", "english"))
