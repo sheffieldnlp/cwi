@@ -2,7 +2,7 @@
 """
 Created on Fri Nov  2 13:53:23 2018
 
-@author: pmfin
+@author: NAME
 """
 
 import pickle

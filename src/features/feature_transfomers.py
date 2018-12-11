@@ -250,7 +250,6 @@ class Crosslingual_Feature_Extractor(BaseEstimator, TransformerMixin):
         # This dict contains all available features, along with a list of their 
         # high-computing-power requirements e.g. ['spacy']
         feature_requirements = {
-                # TODO: Actually fill in these requirements. At the moment, I'm just putting everything as all requirements.
                 'is_nounphrase' : ['spacy'],
                 'len_tokens_norm': ['spacy'],
                 'hypernym_count': None,

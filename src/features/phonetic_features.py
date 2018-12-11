@@ -56,7 +56,7 @@ def num_syllables(target_word, language, hyph_dictionary):
 
 
 
-def num_pronunciations(target_word, language): # ALison
+def num_pronunciations(target_word, language): # NAME
     """
     Computes the number of pronunications of tokens in the target word (English)
 
