@@ -1,4 +1,4 @@
-# Needs a VM with 4G
+# Needs a VM with 8G
 FROM python:3.6.5
 MAINTAINER Andreas Vlachos <a.vlachos@sheffield.ac.uk>
 
