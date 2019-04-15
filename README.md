@@ -5,7 +5,7 @@ Models for cross-lingual complex word identification.
 
 Instructions
 ------------
-
+<!---
 We will follow the Fork and Pull Workflow. Instructions on how this development model works are given [here](https://reflectoring.io/github-fork-and-pull/).  
 
 Once you have cloned your fork, run `setup.py develop` from the root folder, so that the `src` module is "installed" and can be imported from anywhere in the code.
@@ -26,6 +26,7 @@ Spacy models:
 - fr_core_news_md
 
 These can be installed using "$ python -m spacy download <MODEL>", or downloaded from from the team Google drive (currently link sharing is unavailable).
+-->
 
 You are advised to use python environments. For reporting results you should only use the docker image that can be built as follows:
 - create your own copy of Dockerfile_ADD_USERNAME_AND_PASSWORD
@@ -130,7 +131,7 @@ German Test Data
 
 
 
-
+<!---
 Translation Baseline
 ---------------------
 For Translating the French Test Data to English, please use the following command
@@ -145,7 +146,7 @@ In the following command line example, we use english and spanish as training da
 Similarly we can do this for other language choices mentioned above. 
 
 --------
-
+-->
 
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
