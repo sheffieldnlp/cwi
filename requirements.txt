@@ -66,7 +66,7 @@ tk=8.6.7=0
 toolz=0.9.0=py_0
 tqdm=4.23.4=py_0
 ujson=1.35=py36h470a237_1
-urllib3=1.23=py36_0
+urllib3=1.24.2
 wheel=0.31.1=py36_0
 wrapt=1.10.11=py36_0
 xz=5.2.3=0
