@@ -29,8 +29,6 @@ These can be installed using "$ python -m spacy download <MODEL>", or downloaded
 -->
 
 You are advised to use python environments. For reporting results you should only use the docker image that can be built as follows:
-- create your own copy of Dockerfile_ADD_USERNAME_AND_PASSWORD
-- replace USERNAME and PASSWORD with yours
 - build it by running `docker build -t cwi - < Dockerfile`
 - get an interactive terminal on the image with `docker run -i -t cwi bash`
 - run commands as you normally would (remember this is a very minimal linux installation)
