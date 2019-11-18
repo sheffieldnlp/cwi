@@ -33,7 +33,7 @@ msgpack-numpy=0.4.1=py_0
 msgpack-python=0.4.8=py36_0
 murmurhash=0.28.0=py36hfc679d8_0
 ncurses=5.9=10
-nltk=3.2.4=py36_0
+nltk=3.4.5=py36_0
 numpy=1.14.5=py36h1b885b7_4
 numpy-base=1.14.5=py36hdbf6ddf_4
 openblas=0.2.20=8
